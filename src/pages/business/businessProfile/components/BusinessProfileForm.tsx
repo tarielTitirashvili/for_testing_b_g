@@ -10,29 +10,40 @@ import TextInput from "@/components/shared/inputs/TextInput"
 import TextareaInput from "@/components/shared/inputs/TextareaInput"
 import SelectDropDown from "@/components/shared/inputs/SelectDropDown"
 
-import { useState, type FunctionComponent } from "react"
+import { useEffect, useState, type FunctionComponent } from "react"
 import type { IBusinessAddress, IBusinessFormData } from "../BusinessProfile"
 import SelectAddressMap from "./SelectAddressMap"
 import Loader from '@/components/shared/loader'
 
 interface IBusinessProfileFormProps {
+    data: IBusinessFormData | undefined
     register: UseFormRegister<IBusinessFormData>
     errors: FieldErrors<IBusinessFormData>
     setValue: UseFormSetValue<IBusinessFormData>
     handleExpand: (section: string) => void
     control: Control<IBusinessFormData>
+    regionId: number | null
+    setRegionId: React.Dispatch<React.SetStateAction<number | null>>
 }
 
-const BusinessProfileForm: FunctionComponent<IBusinessProfileFormProps> = ({ register, errors, handleExpand, setValue, control }) => {
-
-    const [regionId, setRegionId] = useState<number | null>(null)
+const BusinessProfileForm: FunctionComponent<IBusinessProfileFormProps> = ({ register, errors, handleExpand, setValue, control, regionId, setRegionId, data }) => {
 
     const { t } = useTranslation()
+    
+    const forceUpdate = useState<number>(0)
 
     const { data: regions } = useGetRegionsQuery()
-    const { data: district, isLoading } = useGetDistrictQuery(regionId, {
+    const { data: district, isLoading, isSuccess: districtIdSuccess } = useGetDistrictQuery(regionId, {
         skip: regionId === null,
     })
+
+    useEffect(()=>{
+        if(districtIdSuccess && data?.district.id){
+            setValue('regionId', data.district.id)
+            setValue('region', data.district)
+            forceUpdate[1](prev => prev+1)
+        }
+    },[districtIdSuccess])
 
     // for region dropdown list
     const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -123,6 +134,7 @@ const BusinessProfileForm: FunctionComponent<IBusinessProfileFormProps> = ({ reg
                                     options={district ?? []}
                                     disabled={!regionId}
                                     error={errors.districtId?.message}
+                                    value={field.value}
                                     sentId
                                     onChange={(e) => {
                                         const value = Number(e.target.value)

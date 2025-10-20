@@ -66,6 +66,8 @@ const BusinessProfile: FunctionComponent = () => {
   const [fileUploaderErrors, setFileUploaderErrors] = useState<string | null>(
     null
   )
+  const [regionId, setRegionId] = useState<number | null>(null)
+  
   const [images, setImages] = useState<string[]>([])
 
   const { t } = useTranslation()
@@ -130,6 +132,7 @@ const BusinessProfile: FunctionComponent = () => {
         ),
         // files: data.files
       }
+      setRegionId(data.region.id)
       const imageURLS: string[] = []
       data.files.map((file) => imageURLS.push(file.url || ''))
       setImages(imageURLS)
@@ -176,6 +179,9 @@ const BusinessProfile: FunctionComponent = () => {
           }`}
         >
           <BusinessProfileForm
+            data={data}
+            regionId={regionId}
+            setRegionId={setRegionId}
             setValue={setValue}
             control={control}
             register={register}

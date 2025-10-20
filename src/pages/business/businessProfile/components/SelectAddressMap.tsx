@@ -7,6 +7,7 @@ import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { useCallback, useState, type FunctionComponent } from "react";
 
 interface IBusinessAddress {
+    name?: string
     locales: {
         name: string
         languageId: number
@@ -21,11 +22,12 @@ interface ISelectAddressMapProps {
     error?: string
 }
 
-const SelectAddressMap: FunctionComponent<ISelectAddressMapProps> = ({ onSelect, error }) => {
+const SelectAddressMap: FunctionComponent<ISelectAddressMapProps> = ({ onSelect, error, value }) => {
 
-    const [selected, setSelected] = useState<{ lat: number; lng: number } | null>(null);
-    const [address, setAddress] = useState<string>('');
-
+    const generateDefaultValue = value?.latitude ? {lat: value.latitude, lng: value.longitude} : null
+    const [selected, setSelected] = useState<{ lat: number; lng: number } | null>(generateDefaultValue);
+    const [address, setAddress] = useState<string>(value?.name || '');
+ 
     const defaultCenter = { lat: 41.7151, lng: 44.8271 }
 
     const { isLoaded } = useJsApiLoader({
