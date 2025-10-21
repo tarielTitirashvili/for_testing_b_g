@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next"
 
 import CustomDropdown from "../buttons/CustomDropdown"
 import BlockTable from "@/pages/business/spaces/components/BlockTable"
-import AddService from "./AddService"
+import AddService from "../../../pages/business/services/components/AddService"
 
 interface IServiceCategoryParams {
     bizType: 'service' | 'space'

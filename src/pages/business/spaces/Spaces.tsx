@@ -3,14 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { Tabs } from "@/components/ui/tabs";
 
-
-import BusinessHeader from "@/components/shared/serviceAndCategory/BusinessHeader";
-import AddSpaceCategory from "@/components/shared/serviceAndCategory/AddSpaceCategory";
-import AddSpace from "@/components/shared/serviceAndCategory/AddSpace";
-import BusinessSpaceBody from "@/components/shared/serviceAndCategory/BusinessSpaceBody";
 import { useDeleteTableCategoryMutation, useGetTableCategoryQuery } from "@/redux/business/category/categoryAPISlice";
 import { useDeleteSpaceMutation, useGetSpacesQuery } from "@/redux/business/space/spaceAPISlice";
 
+import BusinessHeader from "@/components/shared/serviceAndCategory/BusinessHeader";
+import BusinessSpaceBody from "@/components/shared/serviceAndCategory/BusinessSpaceBody";
+
+import AddSpaceCategory from "./components/AddSpaceCategory";
+import AddSpace from "./components/AddSpace";
 
 export interface ISpace {
     id: number
@@ -18,9 +18,13 @@ export interface ISpace {
     capacity: number,
     isActive: boolean,
     isAvailable: boolean
-    name: string
+    name: string,
+    locales: {
+        name: string,
+        languageId: number,
+        description: string
+    }[]
 }
-
 
 const Spaces: FunctionComponent = () => {
 
@@ -35,7 +39,7 @@ const Spaces: FunctionComponent = () => {
     const { data: spaceList } = useGetSpacesQuery(+id! || undefined, {
         skip: id === undefined
     })
-    const [deleteSpace] = useDeleteSpaceMutation()
+    const [deleteSpace] = useDeleteSpaceMutation()    
 
     return (
         <div className="bg-white p-6 rounded-sm">
@@ -56,12 +60,7 @@ const Spaces: FunctionComponent = () => {
                     categories={categoryList}
                     categoryId={String(id)}
                     spaces={spaceList ?? []}
-                    removeSpace={(id) =>
-                        deleteSpace(id)
-                            .unwrap()
-                            .then(() => console.log("Deleted space:", id))
-                            .catch((err) => console.error("Delete failed:", err))
-                    }
+                    removeSpace={(id) => deleteSpace(id)}
                 />
             </Tabs>
         </div>

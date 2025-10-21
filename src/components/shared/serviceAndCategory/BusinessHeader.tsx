@@ -30,7 +30,6 @@ interface IAddItemProps {
 interface IBusinessHeader {
     serviceCategories: ICategory[]
     removeCategory?: (id: string) => void
-    // isEditable?: boolean
     EditComponent?: React.ComponentType<EditComponentProps>
     AddItemComponent?: React.ComponentType<IAddItemProps>
     AddCategoryComponent?: React.ComponentType<{ triggerText?: string }>

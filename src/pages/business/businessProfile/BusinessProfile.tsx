@@ -39,7 +39,7 @@ export interface IBusinessAddress {
 }
 
 export type TFile = {
-  fileId: number
+  id: number
   isProfile: boolean
   url?: string
 }
@@ -63,6 +63,7 @@ export interface IBusinessFormData {
 
 const BusinessProfile: FunctionComponent = () => {
   const [isExpand, setIsExpand] = useState<string | null>('')
+
   const [fileUploaderErrors, setFileUploaderErrors] = useState<string | null>(
     null
   )
@@ -103,8 +104,7 @@ const BusinessProfile: FunctionComponent = () => {
     },
   ] = useUploadFileMutation()
 
-  const [editBusinessProfile, { isLoading: editIsProcessing }] =
-    useEditBusinessProfileMutation()
+  const [editBusinessProfile, { isLoading: editIsProcessing }] = useEditBusinessProfileMutation()
 
   const onSubmit = (data: IBusinessFormData) => {
     editBusinessProfile(data)
@@ -148,7 +148,7 @@ const BusinessProfile: FunctionComponent = () => {
       const filesObj = getValues('files')
       fileMutationData.map(fileId => {
         return filesObj.push({
-          fileId: fileId,
+          id: fileId,
           isProfile: false,
         })
       })

@@ -4,14 +4,13 @@ import { Tabs } from "@/components/ui/tabs"
 
 import { useNavigate, useParams } from "react-router-dom";
 
-import BusinessHeader from "@/components/shared/serviceAndCategory/BusinessHeader";
-import BusinessServiceBody from "@/components/shared/serviceAndCategory/BusinessServiceBody";
-import AddCategory from "@/components/shared/serviceAndCategory/AddCategory";
-import AddService from "@/components/shared/serviceAndCategory/AddService";
-
 import { useDeleteCategoryMutation, useGetCategoriesQuery } from "@/redux/business/category/categoryAPISlice";
 import { useGetServicesQuery, useRemoveServiceMutation } from "@/redux/business/service/serviceAPISlice";
 
+import BusinessHeader from "@/components/shared/serviceAndCategory/BusinessHeader";
+import BusinessServiceBody from "@/components/shared/serviceAndCategory/BusinessServiceBody";
+import AddCategory from "./components/AddCategory";
+import AddService from "./components/AddService";
 
 export interface IService {
     id: number,
@@ -19,6 +18,11 @@ export interface IService {
     durationInMinutes: number,
     hasAssignedStaff: boolean,
     name: string
+    files: {
+        id: number,
+        url: string,
+        isProfile: boolean
+    }[]
 }
 
 export interface ICategory {
@@ -64,18 +68,18 @@ const Services: FunctionComponent = () => {
                 onValueChange={(tabValue) => navigate(`/services/${tabValue}`)}
             >
                 <BusinessHeader
-                    serviceCategories={categories}
-                    removeCategory={removeCategory}
-                    EditComponent={AddCategory} 
-                    AddItemComponent={AddService}
-                    AddCategoryComponent={AddCategory}
+                    serviceCategories={categories} // categories
+                    removeCategory={removeCategory} // remove category
+                    AddCategoryComponent={AddCategory} // add category
+                    EditComponent={AddCategory} // edit category
+                    AddItemComponent={AddService} // add service
                 />
 
                 <BusinessServiceBody
-                    services={services}
-                    categoryId={String(id)}
-                    categories={categories}
-                    handleServiceRemove={deleteService}
+                    services={services} // services
+                    categoryId={String(id)} // service id
+                    handleServiceRemove={deleteService} // remove service
+                    categories={categories} // categories
                 />
             </Tabs>
         </div>

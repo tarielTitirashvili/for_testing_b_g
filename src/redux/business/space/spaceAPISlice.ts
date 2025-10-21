@@ -1,4 +1,4 @@
-import type { IAddSpaceFormData, IEditSpace } from "@/components/shared/serviceAndCategory/AddSpace";
+import type { IAddSpaceFormData, IEditSpace } from "@/pages/business/spaces/components/AddSpace";
 import type { ISpace } from "@/pages/business/spaces/Spaces";
 import { apiSlice } from "@/redux/APISlice";
 

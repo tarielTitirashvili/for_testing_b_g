@@ -27,6 +27,7 @@ export const businessProfileAPISlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    // put in separate folder
     uploadFile: builder.mutation<number[], IUploadPayload>({
       query: (payload) => {
         return{

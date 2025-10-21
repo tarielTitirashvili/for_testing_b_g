@@ -1,12 +1,21 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { EllipsisVertical, Pencil, Trash2, Users2 } from "lucide-react"
 import type { FunctionComponent } from "react"
-import { t } from "i18next"
-import CustomDropdown from "../buttons/CustomDropdown"
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+
+import { EllipsisVertical, Pencil, Trash2, Users2 } from "lucide-react"
+
 import { DropdownMenuItem, DropdownMenuRadioGroup } from "@/components/ui/dropdown-menu"
-import AddSpace from "./AddSpace"
-import CategoryStatusSwitch from "../customSwitch/CategoryStatusSwitch"
+
+import { t } from "i18next"
+
 import { useSwitchSpaceStatusMutation } from "@/redux/business/space/spaceAPISlice"
+
+import type { ISpace } from "../Spaces"
+
+import AddSpace, { type IEditSpace } from "./AddSpace"
+
+import CustomDropdown from "@/components/shared/buttons/CustomDropdown"
+import CategoryStatusSwitch from "@/components/shared/customSwitch/CategoryStatusSwitch"
 
 interface ICategory {
     isSystem: boolean
@@ -14,35 +23,26 @@ interface ICategory {
     name: string
 }
 
-interface ISpace {
-    id: number
-    tableNumber: string
-    capacity: number,
-    isActive: boolean,
-    isAvailable: boolean
-    name: string
-}
-
 interface ISpaceCardProps {
     space: ISpace
     categories?: ICategory[]
     handleRemove?: (id: number) => void
-    handleSpaceStatusSwitch?: (id: number) => void
     categoryId?: string
 }
 
 const SpaceCard: FunctionComponent<ISpaceCardProps> = ({ space, handleRemove, categories, categoryId }) => {
 
+    // move up -----------
     const [switchSpaceStatus] = useSwitchSpaceStatusMutation()
 
     const handleChange = () => {
 
-        const payload = {
-            serviceId: space.id, // serviceId is required for edit
+        const payload: IEditSpace = {
+            serviceId: space.id,
             tableNumber: space.tableNumber,
             capacity: space.capacity,
-            isAvailable: space.isAvailable, // keep current availability
-            isActive: !space.isActive, // toggle active status
+            isAvailable: !space.isAvailable,
+            isActive: !space.isActive,
             locales: [
                 {
                     name: space.name,
@@ -53,9 +53,8 @@ const SpaceCard: FunctionComponent<ISpaceCardProps> = ({ space, handleRemove, ca
         };
 
         switchSpaceStatus(payload)
-
-        console.log(JSON.stringify(payload,null,2))
     }
+    // -----------
 
     return (
         <Card className={`max-w-[360px] p-3 rounded-sm flex flex-col gap-3 shadow-none transition-colors`}>

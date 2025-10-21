@@ -7,17 +7,9 @@ import { Clock, DollarSign, EllipsisVertical, Trash2 } from "lucide-react"
 
 import { t } from "i18next";
 
-import CustomDropdown from "../buttons/CustomDropdown";
+import CustomDropdown from "../../../../components/shared/buttons/CustomDropdown";
 import AddService from "./AddService";
-
-interface IService {
-    id: number,
-    price: number,
-    durationInMinutes: number,
-    hasAssignedStaff: boolean,
-    name: string
-    description?: string
-}
+import type { IService } from "@/pages/business/services/Services";
 
 interface ICategory {
     isSystem: boolean
@@ -35,13 +27,20 @@ interface IServiceCardProps {
 
 
 const ServiceCard: FunctionComponent<IServiceCardProps> = ({ serviceId, service, categories, handleRemove, categoryId }) => {
+
+
     return (
         <Card className="flex flex-row justify-between gap-0 w-full shadow-none border-2 rounded-md p-3 grow">
             <div className="service_info-full flex gap-3">
                 <CardHeader className="h-[80px] w-[80px] p-0">
-                    <img src="../assets/images/staff.jpeg" alt="Service" className="h-[80px] w-[80px] rounded-md" />
+                    { service.files ? (
+                        <img src={service.files[0].url} alt="Service" className="h-[80px] w-[80px] rounded-md" />
+                    ) : (
+                        <p>no img</p>
+                    ) }
                 </CardHeader>
                 <CardContent className="flex flex-col p-0">
+                    {serviceId}
                     <div className="service_name-desc flex flex-col flex-1 gap-1">
                         <CardTitle>{ service.name }</CardTitle>
                         <CardDescription className="text-sm text-[#6C6C6C]">{ service.name }</CardDescription>

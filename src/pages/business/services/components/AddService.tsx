@@ -1,31 +1,20 @@
-import { useEffect, type FunctionComponent } from 'react'
+import { useEffect, useState, type FunctionComponent } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
-import {
-  DialogDescription,
-  DialogHeader,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
-import { DialogClose } from '@radix-ui/react-dialog'
+import { DialogDescription, DialogHeader, Dialog, DialogContent, DialogTitle, DialogTrigger, DialogClose } from '@/components/ui/dialog'
 import { useForm } from 'react-hook-form'
 import { Pencil } from 'lucide-react'
 
-import {
-  useCreateServiceMutation,
-  useEditServiceMutation,
-  useGetServicesByIdQuery,
-  type IEditService,
-} from '@/redux/business/service/serviceAPISlice'
+import { useCreateServiceMutation, useEditServiceMutation, useGetServicesByIdQuery, type IEditService } from '@/redux/business/service/serviceAPISlice'
 
 import TextInput from '@/components/shared/inputs/TextInput'
 import SelectDropDown from '@/components/shared/inputs/SelectDropDown'
 import PrimaryButton from '@/components/shared/buttons/PrimaryButton'
+import { useUploadFileMutation } from '@/redux/business/businessProfile/businessProfileAPISlice'
+import { SingleImageUploader } from '../../../../components/shared/fileUploader/SingleImageUploader'
 
-interface IAddSalonServiceFormData {
+export interface IAddSalonServiceFormData {
   categoryId: number
   price: string
   durationInMinutes: string
@@ -35,7 +24,12 @@ interface IAddSalonServiceFormData {
     description: string
   }[]
   businessStaffIds?: number[]
-  fileIds: number[]
+  fileIds?: number[]
+  files?: {
+    id: number,
+    url: string,
+    isProfile: boolean
+  }
 }
 
 export interface IServiceEdit
@@ -49,33 +43,38 @@ interface ICategory {
   name: string
 }
 
-interface IService {
-  id: number
-  price: number
-  durationInMinutes: number
-  hasAssignedStaff: boolean
+export interface IService {
+  id: number,
+  price: number,
+  durationInMinutes: number,
+  hasAssignedStaff: boolean,
   name: string
-  description?: string
+  files: {
+      id: number,
+      url: string,
+      isProfile: boolean
+  }[]
 }
-
 interface IAddService {
   categories: ICategory[]
   service?: IService
   categoryId?: string
   icon?: boolean
   serviceId?: number
+  files?: {
+    id: number,
+  }[]
 }
 
-const AddService: FunctionComponent<IAddService> = ({
-  serviceId,
-  categories,
-  icon,
-}) => {
+const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, icon }) => {
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    getValues,
+    setValue
   } = useForm<IAddSalonServiceFormData>({
     defaultValues: {
       locales: [
@@ -99,6 +98,11 @@ const AddService: FunctionComponent<IAddService> = ({
   const [createService] = useCreateServiceMutation()
   const [editService] = useEditServiceMutation()
 
+  const [image, setImage] = useState<string | null>(null)
+  const [imageError, setImageError] = useState<string | null>(null)
+
+  const [uploadFile] = useUploadFileMutation()
+
   const handleCreate = (data: IAddSalonServiceFormData) => {
     const payload = {
       categoryId: data.categoryId,
@@ -109,6 +113,7 @@ const AddService: FunctionComponent<IAddService> = ({
       locales: data.locales,
     }
     createService(payload)
+    console.log(payload)
   }
 
   const handleEdit = (data: IAddSalonServiceFormData) => {
@@ -135,9 +140,13 @@ const AddService: FunctionComponent<IAddService> = ({
   useEffect(() => {
     if (serviceByIdSuccess && data) {
       reset({
+        ...data,
         price: data.price.toString(),
         durationInMinutes: data.durationInMinutes.toString(),
+        files: data.files[0] || []
       })
+
+      setImage(data.files[0] ? data.files[0].url : '')
     }
   }, [serviceByIdSuccess])
 
@@ -201,7 +210,15 @@ const AddService: FunctionComponent<IAddService> = ({
           />
 
           <div className="form_file-uploader w-full">
-            {/* <FileUploader images={[]} error={''} filesRegister={}  /> */}
+            <SingleImageUploader
+              image={image}
+              setImage={setImage}
+              uploadFile={uploadFile}
+              setValue={setValue}
+              getValues={getValues}
+              setImageError={setImageError}
+            />
+            {imageError && <span className='text-red-500 text-sm font-medium'>{imageError}</span>}
           </div>
 
           <div className="form_buttons flex gap-3">

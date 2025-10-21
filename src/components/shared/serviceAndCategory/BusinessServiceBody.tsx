@@ -2,15 +2,9 @@ import type { FunctionComponent } from "react"
 
 import { TabsContent } from "@/components/ui/tabs"
 
-import ServiceCard from "./ServiceCard"
+import ServiceCard from "../../../pages/business/services/components/ServiceCard"
+import type { IService } from "@/pages/business/services/Services"
 
-interface IService {
-    id: number,
-    price: number,
-    durationInMinutes: number,
-    hasAssignedStaff: boolean,
-    name: string
-}
 
 interface ICategory {
     isSystem: boolean

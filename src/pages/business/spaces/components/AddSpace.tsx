@@ -3,12 +3,14 @@ import { useEffect, type FunctionComponent } from "react"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { useForm } from "react-hook-form"
 
-
-import TextInput from "../inputs/TextInput"
-import SelectDropDown from "../inputs/SelectDropDown"
-import SecondaryButton from "../buttons/SecondaryButton"
-import PrimaryButton from "../buttons/PrimaryButton"
 import { useCreateSpaceMutation, useEditSpaceMutation, useGetSpaceByIdQuery, type ISpaceResponse } from "@/redux/business/space/spaceAPISlice"
+
+import type { ISpace } from "../Spaces"
+
+import TextInput from "@/components/shared/inputs/TextInput"
+import SelectDropDown from "@/components/shared/inputs/SelectDropDown"
+import SecondaryButton from "@/components/shared/buttons/SecondaryButton"
+import PrimaryButton from "@/components/shared/buttons/PrimaryButton"
 
 export interface IAddSpaceFormData {
     tableCategoryId: number,
@@ -16,26 +18,16 @@ export interface IAddSpaceFormData {
     capacity: number,
     isAvailable: boolean,
     isActive: boolean,
-    locales: [
-        {
-            name: string,
-            languageId: number,
-            description: string
-        }
-    ]
+    locales: {
+        name: string,
+        languageId: number,
+        description: string
+    }[]
+    
 }
 
 export interface IEditSpace extends Omit<IAddSpaceFormData, "tableCategoryId"> {
     serviceId: number | undefined
-}
-
-interface ISpace {
-    id: number
-    tableNumber: string
-    capacity: number,
-    isActive: boolean,
-    isAvailable: boolean
-    name: string
 }
 
 interface ICategory {
@@ -53,14 +45,11 @@ interface IAddSpace {
     spaceId?: number
 }
 
-
-
 const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categoryId, spaceId}) => {
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm<IAddSpaceFormData>()
 
-    // console.log(categories)
-    console.log(categoryId)
+    // console.log(categoryId)
 
     const { data: spaceDataById, isSuccess: spaceByIdSuccess } = useGetSpaceByIdQuery(spaceId, {
         skip: spaceId === undefined
@@ -82,7 +71,8 @@ const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categ
             }]
 
         }
-        console.log(JSON.stringify(payload, null, 2), "EDIT")
+
+        console.log(JSON.stringify(payload, null, 2))
         editSpaceService(payload)
     }
 
@@ -154,7 +144,7 @@ const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categ
                         error={errors.tableCategoryId?.message}
                     />
                     <DialogFooter className="flex">
-                        <DialogClose className="flex-1">
+                        <DialogClose asChild className="flex-1">
                             <SecondaryButton>გაუქმება</SecondaryButton>
                         </DialogClose>
                         <PrimaryButton className="flex-1">დამატება</PrimaryButton>

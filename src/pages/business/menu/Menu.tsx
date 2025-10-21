@@ -7,18 +7,23 @@ import { api } from "@/api/api";
 
 import BusinessHeader from "@/components/shared/serviceAndCategory/BusinessHeader";
 import BusinessServiceBody from "@/components/shared/serviceAndCategory/BusinessServiceBody";
-import AddCategory from "@/components/shared/serviceAndCategory/AddCategory";
-import AddService from "@/components/shared/serviceAndCategory/AddService";
+import AddCategory from "@/pages/business/services/components/AddCategory";
+import AddService from "@/pages/business/services/components/AddService";
 
-interface IService {
+export interface IService {
     id: number,
     price: number,
     durationInMinutes: number,
     hasAssignedStaff: boolean,
     name: string
+    files: {
+        id: number,
+        url: string,
+        isProfile: boolean
+    }[]
 }
 
-interface ICategory {
+export interface ICategory {
     isSystem: boolean
     id: string
     name: string

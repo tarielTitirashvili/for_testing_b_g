@@ -26,7 +26,7 @@ const SelectAddressMap: FunctionComponent<ISelectAddressMapProps> = ({ onSelect,
 
     const generateDefaultValue = value?.latitude ? {lat: value.latitude, lng: value.longitude} : null
     const [selected, setSelected] = useState<{ lat: number; lng: number } | null>(generateDefaultValue);
-    const [address, setAddress] = useState<string>(value?.name || '');
+    const [address, setAddress] = useState<string>(value?.locales[0]?.name || '');
  
     const defaultCenter = { lat: 41.7151, lng: 44.8271 }
 

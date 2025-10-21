@@ -2,10 +2,12 @@ import type { FunctionComponent } from "react"
 
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Pencil } from "lucide-react"
-import SelectDropDown from "../inputs/SelectDropDown"
-import SecondaryButton from "../buttons/SecondaryButton"
-import PrimaryButton from "../buttons/PrimaryButton"
+
 import { useForm, type SubmitHandler } from "react-hook-form"
+
+import SelectDropDown from "@/components/shared/inputs/SelectDropDown"
+import SecondaryButton from "@/components/shared/buttons/SecondaryButton"
+import PrimaryButton from "@/components/shared/buttons/PrimaryButton"
 
 interface IAddCategoryFormData {
     languageId: number,
