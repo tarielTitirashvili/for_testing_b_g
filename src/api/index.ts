@@ -54,10 +54,9 @@ export const axiosBaseQuery =
   }, function onRejected(error) {
     const dispatch = getDispatch()
 
-    console.log(error)
     if(error.status === 401){
-        dispatch(logout())
-        return error.title
+      dispatch(logout())
+      return error.title
     }
     if(error.status === 500){
         return error.title

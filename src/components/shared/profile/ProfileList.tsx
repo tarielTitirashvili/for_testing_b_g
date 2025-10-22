@@ -72,6 +72,7 @@ const ProfileList: FunctionComponent<IProfileListProps> = ({ businesses }) => {
             }
             const renderBusiness = (
               <ProfileListItem
+                profilePictureUrl={business.file?.url}
                 key={business.id}
                 handleSwitchProfile={handleSwitchProfile}
                 businessName={business.name}

@@ -17,9 +17,15 @@ type ICategory = {
   name: string
 }
 
+type TFile ={
+  url: string
+  isProfile: boolean
+  id: number
+}
+
 export interface IBusiness {
   role: IRole
-  file?: string[]
+  file?: TFile | null | undefined
   id: string
   name: string
   businessCategory: ICategory
