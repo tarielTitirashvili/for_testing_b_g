@@ -1,11 +1,13 @@
-// import { api } from '@/api/api'
-import ProfileList from '@/components/shared/profile/ProfileList'
 import { useState, type FunctionComponent } from 'react'
-import BusinessAvatar from './BusinessAvatar'
+
 import { useGetUserProfilesQuery } from '@/redux/business/userProfiles/userProfilesAPISlice'
-import Loader from '../loader'
+
 import { currentBusinessSelector } from '@/redux/auth/authSelectors'
 import { useSelector } from 'react-redux'
+
+import ProfileList from '@/components/shared/profile/ProfileList'
+import BusinessAvatar from './BusinessAvatar'
+import Loader from '../loader'
 
 interface IRole {
   id: string
@@ -31,39 +33,13 @@ export interface IBusiness {
   businessCategory: ICategory
 }
 
-// interface IBusinessInfo {
-//     name: string
-// }
-
 const Profile: FunctionComponent = () => {
   const [open, setOpen] = useState<boolean>(false)
 
-  //   const [businesses, setBusinesses] = useState<IBusiness[]>([])
-  // const [business, setBusiness] = useState<IBusiness | null>(null)
-
-  // console.log(businesses)
-
-  //   const fetchBusinesses = async () => {
-  //     const res = await api.get<IBusiness[]>('/business/user-profiles')
-  //     const result = res.data
-  //     setBusinesses(result)
-  //   }
-
-  //   const fetchBusiness = async () => {
-  //     const res = await api.get('business/get-business-profile')
-  //     const result = res.data
-  //     setBusiness(result)
-  //   }
-
   const { data: businesses, isLoading } = useGetUserProfilesQuery()
-  //   useEffect(() => {
-  // fetchBusinesses()
-  // fetchBusiness()
-  //   }, [])
+
   const currentBusiness = useSelector(currentBusinessSelector)
   const selectedBusinessProfile = businesses?.find(business => business.id === currentBusiness)
-
-  // console.log(businesses)
 
   return (
     <div>

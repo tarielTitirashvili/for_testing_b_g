@@ -27,7 +27,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
     // district
     getDistrict: builder.query<{ id: string, name: string }[], number | null>({
       query: (id) => ({
-        url: `/public/districts${id}`,
+        url: `/public/districts/${id}`,
         method: "GET"
       })
     })

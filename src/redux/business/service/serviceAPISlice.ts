@@ -1,4 +1,4 @@
-import type { IService } from "@/pages/business/services/Services";
+import type { TService } from "@/pages/business/services/Services";
 import { apiSlice } from "@/redux/APISlice";
 
 export interface IBeseService {
@@ -23,14 +23,14 @@ export interface ICreateService extends IBeseService {
 
 export const serviceApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        getServices: builder.query<IService[], number | undefined>({
+        getServices: builder.query<TService[], number | undefined>({
             query: (categoryId) => ({
                 url: `/categoryservices/services/${categoryId}`,
                 method: "GET",
             })
         }),
 
-        getServicesById: builder.query<IService, number | undefined>({
+        getServicesById: builder.query<TService, number | undefined>({
             query: (categoryId) => ({
                 url: `/categoryservices/${categoryId}`,
                 method: "GET",

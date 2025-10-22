@@ -3,8 +3,7 @@ import type { FunctionComponent } from "react"
 import { TabsContent } from "@/components/ui/tabs"
 
 import ServiceCard from "../../../pages/business/services/components/ServiceCard"
-import type { IService } from "@/pages/business/services/Services"
-
+import type { TService } from "@/pages/business/services/Services"
 
 interface ICategory {
     isSystem: boolean
@@ -13,7 +12,7 @@ interface ICategory {
 }   
 
 interface IServiceCategoryBodyProps {
-    services: IService[]
+    services: TService[]
     categoryId: string
     categories: ICategory[]
     handleServiceRemove?: (id: number) => void
@@ -32,7 +31,6 @@ const BusinessServiceBody: FunctionComponent<IServiceCategoryBodyProps> = ({ ser
                         handleRemove={handleServiceRemove}
                         categories={categories}
                         categoryId={categoryId}
-
                     />
                 </TabsContent>
             ))}

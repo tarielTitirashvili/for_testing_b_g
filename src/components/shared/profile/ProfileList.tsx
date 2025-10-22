@@ -98,11 +98,6 @@ const ProfileList: FunctionComponent<IProfileListProps> = ({ businesses }) => {
         >
           {t('titles.logout')}
         </SecondaryButton>
-        {/* <Link to={'/add-business'} className='flex-1'>
-                    <PrimaryButton className='py-2 text-sm font-semibold flex items-center justify-center gap-0.5 border-2' icon={<Plus size={15} strokeWidth={3} />}>
-                        Add
-                    </PrimaryButton>
-                </Link> */}
       </CardFooter>
     </Card>
   )

@@ -1,6 +1,7 @@
 import { apiSlice } from "@/redux/APISlice";
 
 import type { ICategory, ICreateCategory, IEditCategory } from "@/pages/business/services/Services";
+import type { IAddCategoryFormData } from "@/pages/business/services/components/AddCategory";
 
 interface ICategoryById {
     id: number,
@@ -63,14 +64,14 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
             })
         }),
 
-        getTableCategoryById: builder.query<ICategoryById, number | undefined>({
+        getTableCategoryById: builder.query<IAddCategoryFormData, number | undefined>({
             query: (tableCategoryId) => ({
-                url: `/tablecategory/1?id=${tableCategoryId}`,
+                url: `/tablecategory/${tableCategoryId}`,
                 method: 'GET'
             })
         }),
 
-        createTableCategory: builder.mutation<void, ICreateCategory>({
+        createTableCategory: builder.mutation<void, ICreateCategory[]>({
             query: (tableCategoryData) => ({
                 url: '/tablecategory',
                 method: 'POST',
@@ -110,5 +111,6 @@ export const {
     // table category
     useGetTableCategoryQuery,
     useGetTableCategoryByIdQuery,
-    useDeleteTableCategoryMutation
+    useDeleteTableCategoryMutation,
+    useCreateTableCategoryMutation
 } = categoryApiSlice

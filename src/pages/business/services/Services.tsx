@@ -12,18 +12,32 @@ import BusinessServiceBody from "@/components/shared/serviceAndCategory/Business
 import AddCategory from "./components/AddCategory";
 import AddService from "./components/AddService";
 
-export interface IService {
+export interface IServiceBase {
     id: number,
     price: number,
     durationInMinutes: number,
     hasAssignedStaff: boolean,
     name: string
+}
+
+interface IServiceWithFile extends IServiceBase {
+    file: {
+        id: number,
+        url: string,
+        isProfile: boolean
+    }
+}
+
+interface IServiceWithFiles extends IServiceBase {
     files: {
         id: number,
         url: string,
         isProfile: boolean
     }[]
 }
+
+export type TService = IServiceWithFiles | IServiceWithFile
+
 
 export interface ICategory {
     isSystem: boolean

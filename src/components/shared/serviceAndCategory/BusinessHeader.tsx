@@ -46,7 +46,7 @@ const BusinessHeader: FunctionComponent<IBusinessHeader> = ({ serviceCategories,
                     </TabsTrigger>
                 ))}
             </TabsList>
-            <div className="params_side flex items-center gap-3 flex-col lg:flex-row">
+            <div className="params_side flex items-center gap-3 lg:flex-row">
                 <p className="relative w-full">
                     <Input className="2xl:w-[300px] h-[40px] pl-[30px]" placeholder={'Search'} />
                     <Search className="absolute top-1/2 left-[5px] -translate-y-1/2" color="#AEAEAE" />

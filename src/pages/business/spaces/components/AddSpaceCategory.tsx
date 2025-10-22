@@ -1,4 +1,4 @@
-import type { FunctionComponent } from "react"
+import { type FunctionComponent } from "react"
 
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Pencil } from "lucide-react"
@@ -8,6 +8,7 @@ import { useForm, type SubmitHandler } from "react-hook-form"
 import SelectDropDown from "@/components/shared/inputs/SelectDropDown"
 import SecondaryButton from "@/components/shared/buttons/SecondaryButton"
 import PrimaryButton from "@/components/shared/buttons/PrimaryButton"
+import { useCreateTableCategoryMutation } from "@/redux/business/category/categoryAPISlice"
 
 interface IAddCategoryFormData {
     languageId: number,
@@ -29,10 +30,27 @@ const AddSpaceCategory: FunctionComponent<IAddSpaceCategoryProps> = ({ icon, tri
         }
     })
 
+    const [createTableCategory] = useCreateTableCategoryMutation()
+    // const { data: categoryData, isSuccess: isCategorySuccess } = useGetTableCategoryByIdQuery(+categoryId!, { skip: !categoryId })
+
+
     const handleSpaceCategory: SubmitHandler<IAddCategoryFormData> = async (data: IAddCategoryFormData) => {
-        console.log(data)    
+        createTableCategory([data])
     }
 
+    // No edit yet
+    // useEffect(() => {
+    //     if (isCategorySuccess && categoryData) {
+    //         const formatted: IAddCategoryFormData = {
+    //             ...categoryData,
+    //             name: categoryData.categoryLocales[0].name,
+    //             languageId: categoryData.categoryLocales[0].languageId
+    //         }
+            
+    //         reset(formatted)
+    //     }
+    // }, [])
+    
     return (
         <Dialog>
             <DialogTrigger className="w-full text-left cursor-pointer text-sm font-medium">

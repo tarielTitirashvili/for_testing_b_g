@@ -45,14 +45,14 @@ const Spaces: FunctionComponent = () => {
         <div className="bg-white p-6 rounded-sm">
             <Tabs
                 value={id}
-                defaultValue={categoryList && categoryList[0].id}
+                defaultValue={categoryList ? categoryList[0].id : '/spaces'}
                 onValueChange={(tabValue) => navigate(`/spaces/${tabValue}`)}
             >
                 <BusinessHeader
                     serviceCategories={categoryList ?? []}
                     removeCategory={deleteTableCategory}
                     AddCategoryComponent={AddSpaceCategory}
-                    // EditComponent={AddSpaceCategory}
+                    EditComponent={AddSpaceCategory}
                     AddItemComponent={AddSpace}
                 />
                 

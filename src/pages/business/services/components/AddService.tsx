@@ -8,11 +8,14 @@ import { Pencil } from 'lucide-react'
 
 import { useCreateServiceMutation, useEditServiceMutation, useGetServicesByIdQuery, type IEditService } from '@/redux/business/service/serviceAPISlice'
 
+import { useUploadFileMutation } from '@/redux/business/businessProfile/businessProfileAPISlice'
+import { SingleImageUploader } from '../../../../components/shared/fileUploader/SingleImageUploader'
+
+import type { TService } from '../Services'
+
 import TextInput from '@/components/shared/inputs/TextInput'
 import SelectDropDown from '@/components/shared/inputs/SelectDropDown'
 import PrimaryButton from '@/components/shared/buttons/PrimaryButton'
-import { useUploadFileMutation } from '@/redux/business/businessProfile/businessProfileAPISlice'
-import { SingleImageUploader } from '../../../../components/shared/fileUploader/SingleImageUploader'
 
 export interface IAddSalonServiceFormData {
   categoryId: number
@@ -43,21 +46,9 @@ interface ICategory {
   name: string
 }
 
-export interface IService {
-  id: number,
-  price: number,
-  durationInMinutes: number,
-  hasAssignedStaff: boolean,
-  name: string
-  files: {
-      id: number,
-      url: string,
-      isProfile: boolean
-  }[]
-}
 interface IAddService {
   categories: ICategory[]
-  service?: IService
+  service?: TService
   categoryId?: string
   icon?: boolean
   serviceId?: number
@@ -139,14 +130,16 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
 
   useEffect(() => {
     if (serviceByIdSuccess && data) {
-      reset({
-        ...data,
-        price: data.price.toString(),
-        durationInMinutes: data.durationInMinutes.toString(),
-        files: data.files[0] || []
-      })
 
-      setImage(data.files[0] ? data.files[0].url : '')
+      if ('files' in data && Array.isArray(data.files)) {
+        reset({
+          ...data,
+          price: data.price.toString(),
+          durationInMinutes: data.durationInMinutes.toString(),
+          files: data.files[0] || []
+        })
+        setImage(data.files[0] ? data.files[0].url : '')
+      }
     }
   }, [serviceByIdSuccess])
 
