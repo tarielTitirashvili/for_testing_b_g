@@ -48,11 +48,8 @@ const privateRoutes = (t: TFunction): AppRouteObject[] => {
         path: '/services',
         title: t("sidebar.link.services"),
         icon: <FileText />,
+        element: <Services />,
         children: [
-          {
-            index: true,
-            element: <Navigate to="/services/6" replace />
-          },
           {
             path: ':id',
             element: <Services />
@@ -63,11 +60,8 @@ const privateRoutes = (t: TFunction): AppRouteObject[] => {
         path: '/menu',
         title: t("sidebar.link.menu"),
         icon: <FileText />,
+        element: <Menu />,
         children: [
-          {
-            index: true,
-            element: <Navigate to="/menu/6" replace />
-          },
           {
             path: ':id',
             element: <Menu />
@@ -78,11 +72,8 @@ const privateRoutes = (t: TFunction): AppRouteObject[] => {
         path: '/spaces',
         title: t("sidebar.link.spaces"),
         icon: <Armchair />,
+        element: <Spaces />,
         children: [
-          {
-            index: true,
-            element: <Navigate to="/spaces/6" replace />
-          },
           {
             path: ':id',
             element: <Spaces />

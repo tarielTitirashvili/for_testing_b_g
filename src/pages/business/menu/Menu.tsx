@@ -1,4 +1,4 @@
-import { type FunctionComponent } from "react"
+import { useEffect, type FunctionComponent } from "react"
 import { useNavigate, useParams } from "react-router-dom";
 
 import { Tabs } from "@/components/ui/tabs";
@@ -15,7 +15,7 @@ const Menu: FunctionComponent = () => {
     const navigate = useNavigate()
 
     const { data: categories = [] } = useGetCategoriesQuery();
-    const { data: services = [] } = useGetServicesQuery(+id!);
+    const { data: services = [] } = useGetServicesQuery(+id!, { skip: !id });
 
     const [deleteCategory] = useDeleteCategoryMutation()
     const [deleteService] = useRemoveServiceMutation()
@@ -23,6 +23,12 @@ const Menu: FunctionComponent = () => {
     const removeCategory = async (id: string) => {
         deleteCategory(id)
     }
+
+    useEffect(() => {
+        if (!id && categories.length) {
+            navigate(`/menu/${categories[0].id}`, { replace: true })
+        }
+    }, [id, categories, navigate])
 
     return (
         <div className="bg-white p-6 rounded-sm">

@@ -1,4 +1,4 @@
-import { type FunctionComponent } from "react"
+import { useEffect, type FunctionComponent } from "react"
 import { useNavigate, useParams } from "react-router-dom";
 
 import { Tabs } from "@/components/ui/tabs";
@@ -32,7 +32,7 @@ const Spaces: FunctionComponent = () => {
     const navigate = useNavigate()
 
     // space category
-    const { data: categoryList } = useGetTableCategoryQuery()
+    const { data: categoryList = [] } = useGetTableCategoryQuery()
     const [deleteTableCategory] = useDeleteTableCategoryMutation()
 
     // spaces
@@ -41,11 +41,16 @@ const Spaces: FunctionComponent = () => {
     })
     const [deleteSpace] = useDeleteSpaceMutation()    
 
+    useEffect(() => {
+        if (!id && categoryList.length) {
+            navigate(`/spaces/${categoryList[0].id}`, { replace: true })
+        }
+    }, [id, categoryList, navigate])
+
     return (
         <div className="bg-white p-6 rounded-sm">
             <Tabs
                 value={id}
-                // defaultValue={categoryList ? categoryList[0].id : '/spaces'}
                 defaultValue={categoryList?.[0]?.id?.toString() ?? '/spaces'}
                 onValueChange={(tabValue) => navigate(`/spaces/${tabValue}`)}
             >

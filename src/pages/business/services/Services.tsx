@@ -1,4 +1,4 @@
-import { type FunctionComponent } from "react"
+import { useEffect, type FunctionComponent } from "react"
 
 import { Tabs } from "@/components/ui/tabs"
 
@@ -11,6 +11,7 @@ import BusinessHeader from "@/components/shared/serviceAndCategory/BusinessHeade
 import BusinessServiceBody from "@/components/shared/serviceAndCategory/BusinessServiceBody";
 import AddCategory from "./components/AddCategory";
 import AddService from "./components/AddService";
+import { skip } from "node:test";
 
 export interface IServiceBase {
     id: number,
@@ -65,7 +66,7 @@ const Services: FunctionComponent = () => {
     const navigate = useNavigate()
 
     const { data: categories = [] } = useGetCategoriesQuery();
-    const { data: services = [] } = useGetServicesQuery(+id!);
+    const { data: services = [] } = useGetServicesQuery(+id!, { skip: !id });
 
     const [deleteCategory] = useDeleteCategoryMutation()
     const [deleteService] = useRemoveServiceMutation()
@@ -73,6 +74,12 @@ const Services: FunctionComponent = () => {
     const removeCategory = async (id: string) => {
         deleteCategory(id)
     }
+
+    useEffect(() => {
+        if (!id && categories.length) {
+            navigate(`/services/${categories[0].id}`, { replace: true })
+        }
+    }, [id, categories, navigate])
 
     return (
         <div className="bg-white p-6 rounded-sm">
