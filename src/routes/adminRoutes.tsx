@@ -30,11 +30,11 @@ const publicRoutes = (t: TFunction): AppRouteObject[] => [
         path: '/settings',
         element: <Settings />
       },
+      {
+        path: '*',
+        element: <NotFound />,
+      },
     ],
-  },
-  {
-    path: '*',
-    element: <NotFound />,
   },
 ]
 

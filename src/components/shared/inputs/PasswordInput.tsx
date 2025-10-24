@@ -37,9 +37,9 @@ const PasswordInput: React.FunctionComponent<IPasswordInputProps> = ({ label, er
                         onClick={toggleShowPass}
                     >
                         {showPass ? (
-                            <img src="assets/images/input_visible.svg" alt="show" />
+                            <img src="/assets/images/input_visible.svg" alt="show" />
                         ) : (
-                            <img src="assets/images/input_hidden.svg" alt="hide" />
+                            <img src="/assets/images/input_hidden.svg" alt="hide" />
                         )}
                     </span>
                 </div>

@@ -6,7 +6,7 @@ import type { IBusiness } from './Profile'
 
 interface IProfileProps {
     handleProfileList: () => void
-    business: IBusiness | undefined
+    business: IBusiness | null
 }
 const BusinessAvatar: FunctionComponent<IProfileProps> = ({ handleProfileList, business }) => {
     return (

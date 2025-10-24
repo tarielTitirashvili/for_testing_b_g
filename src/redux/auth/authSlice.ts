@@ -1,6 +1,7 @@
 import type { IUserAuth } from "@/types/user/user.type"
 import { jwtDecode } from 'jwt-decode'
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
+import type { IBusiness } from '@/components/shared/profile/Profile'
 
 
 export type TRoleType = 'Administrator' | 'STAFF' | 'Manager' | 'Owner' | null
@@ -24,6 +25,8 @@ interface IAuthState {
     role: TRoleType
     isLoginProcess?: boolean
     currentBusiness: string | null
+    selectedBusiness: IBusiness | null
+    businessProfiles: IBusiness[] | []
 }
 
 type TokenType = {
@@ -43,7 +46,9 @@ const initialState: IAuthState = {
     isAuth: false,
     role: null,
     isLoginProcess: false,
-    currentBusiness: null
+    currentBusiness: null,
+    selectedBusiness: null,
+    businessProfiles: []
 }
 
 const userSlice = createSlice({
@@ -52,6 +57,7 @@ const userSlice = createSlice({
     reducers: {
         login(state, action: PayloadAction<UserPayload>) {
             const accessToken: TokenType = jwtDecode(action.payload.accessToken || '')
+
             state.accessToken = action.payload.accessToken
             state.refreshToken = action.payload.refreshToken
             state.roleId = action.payload.roleId
@@ -63,6 +69,12 @@ const userSlice = createSlice({
             state.isAuth = true
             localStorage.setItem('accessToken', action.payload.accessToken ? action.payload.accessToken : '')
             localStorage.setItem('refreshToken', action.payload.refreshToken ? action.payload.refreshToken : '')
+        },
+        setSelectedBusinessProfile(state, action: PayloadAction<IBusiness>){
+            state.selectedBusiness = action.payload
+        },
+        setBusinessProfiles(state, action: PayloadAction<IBusiness[]>){
+            state.businessProfiles = action.payload
         },
         otpStepWasPassed(state){
             state.isOTP = false
@@ -86,6 +98,6 @@ const userSlice = createSlice({
     }
 })
 
-export const { login, logout, otpStepWasPassed } = userSlice.actions
+export const { login, logout, otpStepWasPassed, setSelectedBusinessProfile, setBusinessProfiles } = userSlice.actions
 
 export default userSlice.reducer

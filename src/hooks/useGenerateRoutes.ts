@@ -7,6 +7,7 @@ import type { ReactNode } from 'react'
 import type { RouteObject } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import type { RootState } from '@/redux/store'
+import { selectedBusinessProfileSelector } from '@/redux/auth/authSelectors'
 
 export type AppRouteObject = RouteObject & {
   title?: string
@@ -19,6 +20,7 @@ const useGenerateRoutes = () => {
   const role = useSelector((state: RootState) => state.auth.role)
   const isAuth = useSelector((state: RootState) => state.auth.isAuth)
   const isOtp = useSelector((state: RootState) => state.auth.isOTP)
+  const selectedBusinessProfile = useSelector(selectedBusinessProfileSelector)
   
   const routes = (): AppRouteObject[] => {
     if (isAuth && !isOtp) {
@@ -26,11 +28,11 @@ const useGenerateRoutes = () => {
         case USER_ROLES.ADMINISTRATOR:
           return adminRoutes(t)
         case USER_ROLES.STAFF:
-          return privateRoutes(t)
+          return privateRoutes(t, selectedBusinessProfile?.businessCategory?.id)
         case USER_ROLES.MANAGER:
-          return privateRoutes(t)
+          return privateRoutes(t, selectedBusinessProfile?.businessCategory?.id)
         case USER_ROLES.BUSINESS_OWNER:
-          return privateRoutes(t)
+          return privateRoutes(t, selectedBusinessProfile?.businessCategory?.id)
         default:
           return publicRoutes(isOtp)
       }

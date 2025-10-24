@@ -1,5 +1,7 @@
+import PrimaryButton from '@/components/shared/buttons/PrimaryButton'
 import type { RootState } from '@/redux/store'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -15,11 +17,19 @@ const NotFound = () => {
       navigate('/')
   },[])
 
+  const {t} = useTranslation()
+
   return (
-    <div>
-      <h1>
-        404 Not Found
+    <div className='w-full h-full flex flex-col justify-center items-center bg-white rounded-xl py-12 px-4 gap-5'>
+      <img src='/assets/images/404.svg' />
+      <h1 className='max-w-[310px] text-center'>
+        {t('notFountPage.notFoundPage.title')}
       </h1>
+      <div>
+        <PrimaryButton handleClick={()=>navigate('/')} className='px-8' >
+          {t('notFoundPage.returnToMainPage.buttonText')}
+        </PrimaryButton>
+      </div>
     </div>
   )
 }

@@ -1,8 +1,8 @@
+
+
+// import { api } from '@/api/api'
 import { useState, type FunctionComponent } from 'react'
-
-import { useGetUserProfilesQuery } from '@/redux/business/userProfiles/userProfilesAPISlice'
-
-import { currentBusinessSelector } from '@/redux/auth/authSelectors'
+import { BusinessProfilesSelector, selectedBusinessProfileSelector } from '@/redux/auth/authSelectors'
 import { useSelector } from 'react-redux'
 
 import ProfileList from '@/components/shared/profile/ProfileList'
@@ -15,7 +15,7 @@ interface IRole {
 }
 
 type ICategory = {
-  id: number
+  id: 1 | 2
   name: string
 }
 
@@ -36,14 +36,13 @@ export interface IBusiness {
 const Profile: FunctionComponent = () => {
   const [open, setOpen] = useState<boolean>(false)
 
-  const { data: businesses, isLoading } = useGetUserProfilesQuery()
+  const selectedBusinessProfile = useSelector(selectedBusinessProfileSelector)
 
-  const currentBusiness = useSelector(currentBusinessSelector)
-  const selectedBusinessProfile = businesses?.find(business => business.id === currentBusiness)
+  const businesses = useSelector(BusinessProfilesSelector)
 
   return (
     <div>
-      <Loader loading={isLoading}>
+      <Loader loading={businesses?.length === 0}>
         <BusinessAvatar
           business={selectedBusinessProfile}
           handleProfileList={() => setOpen((prev) => !prev)}

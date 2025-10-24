@@ -250,7 +250,8 @@
   "user.role.admin": "ადმინისტრატორი",
   "titles.logout": "გასვლა",
   "titles.headers.yourAccounts": "შენი ანგარიშები",
-
+  "notFountPage.notFoundPage.title": "ბოდიშს გიხდით შეფერხებისთვის გვერდი ვერ მოიძებნა",
+  "notFoundPage.returnToMainPage.buttonText": "მთავარ გვერდზე დაბრუნება",
 
   "": ""
 }
