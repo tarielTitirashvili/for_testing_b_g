@@ -11,7 +11,6 @@ import BusinessHeader from "@/components/shared/serviceAndCategory/BusinessHeade
 import BusinessServiceBody from "@/components/shared/serviceAndCategory/BusinessServiceBody";
 import AddCategory from "./components/AddCategory";
 import AddService from "./components/AddService";
-import { skip } from "node:test";
 
 export interface IServiceBase {
     id: number,

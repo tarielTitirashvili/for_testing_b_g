@@ -1,7 +1,5 @@
 import { lazy } from 'react'
 
-import { Navigate } from 'react-router-dom'
-
 // import Calendar from '@/pages/dashboard/calendar'
 // import Services from '@/pages/services/Services'
 // import Team from '@/pages/teams/Team'
