@@ -45,7 +45,8 @@ const Spaces: FunctionComponent = () => {
         <div className="bg-white p-6 rounded-sm">
             <Tabs
                 value={id}
-                defaultValue={categoryList ? categoryList[0].id : '/spaces'}
+                // defaultValue={categoryList ? categoryList[0].id : '/spaces'}
+                defaultValue={categoryList?.[0]?.id?.toString() ?? '/spaces'}
                 onValueChange={(tabValue) => navigate(`/spaces/${tabValue}`)}
             >
                 <BusinessHeader

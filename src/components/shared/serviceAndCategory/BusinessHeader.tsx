@@ -40,11 +40,15 @@ const BusinessHeader: FunctionComponent<IBusinessHeader> = ({ serviceCategories,
     return (
         <div className="flex justify-between flex-col lg:flex-row gap-3 lg:gap-0">
             <TabsList className="h-[50px] bg-transparent flex flex-row justify-center w-full lg:w-max">
-                {serviceCategories.map((service) => (
-                    <TabsTrigger key={service.id} value={service.id.toString()} className="px-3 data-[state=active]:text-[#AE5700] data-[state=active]:bg-[#FEF2E6] data-[state=active]:shadow-none">
-                        {service.name}
-                    </TabsTrigger>
-                ))}
+                {serviceCategories.length > 0 ? (
+                    serviceCategories.map((service) => (
+                        <TabsTrigger key={service.id} value={service.id.toString()} className="px-3 data-[state=active]:text-[#AE5700] data-[state=active]:bg-[#FEF2E6] data-[state=active]:shadow-none">
+                            {service.name}
+                        </TabsTrigger>
+                    ))
+                ) : (
+                    <p>There no any categories yet</p>
+                )}
             </TabsList>
             <div className="params_side flex items-center gap-3 lg:flex-row">
                 <p className="relative w-full">
