@@ -82,17 +82,9 @@ const userSlice = createSlice({
         logout(state) {
             const token = localStorage.getItem('accessToken')
             if(state.isAuth || token){
-                state.user = null
-                state.accessToken = null
-                state.refreshToken = null
-                state.roleId = null
-                state.isAuth = false;
-                state.isOTP = false;
-                state.role = null
-    
-                state.isAuth = false
                 localStorage.removeItem('accessToken')
                 localStorage.removeItem('refreshToken')
+                return initialState
             }
         }
     }

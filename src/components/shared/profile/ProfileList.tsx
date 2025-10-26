@@ -16,6 +16,7 @@ import { currentBusinessSelector } from '@/redux/auth/authSelectors'
 import { useSwitchProfileMutation } from '@/redux/business/userProfiles/userProfilesAPISlice'
 import Loader from '../loader'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 interface IProfileListProps {
   businesses: IBusiness[] | []
@@ -29,10 +30,14 @@ const ProfileList: FunctionComponent<IProfileListProps> = ({ businesses }) => {
   const dispatch = useDispatch()
   const currentBusiness = useSelector(currentBusinessSelector)
   const { t } = useTranslation()
+  const navigate = useNavigate()
 
   const [search, setSearch] = useState<string>('')
 
-  const [switchProfileMutation, { isLoading }] = useSwitchProfileMutation()
+  const [
+    switchProfileMutation,
+    { isLoading },
+  ] = useSwitchProfileMutation()
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
@@ -41,11 +46,23 @@ const ProfileList: FunctionComponent<IProfileListProps> = ({ businesses }) => {
   const logoutTrigger = () => {
     dispatch(logout())
   }
+  //! using unwrap is only way to catch Success because we resetApiState after switching business profile
+  const switchProfile = async (profileData:TSwitchProfileData) => {
+    try {
+      await switchProfileMutation({
+        businessId: profileData.businessId,
+        roleId: profileData.roleId,
+      }).unwrap()
+      navigate('/')
+    } catch (err) {
+      console.error('Login failed:', err);
+    }
+  };
 
   return (
     <Card className="w-full left-0 h-auto rounded-md shadow-none pt-3 pb-1 border-2 gap-3 relative flex flex-col bg-white z-[1]">
       <CardHeader className="px-3 py-0">
-        <b className='text-[#242424] text-[14px] font-medium'>
+        <b className="text-[#242424] text-[14px] font-medium">
           {t('titles.headers.yourAccounts')} ({businesses.length})
         </b>
         <div className="card_header_input-block relative w-full">
@@ -65,7 +82,7 @@ const ProfileList: FunctionComponent<IProfileListProps> = ({ businesses }) => {
         <CardContent className="px-3 pt-4 border-t-2 flex-1 flex flex-col gap-2 overflow-auto scrollbar">
           {businesses.map((business) => {
             const handleSwitchProfile = () => {
-              switchProfileMutation({
+              switchProfile({
                 businessId: business.id,
                 roleId: business.role.id,
               })

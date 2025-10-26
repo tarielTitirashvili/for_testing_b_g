@@ -12,18 +12,16 @@ import { logout } from '@/redux/auth/authSlice'
 import useGenerateRoutes, { type AppRouteObject } from '@/hooks/useGenerateRoutes'
 
 interface IAsideProps {
-    path: string | null
-    setPath: (path: string) => void
+    basePathName: string | null
 }
 
-const Aside: FunctionComponent<IAsideProps> = ({ path, setPath }) => {
+const Aside: FunctionComponent<IAsideProps> = ({basePathName}) => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const handleLogout = (): void => {
         navigate('/')
         dispatch(logout())
-        // location.reload()
     }
     const routes = useGenerateRoutes()
 
@@ -50,8 +48,8 @@ const Aside: FunctionComponent<IAsideProps> = ({ path, setPath }) => {
                                 if(!item.icon || !item.title || !item.path) return <Fragment key={item.path || item.title}></Fragment>
                                 return(
                                     <SidebarMenuItem key={item.path} className='text-[#AEAEAE]'>
-                                        <SidebarMenuButton isActive={path === item.path} className='h-[48px]'>
-                                            <NavLink to={item.path} onClick={() => setPath(item.path ?? '')} className={({isActive}) => isActive ? 'flex items-center gap-2 px-3 py-3 ' : 'flex items-center gap-2 px-3 py-3 w-[200px]'}>
+                                        <SidebarMenuButton isActive={basePathName === item.path} className='h-[48px]'>
+                                            <NavLink to={item.path} className={({isActive}) => isActive ? 'flex items-center gap-2 px-3 py-3 ' : 'flex items-center gap-2 px-3 py-3 w-[200px]'}>
                                                 <span>{item.icon}</span>
                                                 <span>{item.title}</span>
                                             </NavLink>
@@ -67,8 +65,8 @@ const Aside: FunctionComponent<IAsideProps> = ({ path, setPath }) => {
                     <SidebarGroupContent className=''>
                         <SidebarMenu className='flex flex-col gap-3'>
                             <SidebarMenuItem className='text-[#AEAEAE]'>
-                                <SidebarMenuButton asChild isActive={path === '/settings'} className='h-[48px]'>
-                                    <NavLink to={'/settings'} onClick={() => setPath('/settings')} className={({isActive}) => isActive ? 'flex items-center gap-2 px-5 py-3 ' : 'flex items-center gap-2 px-5 py-3 w-[200px]'}>
+                                <SidebarMenuButton asChild isActive={basePathName === '/settings'} className='h-[48px]'>
+                                    <NavLink to={'/settings'} className={({isActive}) => isActive ? 'flex items-center gap-2 px-5 py-3 ' : 'flex items-center gap-2 px-5 py-3 w-[200px]'}>
                                         <span><Settings /></span>
                                         <span>{ t('sidebar.link.settings') }</span>
                                     </NavLink>

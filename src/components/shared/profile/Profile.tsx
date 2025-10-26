@@ -8,6 +8,8 @@ import { useSelector } from 'react-redux'
 import ProfileList from '@/components/shared/profile/ProfileList'
 import BusinessAvatar from './BusinessAvatar'
 import Loader from '../loader'
+import type { RootState } from '@/redux/store'
+import { USER_ROLES } from '@/redux/auth/authSlice'
 
 interface IRole {
   id: string
@@ -39,10 +41,11 @@ const Profile: FunctionComponent = () => {
   const selectedBusinessProfile = useSelector(selectedBusinessProfileSelector)
 
   const businesses = useSelector(BusinessProfilesSelector)
+  const role = useSelector((state: RootState) => state.auth.role)
 
   return (
     <div>
-      <Loader loading={businesses?.length === 0}>
+      <Loader loading={businesses?.length === 0 && role !== USER_ROLES.ADMINISTRATOR}>
         <BusinessAvatar
           business={selectedBusinessProfile}
           handleProfileList={() => setOpen((prev) => !prev)}

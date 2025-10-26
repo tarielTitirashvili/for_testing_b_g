@@ -60,7 +60,7 @@ const AllRoutes = () => {
 
   const element = useRoutes(routes())
 
-  if (loginLoading || (!selectedBusinessProfile?.businessCategory && isAuth)) {
+  if (loginLoading || (!selectedBusinessProfile?.businessCategory && isAuth && (role !== USER_ROLES.ADMINISTRATOR))) {
     return <Loader size="screen" />
   }
 

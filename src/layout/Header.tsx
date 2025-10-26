@@ -5,10 +5,11 @@ import { SidebarTrigger } from '@/components/ui/sidebar'
 import { t } from 'i18next'
 import Profile from '@/components/shared/profile/Profile'
 interface IHeaderProps {
-  locationPathname: string | null
+  basePathName: string | null
 }
 
-const Header: FunctionComponent<IHeaderProps> = ({ locationPathname }) => {
+const Header: FunctionComponent<IHeaderProps> = ({ basePathName }) => {
+
 
   return (
     <header className="flex items-center justify-between bg-white p-5">
@@ -16,12 +17,12 @@ const Header: FunctionComponent<IHeaderProps> = ({ locationPathname }) => {
         <div className="sidebar_menu-btn">
           <SidebarTrigger />
         </div>
-        {locationPathname && locationPathname == '/'
+        {basePathName && basePathName == '/'
           ? t('sidebar.link.')
           : t(
               `sidebar.link.${
-                locationPathname &&
-                locationPathname.slice(1).split('-').join(' ')
+                basePathName &&
+                basePathName.slice(1).split('-').join(' ')
               }`
             )}
       </div>

@@ -1,13 +1,15 @@
 import { useGetUserProfilesQuery } from '@/redux/business/userProfiles/userProfilesAPISlice'
 import { useEffect } from "react"
 import { useDispatch, useSelector } from 'react-redux'
-import { setBusinessProfiles, setSelectedBusinessProfile } from '@/redux/auth/authSlice'
+import { setBusinessProfiles, setSelectedBusinessProfile, USER_ROLES } from '@/redux/auth/authSlice'
 import { currentBusinessSelector } from '@/redux/auth/authSelectors'
 import type { RootState } from '@/redux/store'
 
 export const useGetUserProfiles = () => {
   const isAuth = useSelector((state: RootState) => state.auth.isAuth)
-  const { data: businesses, isSuccess } = useGetUserProfilesQuery(undefined, {skip: !isAuth})
+  const role = useSelector((state: RootState) => state.auth.role)
+
+  const { data: businesses, isSuccess } = useGetUserProfilesQuery(undefined, {skip: !isAuth || role === USER_ROLES.ADMINISTRATOR})
   const currentBusiness = useSelector(currentBusinessSelector)
   
   const dispatch = useDispatch()
