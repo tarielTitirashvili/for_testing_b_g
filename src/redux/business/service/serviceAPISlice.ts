@@ -13,6 +13,12 @@ export interface IBeseService {
     fileIds: number[],
 }
 
+// fot service names
+interface IService {
+    id: number
+    name: string
+}
+
 export interface IEditService extends IBeseService {
     serviceId: number | undefined,
 }
@@ -23,34 +29,45 @@ export interface ICreateService extends IBeseService {
 
 export const serviceApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
+        getAllServiceNames: builder.query<IService[], void>({
+            query: () => ({
+                url: "/business/business-services",
+                method: "GET"
+            }),
+            providesTags: ['Service']
+        }),
+
         getServices: builder.query<TService[], number | undefined>({
             query: (categoryId) => ({
                 url: `/categoryservices/services/${categoryId}`,
                 method: "GET",
-            })
+            }),
+            providesTags: ['Service']
         }),
 
         getServicesById: builder.query<TService, number | undefined>({
             query: (categoryId) => ({
                 url: `/categoryservices/${categoryId}`,
                 method: "GET",
-            })
+            }),
+            providesTags: ['Service']
         }),
 
         editService: builder.mutation<void, IEditService>({
-            
             query: (data) => ({
                 url: '/categoryservices',
                 method: "PUT",
                 data: data,
             }),
+            invalidatesTags: ['Service']
         }),
 
         removeService: builder.mutation<void, number>({
             query: (serviceId) => ({
                 url: `/categoryservices/${serviceId}`,
                 method: "DELETE"
-            })
+            }),
+            invalidatesTags: ['Service']
         }),
 
         createService: builder.mutation<void, ICreateService>({
@@ -58,13 +75,15 @@ export const serviceApiSlice = apiSlice.injectEndpoints({
                 url: "/categoryservices",
                 method: "POST",
                 data: data
-            })
+            }),
+            invalidatesTags: ['Service']
         })
 
     })
 })
 
 export const {
+    useGetAllServiceNamesQuery,
     useGetServicesQuery,
     useGetServicesByIdQuery,
     useEditServiceMutation,

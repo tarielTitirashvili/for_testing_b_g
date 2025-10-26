@@ -1,4 +1,4 @@
-import { type FunctionComponent } from "react"
+import { useState, type FunctionComponent } from "react"
 
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Pencil } from "lucide-react"
@@ -30,12 +30,15 @@ const AddSpaceCategory: FunctionComponent<IAddSpaceCategoryProps> = ({ icon, tri
         }
     })
 
+    const [modalOpen, setModalOpen] = useState<boolean>(false)
+
     const [createTableCategory] = useCreateTableCategoryMutation()
     // const { data: categoryData, isSuccess: isCategorySuccess } = useGetTableCategoryByIdQuery(+categoryId!, { skip: !categoryId })
 
 
     const handleSpaceCategory: SubmitHandler<IAddCategoryFormData> = async (data: IAddCategoryFormData) => {
         createTableCategory([data])
+        setModalOpen(false)
     }
 
     // No edit yet
@@ -52,7 +55,7 @@ const AddSpaceCategory: FunctionComponent<IAddSpaceCategoryProps> = ({ icon, tri
     // }, [])
     
     return (
-        <Dialog>
+        <Dialog open={modalOpen} onOpenChange={setModalOpen}>
             <DialogTrigger className="w-full text-left cursor-pointer text-sm font-medium">
                 { icon && <Pencil /> } { triggerText && triggerText }
             </DialogTrigger>
@@ -81,7 +84,7 @@ const AddSpaceCategory: FunctionComponent<IAddSpaceCategoryProps> = ({ icon, tri
                         <DialogClose className="flex-1">
                             <SecondaryButton>გაუქმება</SecondaryButton>
                         </DialogClose>
-                        <PrimaryButton className="flex-1">დამატება</PrimaryButton>
+                            <PrimaryButton className="flex-1">დამატება</PrimaryButton>
                     </DialogFooter>
                 </form>
             </DialogContent>

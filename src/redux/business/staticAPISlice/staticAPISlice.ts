@@ -7,7 +7,7 @@ export type TBusinessCategory = {
 
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    // 
+    // business categories
     getBusinessCategories: builder.query<TBusinessCategory[], void>({
       query: () => ({
         url: '/admin/get-business-categories',

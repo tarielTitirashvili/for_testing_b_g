@@ -32,13 +32,21 @@ const Spaces: FunctionComponent = () => {
     const navigate = useNavigate()
 
     // space category
-    const { data: categoryList = [] } = useGetTableCategoryQuery()
+    const { 
+        data: categoryList = [], 
+        isSuccess: isCategoryListSuccess, 
+        isLoading:isCategoryLoading,
+        isError:isCategoryError 
+    } = useGetTableCategoryQuery()
     const [deleteTableCategory] = useDeleteTableCategoryMutation()
 
     // spaces
-    const { data: spaceList } = useGetSpacesQuery(+id! || undefined, {
-        skip: id === undefined
-    })
+    const { 
+        data: spaceList,
+        isSuccess: isSpaceListSuccess,
+        isLoading: isSpaceListLoading,
+        isError: isSpaceListError
+    } = useGetSpacesQuery(+id! || undefined, { skip: !id})
     const [deleteSpace] = useDeleteSpaceMutation()    
 
     useEffect(() => {
@@ -58,8 +66,11 @@ const Spaces: FunctionComponent = () => {
                     serviceCategories={categoryList ?? []}
                     removeCategory={deleteTableCategory}
                     AddCategoryComponent={AddSpaceCategory}
-                    EditComponent={AddSpaceCategory}
+                    // EditComponent={AddSpaceCategory}
                     AddItemComponent={AddSpace}
+                    isSuccess={isCategoryListSuccess}
+                    isLoading={isCategoryLoading}
+                    isError={isCategoryError}
                 />
                 
                 <BusinessSpaceBody
@@ -67,6 +78,9 @@ const Spaces: FunctionComponent = () => {
                     categoryId={String(id)}
                     spaces={spaceList ?? []}
                     removeSpace={(id) => deleteSpace(id)}
+                    isSuccess={isSpaceListSuccess}
+                    isLoading={isSpaceListLoading}
+                    isError={isSpaceListError}
                 />
             </Tabs>
         </div>

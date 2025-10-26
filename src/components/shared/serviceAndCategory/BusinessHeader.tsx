@@ -7,6 +7,8 @@ import { Plus, Search } from "lucide-react"
 
 import { t } from "i18next"
 
+import { Skeleton } from "@/components/ui/skeleton"
+
 import EntityList from "../modals/EntityList"
 import CustomDropdown from "../buttons/CustomDropdown"
 import PrimaryPressable from "../buttons/PrimaryPressable"
@@ -33,22 +35,44 @@ interface IBusinessHeader {
     EditComponent?: React.ComponentType<EditComponentProps>
     AddItemComponent?: React.ComponentType<IAddItemProps>
     AddCategoryComponent?: React.ComponentType<{ triggerText?: string }>
+    isSuccess: boolean
+    isLoading: boolean
+    isError: boolean
 }
 
 
-const BusinessHeader: FunctionComponent<IBusinessHeader> = ({ serviceCategories, removeCategory, AddItemComponent, AddCategoryComponent, EditComponent }) => {
+const BusinessHeader: FunctionComponent<IBusinessHeader> = ({ serviceCategories, removeCategory, AddItemComponent, AddCategoryComponent, EditComponent, isError, isLoading, isSuccess }) => {
+    
+    if (isLoading) {
+        return (
+            <div className="flex justify-between gap-6">
+                {[...Array(4)].map((_, index) => (
+                    <Skeleton key={index} className="h-11 w-full"></Skeleton>
+                ))}
+            </div>
+        )
+    }
+    
+    if (isError) {
+        return (
+            <div className="text-red-500">Failed to load categories</div>
+        )
+    }
+
+    if (isSuccess && serviceCategories.length === 0) {
+        return (
+            <div>There no any categories yet</div>
+        )
+    }
+
     return (
         <div className="flex justify-between flex-col lg:flex-row gap-3 lg:gap-0">
             <TabsList className="h-[50px] bg-transparent flex flex-row justify-center w-full lg:w-max">
-                {serviceCategories.length > 0 ? (
-                    serviceCategories.map((service) => (
-                        <TabsTrigger key={service.id} value={service.id.toString()} className="px-3 data-[state=active]:text-[#AE5700] data-[state=active]:bg-[#FEF2E6] data-[state=active]:shadow-none">
-                            {service.name}
-                        </TabsTrigger>
-                    ))
-                ) : (
-                    <p>There no any categories yet</p>
-                )}
+                {serviceCategories.map((service) => (
+                    <TabsTrigger key={service.id} value={service.id.toString()} className="px-3 data-[state=active]:text-[#AE5700] data-[state=active]:bg-[#FEF2E6] data-[state=active]:shadow-none">
+                        {service.name}
+                    </TabsTrigger>
+                ))}
             </TabsList>
             <div className="params_side flex items-center gap-3 lg:flex-row">
                 <p className="relative w-full">
@@ -68,11 +92,15 @@ const BusinessHeader: FunctionComponent<IBusinessHeader> = ({ serviceCategories,
                     trigger={<PrimaryPressable> <Plus /> {t("bookings.button.add")}</PrimaryPressable>}
                 >
                     <DropdownMenuGroup className="flex flex-col gap-2 p-2">
-                        <DropdownMenuItem asChild>
-                            {AddItemComponent && <AddItemComponent triggerText="ადგილი" categories={serviceCategories} />}
+                        <DropdownMenuItem asChild onSelect={e => e.preventDefault()}>
+                            <span>
+                                {AddItemComponent && <AddItemComponent triggerText="ადგილი" categories={serviceCategories} />}
+                            </span>
                         </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                            { AddCategoryComponent && <AddCategoryComponent triggerText="კატეგორია" /> }
+                        <DropdownMenuItem asChild onSelect={e => e.preventDefault()}>
+                            <span>
+                                { AddCategoryComponent && <AddCategoryComponent triggerText="კატეგორია" /> }
+                            </span>
                         </DropdownMenuItem>
                     </DropdownMenuGroup>
                 </CustomDropdown>

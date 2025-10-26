@@ -1,7 +1,5 @@
 import { useEffect, useState, type FunctionComponent } from 'react'
 
-import { useTranslation } from 'react-i18next'
-
 import { DialogDescription, DialogHeader, Dialog, DialogContent, DialogTitle, DialogTrigger, DialogClose } from '@/components/ui/dialog'
 import { useForm } from 'react-hook-form'
 import { Pencil } from 'lucide-react'
@@ -10,6 +8,8 @@ import { useCreateServiceMutation, useEditServiceMutation, useGetServicesByIdQue
 
 import { useUploadFileMutation } from '@/redux/business/businessProfile/businessProfileAPISlice'
 import { SingleImageUploader } from '../../../../components/shared/fileUploader/SingleImageUploader'
+
+import { t } from 'i18next'
 
 import type { TService } from '../Services'
 
@@ -59,14 +59,7 @@ interface IAddService {
 
 const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, icon }) => {
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    getValues,
-    setValue
-  } = useForm<IAddSalonServiceFormData>({
+  const { register, handleSubmit, formState: { errors }, reset, getValues, setValue} = useForm<IAddSalonServiceFormData>({
     defaultValues: {
       locales: [
         {
@@ -77,13 +70,10 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
     },
   })
 
-  const { t } = useTranslation()
+  const [modalOpen, setModalOpen] = useState<boolean>(false)
 
   const { data, isSuccess: serviceByIdSuccess } = useGetServicesByIdQuery(
-    serviceId ? serviceId : undefined,
-    {
-      skip: serviceId === undefined,
-    }
+    serviceId ? serviceId : undefined, { skip: serviceId === undefined }
   )
 
   const [createService] = useCreateServiceMutation()
@@ -126,6 +116,8 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
     } else {
       handleCreate(data)
     }
+
+    setModalOpen(false)
   }
 
   useEffect(() => {
@@ -144,11 +136,9 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
   }, [serviceByIdSuccess])
 
   return (
-    <Dialog>
+    <Dialog open={modalOpen} onOpenChange={setModalOpen}>
       <DialogTrigger className="flex gap-1.5 text-sm cursor-pointer w-full">
-        <>
           {icon && <Pencil size={20} />} {t('bookings.button.service')}
-        </>
       </DialogTrigger>
       <DialogContent className="max-w-[500px] w-full flex flex-col gap-6">
         <DialogHeader>
@@ -218,7 +208,7 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
             <DialogClose className="flex-1 w-full border-[#BEBEBE] border-2 rounded-md py-2 cursor-pointer">
               Close
             </DialogClose>
-            <PrimaryButton className="flex-1">Add</PrimaryButton>
+            <PrimaryButton className='flex-1'>Add</PrimaryButton>
           </div>
         </form>
       </DialogContent>

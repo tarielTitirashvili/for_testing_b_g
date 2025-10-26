@@ -14,8 +14,19 @@ const Menu: FunctionComponent = () => {
     const { id } = useParams()
     const navigate = useNavigate()
 
-    const { data: categories = [] } = useGetCategoriesQuery();
-    const { data: services = [] } = useGetServicesQuery(+id!, { skip: !id });
+    const {
+        data: categories = [],
+        isSuccess: isCategoryListSuccess, 
+        isLoading:isCategoryLoading,
+        isError:isCategoryError 
+    } = useGetCategoriesQuery()
+
+    const {
+        data: services = [],
+        isSuccess: isServicesSuccess,
+        isLoading: isServicesLoading,
+        isError: isServicesError
+    } = useGetServicesQuery(+id!, { skip: !id });
 
     const [deleteCategory] = useDeleteCategoryMutation()
     const [deleteService] = useRemoveServiceMutation()
@@ -43,6 +54,9 @@ const Menu: FunctionComponent = () => {
                     removeCategory={removeCategory}
                     EditComponent={AddCategory}
                     AddCategoryComponent={AddCategory}
+                    isSuccess={isCategoryListSuccess}
+                    isError={isCategoryError}
+                    isLoading={isCategoryLoading}
                 />
                 
                 <BusinessServiceBody
@@ -50,6 +64,9 @@ const Menu: FunctionComponent = () => {
                     handleServiceRemove={deleteService}
                     categoryId={String(id)}
                     services={services}
+                    isLoading={isServicesLoading}
+                    isError={isServicesError}
+                    isSuccess={isServicesSuccess}
                 />
             </Tabs>
         </div>

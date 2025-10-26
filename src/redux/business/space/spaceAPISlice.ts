@@ -17,7 +17,8 @@ export const spaceApiSlice = apiSlice.injectEndpoints({
             query: (categoryId) => ({
                 url: `/tablecategoryservices/services/${categoryId}`,
                 method: "GET",
-            })
+            }),
+            providesTags: ['Space'],
         }),
 
         getSpaceById: builder.query<ISpaceResponse, number | undefined>({
@@ -32,14 +33,16 @@ export const spaceApiSlice = apiSlice.injectEndpoints({
                 url: '/tablecategoryservices',
                 method: 'PUT',
                 data: data,
-            })
+            }),
+            invalidatesTags: ['Space'],
         }),
 
         deleteSpace: builder.mutation<void, number | undefined>({
             query: (spaceServiceId) => ({
                 url: `/tablecategoryservices/${spaceServiceId}`,
                 method: 'DELETE'
-            })
+            }),
+            invalidatesTags: ['Space'],
         }),
 
         createSpace: builder.mutation<void, IAddSpaceFormData>({
@@ -47,15 +50,17 @@ export const spaceApiSlice = apiSlice.injectEndpoints({
                 url: '/tablecategoryservices',
                 method: 'POST',
                 data
-            })
+            }),
+            invalidatesTags: ['Space'],
         }),
-
-        switchSpaceStatus: builder.mutation({
+        
+        switchSpaceStatus: builder.mutation<void, IEditSpace>({
             query: (data) => ({
                 url: "/tablecategoryservices",
                 method: "PUT",
                 data
-            })
+            }),
+            invalidatesTags: ['Space'],
         })
 
     })

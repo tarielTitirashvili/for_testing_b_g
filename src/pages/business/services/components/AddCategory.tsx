@@ -1,4 +1,4 @@
-import { useEffect, type FunctionComponent } from "react"
+import { useEffect, useState, type FunctionComponent } from "react"
 
 import { useForm } from "react-hook-form"
 
@@ -10,6 +10,7 @@ import TextInput from "@/components/shared/inputs/TextInput"
 
 import { PencilIcon } from "lucide-react"
 import { useCreateCategoryMutation, useEditCategoryMutation, useGetCategoryByIdQuery } from "@/redux/business/category/categoryAPISlice"
+
 import type { IEditCategory } from "@/pages/business/services/Services"
 
 
@@ -37,6 +38,8 @@ const AddCategory: FunctionComponent<IAddCategoryProps> = ({ categoryId, icon, t
         skip: categoryId === undefined
     })
 
+    const [modalOpen, setModalOpen] = useState<boolean>(false)
+    
     const [createCategory] = useCreateCategoryMutation()
     const [editCategory] = useEditCategoryMutation()
 
@@ -71,6 +74,9 @@ const AddCategory: FunctionComponent<IAddCategoryProps> = ({ categoryId, icon, t
         } else {
             handleCreateCategory(data)
         }
+
+        setModalOpen(false)
+        reset()
     }
 
     useEffect(() => {
@@ -91,7 +97,7 @@ const AddCategory: FunctionComponent<IAddCategoryProps> = ({ categoryId, icon, t
     }, [categorySuccess])
 
     return (
-        <Dialog>
+        <Dialog open={modalOpen} onOpenChange={setModalOpen}>
             <DialogTrigger className="w-full text-left cursor-pointer">
                 { icon && <PencilIcon size={20} /> } { triggerText }
             </DialogTrigger>
@@ -119,9 +125,9 @@ const AddCategory: FunctionComponent<IAddCategoryProps> = ({ categoryId, icon, t
                             <DialogClose className="flex-1 w-full border-[#BEBEBE] border-2 rounded-md py-2 cursor-pointer">
                                 Close
                             </DialogClose>
-                            <PrimaryButton className="flex-1">
-                                { categoryId ? 'Save' : 'Create' }
-                            </PrimaryButton>
+                                <PrimaryButton className="flex-1">
+                                    { categoryId ? 'Save' : 'Create' }
+                                </PrimaryButton>
                         </DialogFooter>
                     </form>
 

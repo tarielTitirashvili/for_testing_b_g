@@ -39,7 +39,11 @@ const StaffCard: FunctionComponent<IStaffCard> = ({ id, firstName, lastName, rol
                     </div>
                 </div>
                 <CardAction>
-                    <StaffSettingMenu id={id} />
+                    <StaffSettingMenu
+                        id={id}
+                        services={services}
+                        roles={[role]}
+                    />
                 </CardAction>
             </CardHeader>
             <CardFooter className="flex flex-col items-start gap-3">

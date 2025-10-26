@@ -21,6 +21,7 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
                 url: "/category",
                 method: "GET",
             }),
+            providesTags: ['Category']
         }),
 
         getCategoryById: builder.query<ICategoryById, number | undefined>({
@@ -35,7 +36,8 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
                 url: '/category',
                 method: "POST",
                 data: payload
-            })
+            }),
+            invalidatesTags: ['Category']
         }),
 
         editCategory: builder.mutation<void, IEditCategory>({
@@ -43,7 +45,8 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
                 url: "/category",
                 method: "PUT",
                 data: payload
-            })
+            }),
+            invalidatesTags: ['Category']
         }),
 
         deleteCategory: builder.mutation<void, string>({
@@ -53,7 +56,8 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
                 data: [
                     categoryId
                 ]
-            })
+            }),
+            invalidatesTags: ['Category']
         }),
 
         // table category
@@ -61,7 +65,8 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
             query: () => ({
                 url: '/tablecategory',
                 method: 'GET'
-            })
+            }),
+            providesTags: ['SpaceCategory']
         }),
 
         getTableCategoryById: builder.query<IAddCategoryFormData, number | undefined>({
@@ -76,7 +81,8 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
                 url: '/tablecategory',
                 method: 'POST',
                 data: tableCategoryData
-            })
+            }),
+            invalidatesTags: ['SpaceCategory']
         }),
 
         editTableCategory: builder.mutation<void, IEditCategory>({
@@ -84,7 +90,8 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
                 url: '/tablecategory',
                 method: "PUT",
                 data: payload
-            })
+            }),
+            invalidatesTags: ['SpaceCategory']
         }),
 
         deleteTableCategory: builder.mutation<void, string>({
@@ -94,7 +101,8 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
                 data: [
                     tableCategoryData
                 ]
-            })
+            }),
+            invalidatesTags: ['SpaceCategory']
         })
 
     })

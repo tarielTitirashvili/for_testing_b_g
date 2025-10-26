@@ -1,4 +1,4 @@
-import { useEffect, type FunctionComponent } from "react"
+import { useEffect, useState, type FunctionComponent } from "react"
 
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { useForm } from "react-hook-form"
@@ -49,7 +49,7 @@ const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categ
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm<IAddSpaceFormData>()
 
-    // console.log(categoryId)
+    const [modalOpen, setModalOpen] = useState<boolean>(false)
 
     const { data: spaceDataById, isSuccess: spaceByIdSuccess } = useGetSpaceByIdQuery(spaceId, {
         skip: spaceId === undefined
@@ -80,10 +80,10 @@ const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categ
 
         const payload: IAddSpaceFormData = {
             tableCategoryId: +data.tableCategoryId,
-            tableNumber: '1',
+            tableNumber: data.tableNumber || data.capacity.toString(),
             capacity: data.capacity,
-            isActive: true,
-            isAvailable: true,
+            isActive: data.isActive || true,
+            isAvailable: data.isAvailable || true,
             locales: [{
                 name: data.locales[0].name,
                 description: 'desc',
@@ -101,6 +101,9 @@ const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categ
         } else {
             handleSpaceServiceCreate(data)
         }
+
+        reset()
+        setModalOpen(false)
     }
 
     useEffect(() => {
@@ -115,7 +118,7 @@ const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categ
     }, [spaceByIdSuccess])
 
     return (
-        <Dialog>
+        <Dialog open={modalOpen} onOpenChange={setModalOpen}>
             <DialogTrigger className="flex text-sm cursor-pointer w-full">
                 {triggerText}
             </DialogTrigger>

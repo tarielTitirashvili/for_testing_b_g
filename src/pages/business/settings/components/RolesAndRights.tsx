@@ -1,6 +1,4 @@
-import { useEffect, useState, type FunctionComponent } from "react"
-
-import { api } from "@/api/api"
+import { type FunctionComponent } from "react"
 
 import { TabsContent } from "@/components/ui/tabs"
 
@@ -12,61 +10,20 @@ import StaffRoles from "./StaffRoles"
 import CustomDropdown from "@/components/shared/buttons/CustomDropdown"
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import PrimaryPressable from "@/components/shared/buttons/PrimaryPressable"
+import { useGetBusinessRolesQuery, useGetStaffQuery } from "@/redux/business/staff/staffAPISlice"
+import { useGetAllServiceNamesQuery } from "@/redux/business/service/serviceAPISlice"
 
-interface IStaff {
-    id: string
-    firstName: string
-    lastName: string
-    email: string
-    phone: string
-    role: {
-        name: string
-    },
-    services: {
-        id: string
-        name: string
-    }
-}
-
-interface IService {
-    id: string
-    name: string
-}
-
-interface IRole {
+export interface IRole {
     id: string
     name: string
 }
 
 const RolesAndRights: FunctionComponent = () => {
 
-    const [staff, setStaff] = useState<IStaff[] | null>(null)
-    const [services, setServices] = useState<IService[]>([])
-    const [roles, setRoles] = useState<IRole[]>([])
 
-    const fetchUsers = async () => {
-        const res = await api.get('/business/business-staff')
-        const result = res.data
-        setStaff(result)
-    }
-
-    const fetchServices = async () => {
-        const res = await api.get('/business/business-services')
-        const result = res.data
-        setServices(result)
-    }
-
-    const fetchRoles = async () => {
-        const res = await api.get('/business/business-roles')
-        const result = res.data
-        setRoles(result)
-    }
-
-    useEffect(() => {
-        fetchUsers()
-        fetchServices()
-        fetchRoles()
-    },[])
+    const { data: staffData = [] } = useGetStaffQuery()
+    const { data: services = [] } = useGetAllServiceNamesQuery()
+    const { data: roles = [] } = useGetBusinessRolesQuery() 
 
     return (
         <TabsContent value="rights">
@@ -90,14 +47,14 @@ const RolesAndRights: FunctionComponent = () => {
                             primaryButtonClick={() => <StaffRoles />}
                         />
                         <CustomDropdown trigger={<PrimaryPressable>დაამატე</PrimaryPressable>}>
-                            <DropdownMenuItem asChild>
+                            <DropdownMenuItem onSelect={e => e.preventDefault()}>
                                 <AddStaff roles={roles} services={services} />
                             </DropdownMenuItem>
                         </CustomDropdown>
                     </div>
                 </div>
                 <div className="team_table">
-                    {staff && staff.length > 0 ? (
+                    {staffData && staffData.length > 0 ? (
                         <Table>
                             <TableHeader>
                                 <TableRow>
@@ -110,11 +67,11 @@ const RolesAndRights: FunctionComponent = () => {
                             </TableHeader>
 
                             <TableBody>
-                                {staff.map(member => (
+                                {staffData.map(member => (
                                     <TableRow key={member.id} className="border-none">
                                         <TableCell className="border-t-1 px-4 py-3">{member.firstName} {member.lastName}</TableCell>
-                                        <TableCell className="border-t-1 px-4 py-3">{member.email}</TableCell>
-                                        <TableCell className="border-t-1 px-4 py-3">{member.phone}</TableCell>
+                                        <TableCell className="border-t-1 px-4 py-3">{/* member.email */}</TableCell>
+                                        <TableCell className="border-t-1 px-4 py-3">{/* member.phone */}</TableCell>
                                         <TableCell className="border-t-1 px-4 py-3"><span className="border-2 py-1 px-3 rounded-full">{member.role.name}</span></TableCell>
                                         <TableCell className="border-t-1 px-4 py-3">
                                             <div className="action_btns flex gap-3">

@@ -5,7 +5,7 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 import { Trash2 } from "lucide-react"
 
 import SecondaryButton from "../buttons/SecondaryButton"
-import PrimaryButton from "../buttons/PrimaryButton"
+// import PrimaryButton from "../buttons/PrimaryButton"
 
 interface IEntity {
     isSystem?: boolean
@@ -29,7 +29,7 @@ interface IEntityListProps {
     EditComponent?: React.ComponentType<EditComponentProps>
 }
 
-const EntityList: FunctionComponent<IEntityListProps> = ({ entities, title, description, label, primaryButtonText, primaryButtonClick, removeItem, EditComponent }) => {
+const EntityList: FunctionComponent<IEntityListProps> = ({ entities, title, description, label, /*primaryButtonText, primaryButtonClick, */ removeItem, EditComponent }) => {
     
     return (
         <Dialog>
@@ -62,7 +62,7 @@ const EntityList: FunctionComponent<IEntityListProps> = ({ entities, title, desc
                     <DialogClose asChild>
                         <SecondaryButton>Close</SecondaryButton>
                     </DialogClose>
-                    <PrimaryButton handleClick={primaryButtonClick}>{ primaryButtonText }</PrimaryButton>
+                    {/* <PrimaryButton handleClick={primaryButtonClick}>{ primaryButtonText }</PrimaryButton> */}
                 </DialogFooter>
             </DialogContent>
         </Dialog>
