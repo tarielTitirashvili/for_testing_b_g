@@ -2,7 +2,7 @@ import type { FunctionComponent } from "react"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
-import { EllipsisVertical, Pencil, Trash2, Users2 } from "lucide-react"
+import { EllipsisVertical, Trash2, Users2 } from "lucide-react"
 
 import { DropdownMenuItem, DropdownMenuRadioGroup } from "@/components/ui/dropdown-menu"
 
