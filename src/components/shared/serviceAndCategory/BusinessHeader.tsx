@@ -92,15 +92,11 @@ const BusinessHeader: FunctionComponent<IBusinessHeader> = ({ serviceCategories,
                     trigger={<PrimaryPressable> <Plus /> {t("bookings.button.add")}</PrimaryPressable>}
                 >
                     <DropdownMenuGroup className="flex flex-col gap-2 p-2">
-                        <DropdownMenuItem asChild onSelect={e => e.preventDefault()}>
-                            <span>
+                        <DropdownMenuItem asChild>
                                 {AddItemComponent && <AddItemComponent triggerText="ადგილი" categories={serviceCategories} />}
-                            </span>
                         </DropdownMenuItem>
-                        <DropdownMenuItem asChild onSelect={e => e.preventDefault()}>
-                            <span>
+                        <DropdownMenuItem asChild>
                                 { AddCategoryComponent && <AddCategoryComponent triggerText="კატეგორია" /> }
-                            </span>
                         </DropdownMenuItem>
                     </DropdownMenuGroup>
                 </CustomDropdown>

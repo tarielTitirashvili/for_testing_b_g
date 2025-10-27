@@ -122,7 +122,7 @@ const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categ
             <DialogTrigger className="flex text-sm cursor-pointer w-full">
                 {triggerText}
             </DialogTrigger>
-            <DialogContent className="max-w-[500px] w-full flex flex-col gap-6">
+            <DialogContent className="max-w-[500px] w-full flex flex-col gap-6 pointer-event-none">
                 <DialogHeader>
                     <DialogTitle>ადგილის დამატება</DialogTitle>
                     <DialogDescription>მართე ადგილები მარტივად</DialogDescription>
