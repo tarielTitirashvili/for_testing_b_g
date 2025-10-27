@@ -35,8 +35,7 @@ export interface IAddSalonServiceFormData {
   }
 }
 
-export interface IServiceEdit
-  extends Omit<IAddSalonServiceFormData, 'categoryId'> {
+export interface IServiceEdit extends Omit<IAddSalonServiceFormData, 'categoryId'> {
   serviceId: number
   fileIds: number[]
 }
@@ -103,6 +102,7 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
       businessStaffIds: data.businessStaffIds || [],
       durationInMinutes: +data.durationInMinutes,
       price: +data.price,
+      // fileIds: data.files?.id ? [data.files?.id!] : data?.fileIds!,
       fileIds: data.fileIds || [],
       locales: data.locales,
     }
@@ -120,25 +120,35 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
     setModalOpen(false)
   }
 
+  const handleRemoveImage = () => {
+    setImage(null)
+    setValue('fileIds', [])
+    setValue('files', undefined)
+  }
+
+
   useEffect(() => {
     if (serviceByIdSuccess && data) {
-
       if ('files' in data && Array.isArray(data.files)) {
+        console.log(data)
         reset({
           ...data,
           price: data.price.toString(),
           durationInMinutes: data.durationInMinutes.toString(),
-          files: data.files[0] || []
+          fileIds: data.files.length ? [data.files[0].id] : [],
+          files: data.files.length ? data.files[0] : undefined,
         })
-        setImage(data.files[0] ? data.files[0].url : '')
+        setImage(data.files?.[0]?.url || null)
       }
     }
   }, [serviceByIdSuccess])
 
   return (
     <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-      <DialogTrigger className="flex gap-1.5 text-sm cursor-pointer w-full">
-          {icon && <Pencil size={20} />} {t('bookings.button.service')}
+      <DialogTrigger 
+        className="cursor-pointer hover:bg-[#F5F5F5] w-full focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+      >
+        {icon && <Pencil size={20} />} {t('bookings.button.service')}
       </DialogTrigger>
       <DialogContent className="max-w-[500px] w-full flex flex-col gap-6">
         <DialogHeader>
@@ -200,6 +210,7 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
               setValue={setValue}
               getValues={getValues}
               setImageError={setImageError}
+              onRemove={handleRemoveImage}
             />
             {imageError && <span className='text-red-500 text-sm font-medium'>{imageError}</span>}
           </div>
@@ -208,7 +219,9 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
             <DialogClose className="flex-1 w-full border-[#BEBEBE] border-2 rounded-md py-2 cursor-pointer">
               Close
             </DialogClose>
-            <PrimaryButton className='flex-1'>Add</PrimaryButton>
+            <PrimaryButton className='flex-1'>
+              {serviceId ? "Edit" : "Create"}
+            </PrimaryButton>
           </div>
         </form>
       </DialogContent>

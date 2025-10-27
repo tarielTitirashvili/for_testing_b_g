@@ -61,7 +61,7 @@ const ServiceCard: FunctionComponent<IServiceCardProps> = ({ serviceId, service,
                     trigger={<EllipsisVertical size={20} className="cursor-pointer" />}
                 >
                     <DropdownMenuRadioGroup className="flex flex-col p-1 gap-1">
-                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                        <DropdownMenuItem asChild>
                             <AddService icon categories={categories && categories} service={service} serviceId={serviceId} categoryId={categoryId} />
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild onClick={() => handleRemove?.(service.id)}>

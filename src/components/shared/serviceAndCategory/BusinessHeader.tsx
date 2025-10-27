@@ -93,10 +93,10 @@ const BusinessHeader: FunctionComponent<IBusinessHeader> = ({ serviceCategories,
                 >
                     <DropdownMenuGroup className="flex flex-col gap-2 p-2">
                         <DropdownMenuItem asChild>
-                                {AddItemComponent && <AddItemComponent triggerText="ადგილი" categories={serviceCategories} />}
+                            {AddItemComponent && <AddItemComponent triggerText="ადგილი" categories={serviceCategories} />}
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                                { AddCategoryComponent && <AddCategoryComponent triggerText="კატეგორია" /> }
+                            { AddCategoryComponent && <AddCategoryComponent triggerText="კატეგორია" /> }
                         </DropdownMenuItem>
                     </DropdownMenuGroup>
                 </CustomDropdown>

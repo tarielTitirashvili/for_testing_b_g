@@ -68,11 +68,8 @@ const SpaceCard: FunctionComponent<ISpaceCardProps> = ({ space, handleRemove, ca
                         trigger={<EllipsisVertical size={20} className="cursor-pointer" />}
                     >
                         <DropdownMenuRadioGroup className="flex flex-col p-1 gap-1">
-                            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                <span className="flex items-center text-sm gap-1.5 cursor-pointer">
-                                    <Pencil />
-                                    <AddSpace triggerText="შეცვლა" categoryId={categoryId} categories={categories ?? []} space={space} spaceId={space.id} />
-                                </span>
+                            <DropdownMenuItem asChild>
+                                <AddSpace icon triggerText="შეცვლა" categoryId={categoryId} categories={categories ?? []} space={space} spaceId={space.id} />
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild onClick={() => handleRemove?.(space.id)}>
                                 <span className="text-[#E81C1C] flex items-center text-sm gap-1.5 cursor-pointer">

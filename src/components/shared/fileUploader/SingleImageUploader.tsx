@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Plus, X } from "lucide-react"
-import React, { useEffect, type FunctionComponent } from "react"
+import React, { type FunctionComponent } from "react"
 import type { useUploadFileMutation } from "@/redux/business/businessProfile/businessProfileAPISlice"
 import type { UseFormGetValues, UseFormSetValue } from "react-hook-form"
 import type { IAddSalonServiceFormData } from "../../../pages/business/services/components/AddService"
@@ -14,12 +14,12 @@ interface ISingleImageUploaderProps {
   getValues: UseFormGetValues<IAddSalonServiceFormData>
   setValue: UseFormSetValue<IAddSalonServiceFormData>
   setImageError: React.Dispatch<React.SetStateAction<string | null>>
+  onRemove?: () => void
 }
 
 const MAX_FILE_SIZE_MB = 20
 
-export const SingleImageUploader: FunctionComponent<ISingleImageUploaderProps> = ({ image, setImage, uploadFile, setValue, setImageError }) => {
-  
+export const SingleImageUploader: FunctionComponent<ISingleImageUploaderProps> = ({ image, setImage, uploadFile, setValue, setImageError, onRemove }) => {
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -50,18 +50,14 @@ export const SingleImageUploader: FunctionComponent<ISingleImageUploaderProps> =
     }
   }
 
-
-  useEffect(() => {
-    return () => {
-      if (image) URL.revokeObjectURL(image)
-    }
-  }, [image])
-
   return (
     <div className="single_image_upload h-[100px]">
       {image ? (
           <div className="flex gap-5 relative">
-            <X className="absolute bg-gray-200 top-1 left-1 rounded-full hover:opacity-100 opacity-80 cursor-pointer" size={16} onClick={() => setImage('')} />
+            <X 
+              className="absolute bg-gray-200 top-1 left-1 rounded-full hover:opacity-100 opacity-80 cursor-pointer"
+              size={16}
+              onClick={onRemove}/>
             <img src={image} alt="preview" className="h-[100px] w-[100px] object-cover rounded-md" />
             <Label
                 htmlFor="picture"
