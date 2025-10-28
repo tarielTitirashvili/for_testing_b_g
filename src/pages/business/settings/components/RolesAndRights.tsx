@@ -2,16 +2,19 @@ import { type FunctionComponent } from "react"
 
 import { TabsContent } from "@/components/ui/tabs"
 
-import EntityList from "@/components/shared/modals/EntityList"
-import AddStaff from "@/pages/business/teams/staff/AddStaff"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+
 import { Trash2 } from "lucide-react"
-import StaffRoles from "./StaffRoles"
-import CustomDropdown from "@/components/shared/buttons/CustomDropdown"
+
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
-import PrimaryPressable from "@/components/shared/buttons/PrimaryPressable"
+
 import { useGetBusinessRolesQuery, useGetStaffQuery } from "@/redux/business/staff/staffAPISlice"
 import { useGetAllServiceNamesQuery } from "@/redux/business/service/serviceAPISlice"
+
+import EntityList from "@/components/shared/modals/EntityList"
+import AddStaff from "@/pages/business/teams/staff/AddStaff"
+import CustomDropdown from "@/components/shared/buttons/CustomDropdown"
+import PrimaryPressable from "@/components/shared/buttons/PrimaryPressable"
 
 export interface IRole {
     id: string
@@ -42,12 +45,12 @@ const RolesAndRights: FunctionComponent = () => {
                             description="მართე როლები მარტივად"
                             label="მიმდინარე როლები"
                             entities={roles}
-                            EditComponent={(props) => <StaffRoles {...props} roles={roles} />}
+                            // EditComponent={(props) => <StaffRoles {...props} roles={roles} />}
                             primaryButtonText="Add Role"
-                            primaryButtonClick={() => <StaffRoles />}
+                            // primaryButtonClick={() => <StaffRoles />}
                         />
-                        <CustomDropdown trigger={<PrimaryPressable>დაამატე</PrimaryPressable>}>
-                            <DropdownMenuItem onSelect={e => e.preventDefault()}>
+                        <CustomDropdown trigger={<PrimaryPressable>წევრის დამატება</PrimaryPressable>}>
+                            <DropdownMenuItem asChild>
                                 <AddStaff roles={roles} services={services} />
                             </DropdownMenuItem>
                         </CustomDropdown>
