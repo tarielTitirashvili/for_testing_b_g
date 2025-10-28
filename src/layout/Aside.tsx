@@ -10,6 +10,7 @@ import { t } from 'i18next'
 import { useDispatch } from 'react-redux'
 import { logout } from '@/redux/auth/authSlice'
 import useGenerateRoutes, { type AppRouteObject } from '@/hooks/useGenerateRoutes'
+import { apiSlice } from '@/redux/APISlice'
 
 interface IAsideProps {
     basePathName: string | null
@@ -22,6 +23,7 @@ const Aside: FunctionComponent<IAsideProps> = ({basePathName}) => {
     const handleLogout = (): void => {
         navigate('/')
         dispatch(logout())
+        dispatch(apiSlice.util.resetApiState())
     }
     const routes = useGenerateRoutes()
 

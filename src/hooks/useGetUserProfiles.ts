@@ -14,7 +14,7 @@ export const useGetUserProfiles = () => {
   
   const dispatch = useDispatch()
   useEffect(()=>{
-    if(businesses?.length && isSuccess ){
+    if(businesses?.length && isSuccess && currentBusiness){
       dispatch(setBusinessProfiles(businesses))
       const selectedBusinessProfile = businesses?.find(business => business.id === currentBusiness)
       if(selectedBusinessProfile)

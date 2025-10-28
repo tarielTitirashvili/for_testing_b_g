@@ -1,6 +1,7 @@
 import { store } from '@/redux/store'
 import { logout } from '@/redux/auth/authSlice'
 import axios from "axios";
+import { apiSlice } from '@/redux/APISlice'
 
 const token = localStorage.getItem('accessToken')
 
@@ -20,6 +21,7 @@ axios.interceptors.response.use(function onFulfilled(response) {
     console.log(error)
     if(error.status === 401){
         store.dispatch(logout())
+        store.dispatch(apiSlice.util.resetApiState())
         return error.title
     }
     if(error.status === 500){

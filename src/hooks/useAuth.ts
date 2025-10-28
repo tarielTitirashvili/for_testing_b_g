@@ -3,6 +3,7 @@ import { useRefreshCheckerMutation } from '@/redux/auth/authAPISlice'
 import { useDispatch, useSelector } from 'react-redux'
 import type { RootState } from '@/redux/store'
 import { logout } from '@/redux/auth/authSlice'
+import { apiSlice } from '@/redux/APISlice'
 
 export function useAuth() {
   // const [skip, setSkip] = useState(true)
@@ -23,6 +24,7 @@ export function useAuth() {
     }
     if(!token && isAuth){
       dispatch(logout())
+      dispatch(apiSlice.util.resetApiState())
     }
   }, [ isAuth, refreshChecker ])
   useEffect(()=>{

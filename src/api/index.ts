@@ -3,6 +3,7 @@ import { AxiosError, type AxiosRequestConfig } from 'axios'
 import axios from "axios";
 import { getDispatch } from '@/redux/storeAccessor'
 import { logout } from '@/redux/auth/authSlice'
+import { apiSlice } from '@/redux/APISlice'
 
 export const axiosBaseQuery =
   (
@@ -56,6 +57,7 @@ export const axiosBaseQuery =
 
     if(error.status === 401){
       dispatch(logout())
+      dispatch(apiSlice.util.resetApiState())
       return error.title
     }
     if(error.status === 500){

@@ -17,6 +17,7 @@ import { useSwitchProfileMutation } from '@/redux/business/userProfiles/userProf
 import Loader from '../loader'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import { apiSlice } from '@/redux/APISlice'
 
 interface IProfileListProps {
   businesses: IBusiness[] | []
@@ -45,6 +46,7 @@ const ProfileList: FunctionComponent<IProfileListProps> = ({ businesses }) => {
 
   const logoutTrigger = () => {
     dispatch(logout())
+    dispatch(apiSlice.util.resetApiState())
   }
   //! using unwrap is only way to catch Success because we resetApiState after switching business profile
   const switchProfile = async (profileData:TSwitchProfileData) => {

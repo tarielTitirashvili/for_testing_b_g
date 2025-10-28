@@ -252,6 +252,17 @@
   "titles.headers.yourAccounts": "შენი ანგარიშები",
   "notFountPage.notFoundPage.title": "ბოდიშს გიხდით შეფერხებისთვის გვერდი ვერ მოიძებნა",
   "notFoundPage.returnToMainPage.buttonText": "მთავარ გვერდზე დაბრუნება",
+  "manageUsers.title": "მომხმარებლების მართვა",
 
-  "": ""
+  "admin.users.fullName": "სრული სახელი",
+  "admin.users.email": "ელ. ფოსტა",
+  "admin.users.phone": "ტელეფონი",
+  "admin.users.gender": "სქესი",
+  "admin.users.role": "როლი",
+  "admin.users.birthDate": "დაბადების თარიღი",
+  "bookings.texts.notSpecified": "არ არის მითითებული",
+  "admin.users.activeStatus": "აქტიური",
+  "admin.users.inactiveStatus": "არააქტიური",
+
+  "":""
 }

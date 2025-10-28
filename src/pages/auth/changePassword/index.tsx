@@ -11,6 +11,7 @@ import PasswordInput from '@/components/shared/inputs/PasswordInput'
 import { useDispatch, useSelector } from 'react-redux'
 import type { RootState } from '@/redux/store'
 import { logout, otpStepWasPassed } from '@/redux/auth/authSlice'
+import { apiSlice } from '@/redux/APISlice'
 
 export interface IChangePasswordFormDataFormData {
   oldPassword: string
@@ -49,6 +50,7 @@ const ChangePassword = () => {
       navigate('/')
       if (isOtp && isAuth) {
         dispatch(logout())
+        dispatch(apiSlice.util.resetApiState())
       }
     }
     window.addEventListener('beforeunload', cleanupTokens)

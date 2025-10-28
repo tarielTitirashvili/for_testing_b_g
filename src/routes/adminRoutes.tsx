@@ -1,5 +1,5 @@
 import { lazy } from 'react'
-import { HousePlus, UserRoundPlus } from 'lucide-react'
+import { HousePlus, UserRoundCog, UserRoundPlus } from 'lucide-react'
 import type { TFunction } from 'i18next'
 import type { AppRouteObject } from '@/hooks/useGenerateRoutes'
 
@@ -8,6 +8,7 @@ const NotFound = lazy(() => import('../pages/business/NotFound'))
 const DashboardLayout = lazy(() => import('../layout'))
 const Settings = lazy(() => import('../pages/business/settings/Settings'))
 const RegisterNewBranch = lazy(() => import('../pages/admin/registrations/RegisterNewBranch'))
+const Users = lazy(() => import('../pages/admin/users'))
 
 const publicRoutes = (t: TFunction): AppRouteObject[] => [
   {
@@ -25,6 +26,12 @@ const publicRoutes = (t: TFunction): AppRouteObject[] => [
         element: <RegisterNewBranch />,
         title: t('registerNewBranch.title'),
         icon: <HousePlus />,
+      },
+      {
+        path: '/manage-users',
+        element: <Users />,
+        title: t('manageUsers.title'),
+        icon: <UserRoundCog />,
       },
       {
         path: '/settings',

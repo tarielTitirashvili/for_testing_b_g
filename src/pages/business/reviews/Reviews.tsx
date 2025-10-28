@@ -1,8 +1,8 @@
 import { useEffect, useState, type FunctionComponent } from "react"
 
-import PaginationButton from "@/pages/business/reviews/components/PaginationButton"
 import ReviewsHeader from "@/pages/business/reviews/components/ReviewsHeader"
 import ReviewsTable from "@/pages/business/reviews/components/ReviewsTable"
+import CustomPagination from '@/components/shared/pagination'
 
 // import { Skeleton } from "@/components/ui/skeleton"
 // import { useDebounce } from "@/hooks/useDebounce"
@@ -77,10 +77,11 @@ const Reviews: FunctionComponent = () => {
         <div className="bg-white p-5 rounded-md flex flex-col gap-6">
             <ReviewsHeader reviewsCount={value.length ? filteredReviews.length : reviews.length} value={value} handleChange={handleChange} />
             <ReviewsTable bizType={bizType} reviews={value.length ? filteredReviews : reviewsPerPage} />
-            <PaginationButton
+            <CustomPagination
                 currentPage={currentPage}
                 totalPages={Math.ceil(totalCount / limit)}
                 onPageChange={(page: number) => setCurrentPage(page)}
+                pagesContainerClassname='w-full'
             />
         </div>
 
