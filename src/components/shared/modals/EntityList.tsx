@@ -2,10 +2,11 @@ import type { FunctionComponent } from "react"
 
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
-import { Trash2 } from "lucide-react"
+import { Settings, Trash2 } from "lucide-react"
+
+import { t } from "i18next"
 
 import SecondaryButton from "../buttons/SecondaryButton"
-// import PrimaryButton from "../buttons/PrimaryButton"
 
 interface IEntity {
     isSystem?: boolean
@@ -23,7 +24,7 @@ interface IEntityListProps {
     title?: string
     description?: string
     label?: string
-    primaryButtonText: string
+    primaryButtonText?: string
     primaryButtonClick?: () => void
     removeItem?: (id: string) => void
     EditComponent?: React.ComponentType<EditComponentProps>
@@ -34,7 +35,7 @@ const EntityList: FunctionComponent<IEntityListProps> = ({ entities, title, desc
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <SecondaryButton className="p-2 h-fit w-fit">{label}</SecondaryButton>
+                <SecondaryButton className="p-2 h-fit w-fit flex items-center gap-1.5"><Settings /> {label}</SecondaryButton>
             </DialogTrigger>
             <DialogContent className="max-w-[500px] w-full flex flex-col gap-5">
                 <DialogHeader className="gap-0">
@@ -50,9 +51,8 @@ const EntityList: FunctionComponent<IEntityListProps> = ({ entities, title, desc
                                     { entity.name }
                                 </div>
                                 <div className="action_btns flex items-center gap-2">
-                                    
                                     {EditComponent && <EditComponent icon categoryId={entity.id} />}
-                                    <Trash2 onClick={() => removeItem?.(entity.id)} color="#E81C1C" size={30} className="cursor-pointer" />
+                                    <Trash2 onClick={() => removeItem?.(entity.id)} color="#E81C1C" size={23} className="cursor-pointer" />
                                 </div>
                             </div>
                         ))}
@@ -60,7 +60,7 @@ const EntityList: FunctionComponent<IEntityListProps> = ({ entities, title, desc
                 </div>
                 <DialogFooter>
                     <DialogClose asChild>
-                        <SecondaryButton>Close</SecondaryButton>
+                        <SecondaryButton>{t('bookings.button.close')}</SecondaryButton>
                     </DialogClose>
                     {/* <PrimaryButton handleClick={primaryButtonClick}>{ primaryButtonText }</PrimaryButton> */}
                 </DialogFooter>

@@ -229,7 +229,7 @@ const AddStaff: FunctionComponent<IAddStaffProps> = ({ services, roles, staffId 
                             { t("bookings.actionButtons.cancel") }
                         </DialogClose>
                         <PrimaryButton>
-                            { t("bookings.button.add") }
+                            {staffId ? t("bookings.button.edit") : t("bookings.button.add")}
                         </PrimaryButton>
                     </DialogFooter>
                 </form>

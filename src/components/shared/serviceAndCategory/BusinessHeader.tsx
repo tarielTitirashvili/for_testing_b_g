@@ -80,11 +80,11 @@ const BusinessHeader: FunctionComponent<IBusinessHeader> = ({ serviceCategories,
                     <Search className="absolute top-1/2 left-[5px] -translate-y-1/2" color="#AEAEAE" />
                 </p>
                 <EntityList
-                    label="Category"
+                    label={t('service.header.categories')}
                     entities={serviceCategories}
                     primaryButtonText="Save"
-                    title="კატეგორის კონტროლი"
-                    description="კატეგორიების სია"
+                    title={t('service.header.category.header')}
+                    description={t('service.header.category.description')}
                     removeItem={removeCategory}
                     EditComponent={EditComponent}
                 />

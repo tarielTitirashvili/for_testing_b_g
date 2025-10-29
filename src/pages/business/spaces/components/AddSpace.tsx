@@ -12,6 +12,7 @@ import SelectDropDown from "@/components/shared/inputs/SelectDropDown"
 import SecondaryButton from "@/components/shared/buttons/SecondaryButton"
 import PrimaryButton from "@/components/shared/buttons/PrimaryButton"
 import { Pen } from "lucide-react"
+import { t } from "i18next"
 
 export interface IAddSpaceFormData {
     tableCategoryId: number,
@@ -127,33 +128,39 @@ const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categ
             </DialogTrigger>
             <DialogContent className="max-w-[500px] w-full flex flex-col gap-6 pointer-event-none">
                 <DialogHeader>
-                    <DialogTitle>ადგილის დამატება</DialogTitle>
-                    <DialogDescription>მართე ადგილები მარტივად</DialogDescription>
+                    <DialogTitle>
+                        {spaceId ? t('space.addSpace.modal.title.edit') : t('space.addSpace.modal.title')}
+                    </DialogTitle>
+                    <DialogDescription>
+                        {spaceId ? t('space.addSpace.modal.description.edit') : t('space.addSpace.modal.description')}
+                    </DialogDescription>
                 </DialogHeader>
                 <form onSubmit={handleSubmit(handleSpace)} className="dialog_body flex flex-col gap-6">
                     <TextInput
-                        label="სახელი"
-                        {...register('locales.0.name', { required: "Table name is required" })}
+                        label={t('space.addSpace.name')}
+                        {...register('locales.0.name', { required: t('space.addSpace.required.name') })}
                         error={errors.locales?.[0]?.name?.message}
-                    />
+                        />
                     <TextInput
                         type="number"
-                        label="სტუმრების რაოდენობა"
-                        {...register('capacity', { required: 'Amount of guests is required', valueAsNumber: true  })}
+                        label={t('space.addSpace.guestCount')}
+                        {...register('capacity', { required: t('space.addSpace.required.guestCount'), valueAsNumber: true  })}
                         error={errors.capacity?.message}
                     />
                     <SelectDropDown
-                        label="კატეგორია"
+                        label={t('bookings.button.category')}
                         sentId
                         options={categories ?? []}
-                        {...register('tableCategoryId', { required: 'Category is required' })}
+                        {...register('tableCategoryId', { required: t('bookings.button.required.category') })}
                         error={errors.tableCategoryId?.message}
                     />
                     <DialogFooter className="flex">
                         <DialogClose asChild className="flex-1">
-                            <SecondaryButton>გაუქმება</SecondaryButton>
+                            <SecondaryButton>{ t('bookings.button.close') }</SecondaryButton>
                         </DialogClose>
-                        <PrimaryButton className="flex-1">დამატება</PrimaryButton>
+                        <PrimaryButton className="flex-1">
+                            {spaceId ? t('bookings.button.edit') : t('bookings.button.save')}
+                        </PrimaryButton>
                     </DialogFooter>
                 </form>
             </DialogContent>

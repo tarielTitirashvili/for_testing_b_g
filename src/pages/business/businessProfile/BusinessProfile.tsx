@@ -82,6 +82,7 @@ const BusinessProfile: FunctionComponent = () => {
     control,
     reset,
   } = useForm<IBusinessFormData>({
+    mode: "onChange",
     defaultValues: {
       preOrder: 0,
       orderReminder: 0,

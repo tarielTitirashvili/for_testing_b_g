@@ -64,14 +64,14 @@ const BusinessProfileForm: FunctionComponent<IBusinessProfileFormProps> = ({ reg
             <div className="business_profile_form-body flex flex-col flex-1 gap-3">
                 <TextInput
                     label={ t("businessProfile.businessInfo.name") }
-                    {...register('name', { required: 'Business Name is Required' })}
+                    {...register('name', { required: t('businessProfile.required.name') })}
                     error={errors.name?.message}
                 />
 
                 <TextareaInput
                     label={ t("businessProfile.businessInfo.description") }
                     className="h-[95px]"
-                    {...register('description', { required: 'Business Description is Required' })}
+                    {...register('description', { required: t('businessProfile.required.description') })}
                     error={errors.description?.message}
                 />
 
@@ -79,28 +79,28 @@ const BusinessProfileForm: FunctionComponent<IBusinessProfileFormProps> = ({ reg
                     <TextInput
                         label={t("bookings.inputLabel.webSite")}
                         InputIcon={Globe}
-                        {...register('webSite', { required: 'Business Web-site is Required' })}
+                        {...register('webSite', { required: t('businessProfile.socialMedia.webSite') })}
                         error={errors.webSite?.message}
                     />
 
                     <TextInput
                         label="TikTok"
                         InputIcon={Music2}
-                        {...register('tikTok', { required: 'Business Tik-Tok is Required' })}
+                        {...register('tikTok', { required: t('businessProfile.socialMedia.tikTok') })}
                         error={errors.tikTok?.message}
                     />
 
                     <TextInput
                         label="Instagram"
                         InputIcon={Instagram}
-                        {...register('instagram', { required: 'Business Instagram is Required' })}
+                        {...register('instagram', { required: t('businessProfile.socialMedia.instagram') })}
                         error={errors.instagram?.message}
                     />
 
                     <TextInput
                         label="Facebook"
                         InputIcon={Facebook}
-                        {...register('facebook', { required: 'Business Facebook is Required' })}
+                        {...register('facebook', { required: t('businessProfile.socialMedia.facebook') })}
                         error={errors.facebook?.message}
                     />
                 </div>
@@ -109,6 +109,7 @@ const BusinessProfileForm: FunctionComponent<IBusinessProfileFormProps> = ({ reg
                 <Controller
                     name="regionId"
                     control={control}
+                    rules={{ required: t('businessProfile.required.region') }}
                     render={({ field }) => (
                         <SelectDropDown
                             {...field}
@@ -116,8 +117,9 @@ const BusinessProfileForm: FunctionComponent<IBusinessProfileFormProps> = ({ reg
                             options={regions ?? []}
                             sentId
                             onChange={(e) => {
-                                const value = Number(e.target.value)
+                                const value = e.target.value === "" ? '' : Number(e.target.value)
                                 field.onChange(value)
+                                field.onBlur()
                                 handleRegionChange(e)
                             }}
                             error={errors.regionId?.message}
@@ -129,6 +131,7 @@ const BusinessProfileForm: FunctionComponent<IBusinessProfileFormProps> = ({ reg
                         <Controller
                             name="districtId"
                             control={control}
+                            rules={{ required: t('businessProfile.required.district') }}
                             render={({ field }) => (
                                 <SelectDropDown
                                     options={district ?? []}
@@ -137,24 +140,28 @@ const BusinessProfileForm: FunctionComponent<IBusinessProfileFormProps> = ({ reg
                                     value={field.value}
                                     sentId
                                     onChange={(e) => {
-                                        const value = Number(e.target.value)
+                                        const value = e.target.value === "" ? '' : Number(e.target.value)
                                         field.onChange(value)
+                                        field.onBlur()
                                     }}
                                 />
                             )}
-                            />
+                        />
                         <div className="pt-1.5">
                             <Controller
                                 name="businessAddress"
                                 control={control}
+                                rules={{ required: t('businessProfile.required.fullAddress') }}
                                 render={({ field }) => (
                                     <SelectAddressMap
-                                    onSelect={(address: IBusinessAddress) => setValue("businessAddress", address)}
-                                    error={errors.businessAddress?.message} 
-                                    value={field.value}
+                                        onSelect={(address: IBusinessAddress) => {
+                                            setValue("businessAddress", address)
+                                        }}
+                                        error={errors.businessAddress?.message} 
+                                        value={field.value}
                                     />
                                 )}
-                                />
+                            />
                         </div>
                     </div>
                 </Loader>

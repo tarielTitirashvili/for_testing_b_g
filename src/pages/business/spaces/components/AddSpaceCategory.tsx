@@ -9,6 +9,7 @@ import SelectDropDown from "@/components/shared/inputs/SelectDropDown"
 import SecondaryButton from "@/components/shared/buttons/SecondaryButton"
 import PrimaryButton from "@/components/shared/buttons/PrimaryButton"
 import { useCreateTableCategoryMutation } from "@/redux/business/category/categoryAPISlice"
+import { t } from "i18next"
 
 interface IAddCategoryFormData {
     languageId: number,
@@ -79,7 +80,7 @@ const AddSpaceCategory: FunctionComponent<IAddSpaceCategoryProps> = ({ icon, tri
                             { id: '1', name: 'შიგნით' },
                             { id: '2', name: 'გარეთ' },
                         ]}
-                        {...register('name', {required: "Category is required"})}
+                        {...register('name', { required: t('bookings.button.required.category') })}
                         error={errors.name?.message}
                     />
                     <DialogFooter className="flex">

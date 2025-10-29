@@ -130,7 +130,6 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
   useEffect(() => {
     if (serviceByIdSuccess && data) {
       if ('files' in data && Array.isArray(data.files)) {
-        console.log(data)
         reset({
           ...data,
           price: data.price.toString(),
@@ -152,25 +151,29 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
       </DialogTrigger>
       <DialogContent className="max-w-[500px] w-full flex flex-col gap-6">
         <DialogHeader>
-          <DialogTitle>Add a Service</DialogTitle>
-          <DialogDescription>Add a New Service</DialogDescription>
+          <DialogTitle>
+            {serviceId ? t('services.addService.modal.title.edit') : t('services.addService.modal.title')}
+            </DialogTitle>
+          <DialogDescription>
+            {serviceId ? t('services.addService.modal.description.edit') : t('services.addService.modal.description')}
+          </DialogDescription>
         </DialogHeader>
         <form
           onSubmit={handleSubmit(handleService)}
           className="flex flex-col gap-6"
         >
           <TextInput
-            label="Service Name"
+            label={t('services.addService.name')}
             {...register('locales.0.name', {
-              required: 'Service Name is Required',
+              required: t('services.addService.required.name'),
             })}
             error={errors.locales?.[0]?.name?.message}
           />
 
           <TextInput
-            label="Service Description"
+            label={t('services.addService.description')}
             {...register('locales.0.description', {
-              required: 'Service Description is Required',
+              required: t('services.addService.required.description'),
             })}
             error={errors.locales?.[0]?.description?.message}
           />
@@ -178,25 +181,28 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
           <div className="price_time_inputs-wrapper grid grid-cols-2 gap-3">
             <TextInput
               type="number"
-              label="Price (₾)"
-              {...register('price', { required: 'Service Price is Required' })}
+              label={t('services.addService.price')}
+              {...register('price', { 
+                required: t('services.addService.required.price')
+              })}
               error={errors.price?.message}
             />
             <TextInput
               type="number"
-              label="Time (Min)"
+              label={t('services.addService.time')}
               {...register('durationInMinutes', {
-                required: 'Service Time is Required',
+                required: t('services.addService.required.time'),
               })}
               error={errors.durationInMinutes?.message}
             />
           </div>
 
           <SelectDropDown
+            label={t('bookings.button.category')}
             options={categories}
             sentId={true}
             {...register('categoryId', {
-              required: 'Service Category is Required',
+              required: t('bookings.button.required.category'),
               setValueAs: Number,
             })}
             error={errors.categoryId?.message}
@@ -217,10 +223,10 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
 
           <div className="form_buttons flex gap-3">
             <DialogClose className="flex-1 w-full border-[#BEBEBE] border-2 rounded-md py-2 cursor-pointer">
-              Close
+              {t('bookings.button.close')}
             </DialogClose>
             <PrimaryButton className='flex-1'>
-              {serviceId ? "Edit" : "Create"}
+              {serviceId ? t('bookings.button.edit') : t('bookings.button.save')}
             </PrimaryButton>
           </div>
         </form>

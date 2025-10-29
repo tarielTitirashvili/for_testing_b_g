@@ -134,6 +134,8 @@
   "bookings.button.saveChanges": "ცვლილების შენახვა",
   "bookings.button.service": "სერვისი",
   "bookings.button.category": "კატეგორია",
+  "bookings.button.required.category": "კატეგორია აუცილებელია",
+  "bookings.button.pickCategory": "აირჩიე კატეგორია",
   "bookings.button.returnBack": "უკან დაბრუნება",
   "bookings.button.freeConfirm": "კი, განთავისუფლდეს",
   "bookings.button.seeInCalendar": "კალენდრის ნახვა",
@@ -141,6 +143,9 @@
   "bookings.button.previous": "წინა",
   "bookings.button.download": "გადმოწერა",
   "bookings.button.addPaymentCard": "ახალი ბარათი დამატება",
+  "bookings.button.close": "დახურვა",
+  "bookings.button.save": "შენახვა",
+  "bookings.button.edit": "რედაქტირება",
 
   "bookings.timePicker.title": "აირჩიე დრო",
   "bookings.datePicker.title": "აირჩიე თარიღი",
@@ -183,9 +188,56 @@
   "businessProfile.businessInfo.title": "ბიზნესის ინფორმაცია",
   "businessProfile.businessInfo.name": "ბიზნესის სახელი",
   "businessProfile.businessInfo.description": "აღწერა",
-  
   "businessProfile.bookingTime.title": "ჯავშნის დრო",
   "businessProfile.uploadPictures.title": "ფოტოები",
+  
+  "businessProfile.socialMedia.webSite": "ბიზნესის ვებ-გვერდი აუცილებელია",
+  "businessProfile.socialMedia.tikTok": "ბიზნესის Tik-Tok აუცილებელია",
+  "businessProfile.socialMedia.instagram": "ბიზნესის instagram აუცილებელია",
+  "businessProfile.socialMedia.facebook": "ბიზნესის Facebook აუცილებელია",
+  "businessProfile.required.name": "ბიზნესის სახელი აუცილებელი",
+  "businessProfile.required.description": "ბიზნესის აღწერა აუცილებელია",
+  "businessProfile.required.region": "რეგიონი აუცილებელია",
+  "businessProfile.required.district": "უბანი აუცილებელია",
+  "businessProfile.required.fullAddress": "ბიზნესის მისამართი აუცილებელია",
+
+  "service.header.categories": "კატეგორიები",
+  "service.header.category.header": "კატეგორის კონტროლი",
+  "service.header.category.description": "კატეგორიების სია",
+  "service.header.addButton": "დამატება",
+  "service.header.addButton.service": "დამატება",
+  "service.header.addButton.category": "დამატება",
+
+  "services.addService.modal.title": "დაამატე სერვისი",
+  "services.addService.modal.title.edit": "დაარედაქტირე სერვისი",
+  "services.addService.modal.description": "დაამატე ახალი სერვისი",
+  "services.addService.modal.description.edit": "დაარედაქტირე ბიზნეს სერვისი",
+  "services.addService.name": "სევისის სახელი",
+  "services.addService.description": "სერვისის აღწერა",
+  "services.addService.price": "ფასი (₾)",
+  "services.addService.time": "დრო (წთ)",
+  "services.addService.uploadImage": "ატვირთე სურათი",
+
+  "services.addService.required.name": "სერვისის სახელი აუცილებელია",
+  "services.addService.required.description": "სერვისის აღწერა აუცილებელია",
+  "services.addService.required.price": "სერვისის ფასი",
+  "services.addService.required.time": "სერვისის დრო",
+  
+  "categories.addCategory.modal.title": "დაამატე კატეგორია",
+  "categories.addCategory.modal.title.edit": "დაარედაქტირე კატეგორია",
+  "categories.addCategory.modal.description": "დაამატე ახალი კატეგორია",
+  "categories.addCategory.modal.description.edit": "დაარედაქტირე ბიზნეს კატეგორია",
+  "categories.addCategory.placeholder": "ჩაწერე კატეგორიის დასახელება",
+
+  "space.addSpace.modal.title": "სივრცის დამატება",
+  "space.addSpace.modal.title.edit": "დაარედაქტირე სივრცე",
+  "space.addSpace.modal.description": "მართე სივრცე მარტივად",
+  "space.addSpace.modal.description.edit": "დაარედაქტირე სივრცე მარტივად",
+  "space.addSpace.name": "სივრცის სახელი",
+  "space.addSpace.guestCount": "სტუმრების რაოდენობა",
+
+  "space.addSpace.required.name": "მაგიდის სახელი აუცილებელია",
+  "space.addSpace.required.guestCount": "სტუმრების რაოდენობა აუცილებელია",
 
   "space.card.guestCnt": "ადამიანი",
   "space.modal.confirmText": "დარწმუნებული ხარ რომ გინდა ადგილის განთავისუფლება?",
@@ -246,6 +298,51 @@
   "notification.reminder.reminderTitle": "აირჩიე შეხსენების ფორმა",
   "notification.reminder.appReminder": "აპლიკაციით შეხსენება",
   "notification.reminder.mailReminder": "ელ-ფოსტით შეხსენება",
+
+
+  "settings.main.title": "აკონტროლე შენი ანგარიშის პარამეტრები და მისი უფლებები",
+  "settings.navigation.main": "მთავარი პარამეტრები",
+  "settings.navigation.rolesAndRights": "როლები & უფლებები",
+
+  "settings.mainSettings.title": "ანგარიშის პარამეტრები",
+  "settings.mainSettings.description": "აკონტროლე შენი ანგარიშის პარამეტრები",
+  
+  "settings.mainSettings.profile.uniqueCode": "უნიკალური კოდი",
+  "settings.mainSettings.profile.language": "ენა",
+  "settings.mainSettings.profile.businessCategory": "ბიზნეს კატეგორია",
+  "settings.mainSettings.profile.pauseBusiness": "ბიზნესის დაპაუზება",
+  
+  "settings.mainSettings.notifications.title": "შეტყობინებები Gegmio-სგან",
+  "settings.mainSettings.notifications.description": "აირჩიე როგორ გინდა შეტყობინებების მირება",
+  "settings.mainSettings.notifications.types": "შეტყობინებების ტიპები",
+  "settings.mainSettings.notifications.methods": "შეტყობინებების მიღების მეთოდები",
+  
+  "notifications.type.news.title": "სიახლეები",
+  "notifications.type.news.description": "მიიღე ინფორმაცია სიახლეებთან დაკავშირებით",
+  "notifications.type.important.title": "მნიშვნელოვანი ამბები",
+  "notifications.type.important.description": "განახლებები და სხვა",
+  "notifications.type.subscription.title": "გამოწერის ინფორმაცია",
+  "notifications.type.subscription.description": "გადახდის თარიღები და სხვა",
+
+  "notifications.methods.app.title": "აპლიკაციით მიღება",
+  "notifications.methods.app.description": "შეტყობინებების მიღება მართვის პანელში",
+  "notifications.methods.mail.title": "ელ-ფოსტით მიღება",
+  "notifications.methods.mail.description": "შეტყობინებების მიიღება ელ-ფოსტით",
+
+  "settings.rolesAndRights.title": "წევრების მართვა",
+  "settings.rolesAndRights.description": "აკონტროლე გუნდის წევრების უფლებები",
+  "settings.rolesAndRights.addMember": "წევრის დამატება",
+  "settings.rolesAndRights.members.title": "გუნდის წევრები",
+  
+  "settings.rolesAndRights.rolesSettings": "მიმდინარე როლები",
+  "settings.rolesAndRights.rolesSettings.title": "როლების მართვა",
+  "settings.rolesAndRights.rolesSettings.description": "მართე როლები მარტივად",
+  
+  "settings.rolesAndRights.members.name": "სახელი",
+  "settings.rolesAndRights.members.email": "ელ-ფოსტა",
+  "settings.rolesAndRights.members.phone": "ტელეფონი",
+  "settings.rolesAndRights.members.role": "როლი",
+  "settings.rolesAndRights.members.actions": "მოქმედება",
   
   "user.role.admin": "ადმინისტრატორი",
   "titles.logout": "გასვლა",

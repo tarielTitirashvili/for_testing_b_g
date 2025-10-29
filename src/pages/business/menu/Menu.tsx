@@ -3,12 +3,13 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { Tabs } from "@/components/ui/tabs";
 
+import { useDeleteCategoryMutation, useGetCategoriesQuery } from "@/redux/business/category/categoryAPISlice";
+import { useGetServicesQuery, useRemoveServiceMutation } from "@/redux/business/service/serviceAPISlice";
+
 import BusinessHeader from "@/components/shared/serviceAndCategory/BusinessHeader";
 import BusinessServiceBody from "@/components/shared/serviceAndCategory/BusinessServiceBody";
 import AddCategory from "@/pages/business/services/components/AddCategory";
 import AddService from "@/pages/business/services/components/AddService";
-import { useDeleteCategoryMutation, useGetCategoriesQuery } from "@/redux/business/category/categoryAPISlice";
-import { useGetServicesQuery, useRemoveServiceMutation } from "@/redux/business/service/serviceAPISlice";
 
 const Menu: FunctionComponent = () => {
     const { id } = useParams()

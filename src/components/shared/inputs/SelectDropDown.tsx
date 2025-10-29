@@ -1,5 +1,6 @@
 import type { FunctionComponent, SelectHTMLAttributes } from "react"
 import { cn } from "@/lib/utils"
+import { t } from "i18next"
 
 interface ISelectDropDownProps extends SelectHTMLAttributes<HTMLSelectElement> {
     options: { id: string, name: string }[] | null
@@ -25,9 +26,10 @@ const SelectDropDown: FunctionComponent<ISelectDropDownProps> = ({ options, sent
                         className
                     )}
                     {...props}
+                    onBlur={props.onBlur}
                 >
                     <option value="">
-                        Select a Category
+                        { t('bookings.button.pickCategory') }
                     </option>
                     {options && options.map((option) => (
                         <option

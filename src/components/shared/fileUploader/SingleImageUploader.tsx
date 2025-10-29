@@ -6,6 +6,7 @@ import type { useUploadFileMutation } from "@/redux/business/businessProfile/bus
 import type { UseFormGetValues, UseFormSetValue } from "react-hook-form"
 import type { IAddSalonServiceFormData } from "../../../pages/business/services/components/AddService"
 import { isValidImageFile } from "@/utils/fileValidationCheckers"
+import { t } from "i18next"
 
 interface ISingleImageUploaderProps {
   image: string | null
@@ -63,7 +64,7 @@ export const SingleImageUploader: FunctionComponent<ISingleImageUploaderProps> =
                 htmlFor="picture"
                 className="text-base w-full h-[100px] flex-1 items-center font-medium text-neutral-800 cursor-pointer max-w-md rounded-xl border border-dashed border-[#EBEBEB] bg-transparent hover:bg-[#EFF0F1] text-center shadow-sm transition-colors flex flex-col align-middle justify-center"
             >
-                <Plus /> Upload Picture
+                <Plus /> {t('services.addService.uploadImage')}
                 <Input
                     id="picture"
                     type="file"
@@ -78,7 +79,7 @@ export const SingleImageUploader: FunctionComponent<ISingleImageUploaderProps> =
             htmlFor="picture"
             className="text-base w-full h-full items-center font-medium text-neutral-800 cursor-pointer max-w-md rounded-xl border border-dashed border-[#EBEBEB] bg-transparent hover:bg-[#EFF0F1] text-center shadow-sm transition-colors flex flex-col align-middle justify-center"
         >
-            <Plus /> Upload Picture
+            <Plus /> {t('services.addService.uploadImage')}
             <Input
                 id="picture"
                 type="file"

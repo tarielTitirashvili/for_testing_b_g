@@ -12,6 +12,7 @@ import { PencilIcon } from "lucide-react"
 import { useCreateCategoryMutation, useEditCategoryMutation, useGetCategoryByIdQuery } from "@/redux/business/category/categoryAPISlice"
 
 import type { IEditCategory } from "@/pages/business/services/Services"
+import { t } from "i18next"
 
 
 export interface IAddCategoryFormData {
@@ -98,18 +99,24 @@ const AddCategory: FunctionComponent<IAddCategoryProps> = ({ categoryId, icon, t
 
     return (
         <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-            <DialogTrigger
-                className="cursor-pointer hover:bg-[#F5F5F5] w-full focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
-            >
-                { icon && <PencilIcon size={20} /> } { triggerText }
+            <DialogTrigger asChild={icon}>
+                { icon ? (
+                    <p><PencilIcon size={20} cursor='pointer' /></p>
+                ) : (
+                    <span
+                        className="cursor-pointer hover:bg-[#F5F5F5] w-full focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+                    >
+                        {triggerText}
+                    </span>
+                ) }
             </DialogTrigger>
             <DialogContent className="max-w-[500px] w-full flex flex-col gap-6">
                 <DialogHeader>
                     <DialogTitle>
-                        Add a Category
+                        {categoryId ? t('categories.addCategory.modal.title.edit') : t('categories.addCategory.modal.title')}
                     </DialogTitle>
                     <DialogDescription>
-                        Add a New Category
+                        {categoryId ? t('categories.addCategory.modal.description.edit') : t('categories.addCategory.modal.description')}
                     </DialogDescription>
                 </DialogHeader>
                     <form
@@ -118,17 +125,17 @@ const AddCategory: FunctionComponent<IAddCategoryProps> = ({ categoryId, icon, t
                     >
                         <TextInput
                             label="კატეგორია"
-                            placeholder="ჩაწერე კატეგორიის დასახელება"
-                            {...register('categoryLocales.0.name', { required: "კატეგორიის სახელი აუცილებელია" })}
+                            placeholder={t('categories.addCategory.placeholder')}
+                            {...register('categoryLocales.0.name', { required: t('bookings.button.required.category') })}
                             error={errors.categoryLocales?.[0]?.name?.message}
                         />
 
                         <DialogFooter className="flex">
                             <DialogClose className="flex-1 w-full border-[#BEBEBE] border-2 rounded-md py-2 cursor-pointer">
-                                Close
+                                {t('bookings.button.close')}
                             </DialogClose>
                                 <PrimaryButton className="flex-1">
-                                    { categoryId ? 'Save' : 'Create' }
+                                    { categoryId ? t('bookings.button.edit') : t('bookings.button.save') }
                                 </PrimaryButton>
                         </DialogFooter>
                     </form>

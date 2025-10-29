@@ -46,7 +46,6 @@ const SelectAddressMap: FunctionComponent<ISelectAddressMapProps> = ({ onSelect,
         const lng = event.latLng.lng();
 
         const geocoder = new google.maps.Geocoder();
-        // Should be changed
         geocoder.geocode({ location: { lat, lng } }, (results, status) => {
             if (status === "OK" && results && results[0]) {
                 onSelect({
