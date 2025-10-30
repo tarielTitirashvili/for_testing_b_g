@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
-import { useGetAdminUsersQuery } from '@/redux/admin/usersAPISlice'
+import {
+  useGetAdminUsersQuery,
+  useGetUserRolesQuery,
+} from '@/redux/admin/usersAPISlice'
 import AdminUsersTable from './AdminUsersTable'
 import CustomPagination from '@/components/shared/pagination'
 import TextInput from '@/components/shared/inputs/TextInput'
@@ -8,6 +11,7 @@ import { Search } from 'lucide-react'
 import CustomCheckbox from '@/components/shared/customCheckbox'
 import useDebouncedValue from '@/hooks/useDebouncedValue'
 import Loader from '@/components/shared/loader'
+import SelectDropDown from '@/components/shared/inputs/SelectDropDown'
 
 export type TAdminUsersUser = {
   id: string
@@ -33,17 +37,23 @@ export type TAdminUsers = {
   offset: number
 }
 
+export type TUserRole = {
+  id: string
+  name: string
+}
+
 const Users = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [searchKey, setSearchKey] = useState('')
   const debouncedSearchKey = useDebouncedValue(searchKey, 400)
   const [isBlocked, setIsBlocked] = useState(false)
+  const [selectedRole, setSelectedRole] = useState<TUserRole | null>(null)
 
   const { data, isLoading, isError, isFetching } = useGetAdminUsersQuery({
     page: currentPage,
     offset: 10,
     searchKey: debouncedSearchKey,
-    roleId: '',
+    roleId: selectedRole?.id || '',
     isBlocked: isBlocked,
   })
   const { data: users } = data || {}
@@ -52,7 +62,8 @@ const Users = () => {
     setSearchKey(e.target.value)
     setCurrentPage(1)
   }
-
+  const { data: roles } = useGetUserRolesQuery()
+  // console.log(roles)
   const { t } = useTranslation()
 
   // console.log(data)
@@ -63,30 +74,42 @@ const Users = () => {
 
   return (
     <div className="bg-white rounded-xl py-12 px-5">
-      <div className="flex gap-3 py-4">
-        <div className="reviews_header-search relative text-[#6C6C6C]">
-          <Search
-            className="absolute top-[55%] -translate-y-1/2 left-[10px]"
-            size={15}
+      <Loader loading={isLoading || isFetching}>
+        <div className="flex gap-3 py-4">
+          <div className="reviews_header-search relative text-[#6C6C6C]">
+            <Search
+              className="absolute top-[55%] -translate-y-1/2 left-[10px]"
+              size={15}
+            />
+            <TextInput
+              placeholder={t('bookings.button.search')}
+              className="pl-[30px] max-w-[300px] w-full border-[#EBEBEB]"
+              value={searchKey}
+              onChange={handleChange}
+            />
+          </div>
+          <CustomCheckbox
+            checked={isBlocked}
+            id={'isBlocked'}
+            label={'Blocked Users'}
+            clickChecked={() => {
+              setIsBlocked((prev) => !prev)
+              setCurrentPage(1)
+            }}
           />
-          <TextInput
-            placeholder={t('bookings.button.search')}
-            className="pl-[30px] max-w-[300px] w-full border-[#EBEBEB]"
-            value={searchKey}
-            onChange={handleChange}
+          <SelectDropDown
+            placeholder="Select Role"
+            options={roles ?? []}
+            value={selectedRole?.id ? selectedRole.id : ''}
+            sentId
+            onChange={(e) => {
+              const selectedRole = roles
+                ? roles.find((role) => role.id === e.target.value)
+                : null
+              setSelectedRole(selectedRole || null)
+            }}
           />
         </div>
-        <CustomCheckbox
-          checked={isBlocked}
-          id={'isBlocked'}
-          label={'Blocked Users'}
-          clickChecked={() => {
-            setIsBlocked((prev) => !prev)
-            setCurrentPage(1)
-          }}
-        />
-      </div>
-      <Loader loading={isLoading || isFetching}>
         <AdminUsersTable adminUsers={users} />
         <CustomPagination
           currentPage={currentPage}

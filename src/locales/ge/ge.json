@@ -361,5 +361,11 @@
   "admin.users.activeStatus": "აქტიური",
   "admin.users.inactiveStatus": "არააქტიური",
 
+  "admin.users.delete": "მომხმარებლის წაშლა",
+  "admin.users.delete.confirm": "დარწმუნებული ხართ, რომ გსურთ მომხმარებლის {{name}} წაშლა?",
+  "admin.users.delete.buttonTitle": "წაშლა",
+
+  "common.button.backTitle": "უკან",
+
   "":""
 }

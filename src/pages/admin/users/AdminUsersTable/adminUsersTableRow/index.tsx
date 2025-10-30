@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import StatusBadge from '@/components/shared/buttons/BookingStatusBadges'
-import AdminUsersActionButtons from './actionButtons'
+import AdminUsersActionButtons from './actionButtons/actionButtons'
 import type { TAdminUsersUser } from '../..'
 import {
   TableCell,
@@ -63,7 +63,7 @@ const AdminUsersTableRow = (props: Props) => {
         />
       </TableCell>
       <TableCell className="lg:table-cell w-[50px] flex justify-center items-center text-center">
-        <AdminUsersActionButtons  />
+        <AdminUsersActionButtons adminUser={adminUser} />
       </TableCell>
     </TableRow>
   )
