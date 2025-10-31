@@ -8,10 +8,9 @@ interface ISelectDropDownProps extends SelectHTMLAttributes<HTMLSelectElement> {
     label?: string
     className?: string
     sentId?: boolean
-    placeholder?: string
 }
 
-const SelectDropDown: FunctionComponent<ISelectDropDownProps> = ({ options, sentId, error, label, className, placeholder=t('bookings.button.pickCategory'), ...props }) => {
+const SelectDropDown: FunctionComponent<ISelectDropDownProps> = ({ options, sentId, error, label, className, ...props }) => {
     return (
         <div className="flex flex-col gap-1.5">
             <span
@@ -30,7 +29,7 @@ const SelectDropDown: FunctionComponent<ISelectDropDownProps> = ({ options, sent
                     onBlur={props.onBlur}
                 >
                     <option value="">
-                        {placeholder}
+                        { t('bookings.button.pickCategory') }
                     </option>
                     {options && options.map((option) => (
                         <option

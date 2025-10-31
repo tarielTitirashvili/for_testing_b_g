@@ -74,7 +74,7 @@ const RegisterNewBranch: FunctionComponent = () => {
         >
           <div className="form_title text-center">
             <p className="text-xl font-bold">
-              {t('registerNewBranch.title')}
+              {t('register-new-branch.title')}
             </p>
             {/* <p className="text-base font-normal text-[#6C6C6C]">
               {t('bookings.subtitle.registration')}

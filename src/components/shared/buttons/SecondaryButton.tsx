@@ -16,6 +16,7 @@ const SecondaryButton: FunctionComponent<ISecondaryButtonProps> = ({ children, c
                 className
             )}
             onClick={onClick}
+            type="button"
         >
             { icon && icon } { children }
         </button>

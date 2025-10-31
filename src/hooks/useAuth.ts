@@ -30,7 +30,6 @@ export function useAuth() {
   useEffect(()=>{
     if(isError){
       dispatch(logout())
-      dispatch(apiSlice.util.resetApiState())
     }
   }, [isError])
   return { isLoading }

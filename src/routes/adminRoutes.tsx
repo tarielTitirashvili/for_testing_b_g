@@ -1,5 +1,5 @@
 import { lazy } from 'react'
-import { HousePlus, UserRoundCog, UserRoundPlus } from 'lucide-react'
+import { Globe, HousePlus, UserRoundCog, UserRoundPlus } from 'lucide-react'
 import type { TFunction } from 'i18next'
 import type { AppRouteObject } from '@/hooks/useGenerateRoutes'
 
@@ -9,6 +9,8 @@ const DashboardLayout = lazy(() => import('../layout'))
 const Settings = lazy(() => import('../pages/business/settings/Settings'))
 const RegisterNewBranch = lazy(() => import('../pages/admin/registrations/RegisterNewBranch'))
 const Users = lazy(() => import('../pages/admin/users'))
+const Regions = lazy(() => import('../pages/admin/regions/Regions'))
+const Districts = lazy(() => import('../pages/admin/districts/Districts'))
 
 const publicRoutes = (t: TFunction): AppRouteObject[] => [
   {
@@ -24,7 +26,7 @@ const publicRoutes = (t: TFunction): AppRouteObject[] => [
       {
         path: '/register-new-branch',
         element: <RegisterNewBranch />,
-        title: t('registerNewBranch.title'),
+        title: t('register-new-branch.title'),
         icon: <HousePlus />,
       },
       {
@@ -32,6 +34,18 @@ const publicRoutes = (t: TFunction): AppRouteObject[] => [
         element: <Users />,
         title: t('manageUsers.title'),
         icon: <UserRoundCog />,
+      },
+      {
+        path: "/manageRegions",
+        element: <Regions />,
+        title: t('sidebar.link.manageRegions'),
+        icon: <Globe />
+      },
+      {
+        path: "/manageDistrict",
+        element: <Districts />,
+        title: t('sidebar.link.manageDistrict'),
+        icon: <Globe />
       },
       {
         path: '/settings',

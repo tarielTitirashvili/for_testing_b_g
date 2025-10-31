@@ -22,7 +22,7 @@ const Header: FunctionComponent<IHeaderProps> = ({ basePathName }) => {
           : t(
               `sidebar.link.${
                 basePathName &&
-                basePathName.slice(1).split('-').join(' ')
+                basePathName.slice(1)
               }`
             )}
       </div>

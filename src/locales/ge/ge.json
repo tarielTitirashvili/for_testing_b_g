@@ -11,7 +11,7 @@
   "bookings.button.search":"ძებნა",
   "registration.title":"რეგისტრაცია",
 
-  "registerNewBranch.title":"ფილიალის დამატება",
+  "register-new-branch.title":"ფილიალის დამატება",
 
   "bookings.statusOptions.title":"სტატუსი",
   "bookings.statusOptions.all":"ყველა სტატუსი",
@@ -165,6 +165,11 @@
   "sidebar.link.subscription": "გამოწერა",
   "sidebar.link.settings": "პარამეტრები",
   "sidebar.link.logout": "გასვლა",
+  "sidebar.link.register-new-branch": "ფილიალის დამატება",
+  "sidebar.link.registration": "რეგისტრაცია",
+  "sidebar.link.manage-users": "მომხმარებლების მართვა",
+  "sidebar.link.manageRegions": "რეგიონის მართვა",
+  "sidebar.link.manageDistrict": "უბნის მართვა",
   
   "dashboard.cardTitle.amountBooks": "ჯავშნების რაოდენობა",
 
@@ -361,11 +366,19 @@
   "admin.users.activeStatus": "აქტიური",
   "admin.users.inactiveStatus": "არააქტიური",
 
-  "admin.users.delete": "მომხმარებლის წაშლა",
-  "admin.users.delete.confirm": "დარწმუნებული ხართ, რომ გსურთ მომხმარებლის {{name}} წაშლა?",
-  "admin.users.delete.buttonTitle": "წაშლა",
+  "admin.region": "რეგიონი",
+  "admin.addRegion.title": "დაამატე რეგიონი",
+  "admin.addRegion.description": "დაამატე რეგიონი მარტივად",
+  "admin.editRegion.title": "დაარედაქტირე რეგიონი",
+  "admin.editRegion.description": "დაარედაქტირე რეგიონი მარტივად",
+  "admin.region.required": "რეგიონი აუცილებელია",
 
-  "common.button.backTitle": "უკან",
+  "admin.district": "უბანი",
+  "admin.addDistrict.title": "დაამატე უბანი",
+  "admin.addDistrict.description": "დაამატე უბანი მარტივად",
+  "admin.editDistrict.title": "დაარედაქტირე უბანი",
+  "admin.editDistrict.description": "დაარედაქტირე უბანი მარტივად",
+  "admin.district.required": "უბანი აუცილებელია",
 
   "":""
 }

@@ -12,7 +12,7 @@ const useDebouncedValue = <T>(value: T, delay: number) => {
       clearTimeout(handler)
     }
   }, [value, delay])
-
+  console.log('debouncedValue', debouncedValue)
   return debouncedValue
 }
 
