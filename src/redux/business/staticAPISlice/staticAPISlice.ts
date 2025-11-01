@@ -1,3 +1,4 @@
+import type { TGenderOption } from '@/pages/admin/users'
 import { apiSlice } from '../../APISlice'
 
 export type TBusinessCategory = {
@@ -30,6 +31,12 @@ export const authApiSlice = apiSlice.injectEndpoints({
         url: `/public/districts/${id}`,
         method: "GET"
       })
+    }),
+    getGenderDropdown: builder.query<TGenderOption[], void>({
+      query: () => ({
+        url: '/account/gender-dropdown',
+        method: "GET"
+      })
     })
 
   }),
@@ -38,5 +45,6 @@ export const authApiSlice = apiSlice.injectEndpoints({
 export const { 
   useGetBusinessCategoriesQuery,
   useGetRegionsQuery,
-  useGetDistrictQuery
+  useGetDistrictQuery,
+  useGetGenderDropdownQuery
 } = authApiSlice

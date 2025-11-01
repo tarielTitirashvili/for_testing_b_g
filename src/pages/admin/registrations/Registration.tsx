@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 
 import PrimaryButton from '@/components/shared/buttons/PrimaryButton'
 import TextInput from '@/components/shared/inputs/TextInput'
-import TermsCheckbox from '@/components/shared/inputs/TermsCheckbox'
+// import TermsCheckbox from '@/components/shared/inputs/TermsCheckbox'
 import PhoneInput from '@/components/shared/inputs/PhoneInput'
 import SelectDropDown from '@/components/shared/inputs/SelectDropDown'
 import { useTranslation } from 'react-i18next'
@@ -21,8 +21,8 @@ interface IRegistrationFormData {
   lastName: string
   email: string
   phoneNumber: string
-  ownerUserId: string
-  acceptTerms: boolean
+  // ownerUserId: string
+  // acceptTerms: boolean
 }
 
 export type RegistrationCredentialsType = Omit<
@@ -37,9 +37,9 @@ const Registration: FunctionComponent = () => {
     formState: { errors },
     // reset,
   } = useForm<IRegistrationFormData>({
-    defaultValues: {
-      ownerUserId: '',
-    },
+    // defaultValues: {
+    //   ownerUserId: '',
+    // },
   })
   const [createRegistrationMutation, {isLoading}] =
     useRegisterBusinessAndOwnerMutation()
@@ -156,19 +156,19 @@ const Registration: FunctionComponent = () => {
               },
             })}
           />
-          <TextInput
+          {/* <TextInput
             type="text"
             label={t("bookings.inputLabel.ownerUserId")}
             {...register('ownerUserId')}
             error={errors.ownerUserId?.message}
-          />
-
+          /> */}
+{/* 
           <TermsCheckbox
             {...register('acceptTerms', {
               required: t('bookings.formValidation.required.businessTerms'),
             })}
             error={errors.acceptTerms?.message}
-          />
+          /> */}
 
           <PrimaryButton loading={isLoading}>{t('bookings.button.ownerRegister')}</PrimaryButton>
 

@@ -7,17 +7,21 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import type { TAdminUsersUser } from '..'
+import type { TAdminUsersUser, TGenderOption, TUserRole } from '..'
 
 import AdminUsersTableRow from './adminUsersTableRow'
 import { useTranslation } from 'react-i18next'
 
 interface IAdminUsersTableProps {
   adminUsers: TAdminUsersUser[]
+  roles: TUserRole[] | undefined
+  genders: TGenderOption[] | undefined
 }
 
 const AdminUsersTable: FunctionComponent<IAdminUsersTableProps> = ({
   adminUsers,
+  roles,
+  genders,
 }) => {
   const { t } = useTranslation()
 
@@ -48,7 +52,12 @@ const AdminUsersTable: FunctionComponent<IAdminUsersTableProps> = ({
 
       <TableBody>
         {adminUsers.map((adminUser) => (
-          <AdminUsersTableRow key={adminUser.id} adminUser={adminUser} />
+          <AdminUsersTableRow
+            key={adminUser.id}
+            adminUser={adminUser}
+            roles={roles}
+            genders={genders}
+          />
         ))}
       </TableBody>
     </Table>

@@ -3,14 +3,15 @@ import { cn } from "@/lib/utils"
 import { t } from "i18next"
 
 interface ISelectDropDownProps extends SelectHTMLAttributes<HTMLSelectElement> {
-    options: { id: string, name: string }[] | null
+    options: { id: string | number, name: string }[] | null
     error?: string
     label?: string
     className?: string
     sentId?: boolean
+    placeholder?: string
 }
 
-const SelectDropDown: FunctionComponent<ISelectDropDownProps> = ({ options, sentId, error, label, className, ...props }) => {
+const SelectDropDown: FunctionComponent<ISelectDropDownProps> = ({ options, sentId, error, label, className, placeholder=t('bookings.button.pickCategory'), ...props }) => {
     return (
         <div className="flex flex-col gap-1.5">
             <span
@@ -29,7 +30,7 @@ const SelectDropDown: FunctionComponent<ISelectDropDownProps> = ({ options, sent
                     onBlur={props.onBlur}
                 >
                     <option value="">
-                        { t('bookings.button.pickCategory') }
+                        {placeholder ? placeholder :  t('bookings.button.pickCategory')}
                     </option>
                     {options && options.map((option) => (
                         <option

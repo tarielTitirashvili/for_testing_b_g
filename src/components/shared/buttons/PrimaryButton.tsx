@@ -10,13 +10,15 @@ interface IPrimaryButtonProps {
     loading?: boolean
     handleClick?: () => void
     icon?: ReactNode
+    type?: "button" | "submit" | "reset"
 }
 
-const PrimaryButton: FunctionComponent<IPrimaryButtonProps> = ({ children, className, handleClick, disabled, loading }) => {
+const PrimaryButton: FunctionComponent<IPrimaryButtonProps> = ({ children, className, handleClick, disabled, loading, type }) => {
     return (
         <button
             disabled={disabled || loading}
             onClick={handleClick}
+            type={type || 'submit'}
             className={cn(
                 `flex items-center justify-center gap-1 bg-[#EF7800] font-medium text-white w-full rounded-md px-2 py-2 cursor-pointer ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`,
                 className

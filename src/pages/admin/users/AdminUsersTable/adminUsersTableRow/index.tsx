@@ -1,20 +1,18 @@
 import dayjs from 'dayjs'
 import StatusBadge from '@/components/shared/buttons/BookingStatusBadges'
-import AdminUsersActionButtons from './actionButtons'
-import type { TAdminUsersUser } from '../..'
-import {
-  TableCell,
-  TableRow,
-} from '@/components/ui/table'
+import AdminUsersActionButtons from './actionButtons/actionButtons'
+import type { TAdminUsersUser, TGenderOption, TUserRole } from '../..'
+import { TableCell, TableRow } from '@/components/ui/table'
 import { useTranslation } from 'react-i18next'
 
 type Props = {
   adminUser: TAdminUsersUser
+  roles: TUserRole[] | undefined
+  genders: TGenderOption[] | undefined
 }
 
 const AdminUsersTableRow = (props: Props) => {
-  
-  const { adminUser } = props
+  const { adminUser, roles, genders } = props
   const { t } = useTranslation()
 
   return (
@@ -37,7 +35,7 @@ const AdminUsersTableRow = (props: Props) => {
       </TableCell>
 
       <TableCell className="hidden lg:table-cell  break-words whitespace-normal">
-        {adminUser.genderId}
+        {genders?.find(gender => gender.id === adminUser.genderId)?.name}
       </TableCell>
 
       <TableCell className="hidden lg:table-cell w-[150px]">
@@ -63,7 +61,11 @@ const AdminUsersTableRow = (props: Props) => {
         />
       </TableCell>
       <TableCell className="lg:table-cell w-[50px] flex justify-center items-center text-center">
-        <AdminUsersActionButtons  />
+        <AdminUsersActionButtons
+          adminUser={adminUser}
+          roles={roles}
+          genders={genders}
+        />
       </TableCell>
     </TableRow>
   )
