@@ -52,13 +52,12 @@ const AddRegion: FunctionComponent<IAddRegionProps> = ({ regionId }) => {
 
     const { data: regionData, isSuccess: isRegionDataSuccess } = useGetRegionByIdQuery(regionId, { skip: !regionId })
     
-    const [addRegion] = useAddRegionMutation()
-    const [editRegion] = useEditRegionMutation()
+    const [addRegion, { isLoading: isAddRegionLoading }] = useAddRegionMutation()
+    const [editRegion, { isLoading: isEditRegionLoading }] = useEditRegionMutation()
 
     const handleAddRegion = (data: IAddRegionFormData) => {
         addRegion(data)
         reset()
-        setModalOpen(false)
     }
 
     const handleEditRegion = (data: IAddRegionFormData) => {
@@ -69,15 +68,15 @@ const AddRegion: FunctionComponent<IAddRegionProps> = ({ regionId }) => {
             }
         }
         editRegion(payload)
-        setModalOpen(false)
     }
-
+    
     const handleRegion = (data: IAddRegionFormData) => {
         if (regionId) {
             handleEditRegion(data as IAddRegionFormData)
         } else {
             handleAddRegion(data as IAddRegionFormData)
         }
+        setModalOpen(false)
     }
 
 
@@ -126,7 +125,9 @@ const AddRegion: FunctionComponent<IAddRegionProps> = ({ regionId }) => {
                         <DialogClose asChild>
                             <SecondaryButton>Close</SecondaryButton>
                         </DialogClose>
-                        <PrimaryButton>{ !regionId ? t('bookings.button.save') : t('bookings.button.edit') }</PrimaryButton>
+                        <PrimaryButton disabled={isAddRegionLoading || isEditRegionLoading} loading={isAddRegionLoading || isEditRegionLoading}>
+                            { !regionId ? t('bookings.button.save') : t('bookings.button.edit') }
+                        </PrimaryButton>
                     </DialogFooter>
                 </form>
             </DialogContent>

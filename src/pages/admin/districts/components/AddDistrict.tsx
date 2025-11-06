@@ -1,4 +1,4 @@
-import { useEffect, type FunctionComponent } from "react"
+import { useEffect, useState, type FunctionComponent } from "react"
 
 import { useForm } from "react-hook-form"
 
@@ -55,8 +55,10 @@ const AddDistrict: FunctionComponent<IAddDistrictProps> = ({ districtId, regions
         }
     })
 
-    const [createDistrict] = useCreateDistrictMutation()
-    const [editDistrict] = useEditDistrictMutation()
+    const [openModal, setOpenModal] = useState<boolean>(false)
+
+    const [createDistrict, { isLoading: isCreateDistrictLoading }] = useCreateDistrictMutation()
+    const [editDistrict, { isLoading: isEditDistrictLoading }] = useEditDistrictMutation()
 
     const { data: districtData, isSuccess: isDistrictDataSuccess } = useGetDistrictByIdQuery(districtId, { skip: !districtId })
 
@@ -82,6 +84,7 @@ const AddDistrict: FunctionComponent<IAddDistrictProps> = ({ districtId, regions
         } else {
             createDistrict(data)
         }
+        setOpenModal(false)
     }
 
     useEffect(() => {
@@ -100,7 +103,7 @@ const AddDistrict: FunctionComponent<IAddDistrictProps> = ({ districtId, regions
     }, [isDistrictDataSuccess])
 
     return (
-        <Dialog>
+        <Dialog open={openModal} onOpenChange={setOpenModal}>
             {districtId ? (
                 <DialogTrigger asChild>
                     <Pencil size={20} className="cursor-pointer" />
@@ -148,7 +151,9 @@ const AddDistrict: FunctionComponent<IAddDistrictProps> = ({ districtId, regions
                                 { t('bookings.button.close') }
                             </SecondaryButton>
                         </DialogClose>
-                        <PrimaryButton>{ !districtId ? t('bookings.button.save') : t('bookings.button.edit') }</PrimaryButton>
+                        <PrimaryButton disabled={isCreateDistrictLoading || isEditDistrictLoading} loading={isCreateDistrictLoading || isEditDistrictLoading}>
+                            { !districtId ? t('bookings.button.save') : t('bookings.button.edit') }
+                        </PrimaryButton>
                     </DialogFooter>
                 </form>
 
