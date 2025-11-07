@@ -1,34 +1,84 @@
-import PrimaryButton from '@/components/shared/buttons/PrimaryButton'
-import { Plus } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+
+import { useGetAllOrdersQuery } from '@/redux/business/booking/bookingAPISlice'
+import { useSelector } from 'react-redux'
+import { selectedBusinessProfileSelector } from '@/redux/auth/authSelectors'
+
 import BookingFilters from './bookingFilters'
 import BookingsTable from './bookingsTable'
-import { BOOKINGS_ARRAY } from './constants'
 import SmartBooking from './smartBooking'
+import AddBookingModal from '@/components/features/addBookingModal'
+import { useState } from 'react'
 
 const Bookings = () => {
+
   const { t } = useTranslation()
+  const [isOpen, setIsOpen] = useState(false)
+
+  
+
+  const selectedBusinessProfile = useSelector(selectedBusinessProfileSelector)
+
+  const {data} = useGetAllOrdersQuery()
+
+  const businessType = selectedBusinessProfile?.businessCategory?.id
+
+  const bookingsTableData =
+    data?.data.map((order, index) => {
+      const base = {
+        id: index + 1,
+        dateTime: order.startDate,
+        customer: `${order.client.firstName ?? ''} ${order.client.lastName ?? ''}`.trim(),
+        phone: order.client.phoneNumber ?? '-',
+        status: order.statusId.id,
+      }
+
+      if (businessType === 1) {
+        return {
+          ...base,
+          guestsAmount: order.guestCount ?? 0,
+          table: order.tableCategoryId !== null ? `Table ${order.tableCategoryId}` : '-',
+        }
+      } else if (businessType === 2) {
+        return {
+          ...base,
+          service: order.services.map(s => s.name).join(', ') || '-',
+          teamMember: `${order.staff.firstName ?? ''} ${order.staff.lastName ?? ''}`.trim() || '-',
+          duration: `${order.durationMinutes} წთ`,
+          price: order.price ? `$${order.price}` : '-',
+        }
+      }
+
+      return base
+  }) ?? []
 
   return (
+
     <div className="rounded-md flex flex-col gap-6 max-w-full">
+
       <div className="p-5 flex w-full justify-between items-center h-full">
         <SmartBooking />
-        <PrimaryButton className="max-w-35">
-          <Plus />
-          {t('bookings.button.add')}
-        </PrimaryButton>
+        <AddBookingModal
+          isOpen={isOpen}
+          onOpenChange={(openState: boolean) => {
+            setIsOpen(openState)
+          }}
+        />
       </div>
+
       <BookingFilters />
+
       <div className="rounded-md border border-[#eee] p-4 bg-[#fff]">
-        {BOOKINGS_ARRAY.length > 0 && (
+        {data && data.data.length > 0 && (
           <div>
             <h2 className="text-lg font-semibold">
-              {t('bookings.title.bookings')}&nbsp; ({BOOKINGS_ARRAY.length})
+              {t('bookings.title.bookings')}&nbsp; ({data.data.length})
             </h2>
           </div>
         )}
-        <BookingsTable bookings={BOOKINGS_ARRAY} />
+        <BookingsTable bookings={bookingsTableData ?? []} businessType={selectedBusinessProfile?.businessCategory ? selectedBusinessProfile?.businessCategory.id : null} />
       </div>
+
     </div>
   )
 }

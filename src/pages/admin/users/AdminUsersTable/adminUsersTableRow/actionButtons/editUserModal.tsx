@@ -77,7 +77,7 @@ const EditUserModal = (props: TProps) => {
   }, [isSuccess])
 
   return (
-    <Dialog open={isOpen}>
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger
         onClick={() => onOpenChange(true)}
         className="flex gap-3 w-full"

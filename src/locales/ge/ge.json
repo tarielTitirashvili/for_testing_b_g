@@ -32,7 +32,9 @@
   "bookings.table.date&time":"თარიღი & დრო",
   "bookings.table.date":"თარიღი",
   "bookings.table.guest":"სტუმარი",
+  "bookings.table.guestCount": "რაოდენობა",
   "bookings.table.service":"სერვისი",
+  "bookings.table.tableName": "მაგიდა",
   "bookings.table.duration":"ხანგრძლივობა",
   "bookings.table.price":"ფასი",
   "bookings.table.pay":"თანხა",
@@ -366,13 +368,6 @@
   "admin.users.activeStatus": "აქტიური",
   "admin.users.inactiveStatus": "არააქტიური",
 
-  "admin.users.delete": "მომხმარებლის წაშლა",
-  "admin.users.delete.confirm": "დარწმუნებული ხართ, რომ გსურთ მომხმარებლის {{name}} წაშლა?",
-  "admin.users.delete.buttonTitle": "წაშლა",
-
-  "common.button.backTitle": "უკან",
-  "admin.datePicker.selectDate":"აირჩიეთ თარიღი",
-  "admin.datePicker.date":"თარიღი",
   "admin.region.addRegion": "დაამატე რეგიონი",
   "admin.region": "რეგიონი",
   "admin.addRegion.title": "დაამატე რეგიონი",
@@ -387,13 +382,15 @@
   "admin.editDistrict.title": "დაარედაქტირე უბანი",
   "admin.editDistrict.description": "დაარედაქტირე უბანი მარტივად",
   "admin.district.required": "უბანი აუცილებელია",
-  "admin.users.delete": "მომხმარებლის წაშლა",
-  "admin.users.delete.confirm": "დარწმუნებული ხართ, რომ გსურთ მომხმარებლის {{name}} წაშლა?",
-  "admin.users.delete.buttonTitle": "წაშლა",
+  "admin.texts.confirm.userDelete": "დარწმუნებული ხართ რომ გსურთ {{user}} მომხმარებლის წაშლა?",
+  "admin.texts.userDelete": "მომხმარებლის წაშლა!!!",
 
-  "common.button.backTitle": "უკან",
-  "admin.datePicker.selectDate":"აირჩიეთ თარიღი",
-  "admin.datePicker.date":"თარიღი",
+  "business.buttons.addNewBooking": "ჯავშნის დამატება",
+  "business.labels.guestName": "სტუმრის სახელი",
+  "business.labels.guestName.required": "სტუმრის სახელი სავალდებულოა",
+  "business.labels.guestPhone": "სტუმრის ტელეფონი",
+  "business.labels.guestPhone.required": "სტუმრის ტელეფონი სავალდებულოა",
+
 
   "":""
 }

@@ -46,21 +46,21 @@ const DeleteUserModal = (props: TProps) => {
       </DialogTrigger>
       <DialogContent className="max-w-[500px] w-full px-6 py-8 flex flex-col gap-6">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold flex justify-center">
-            {t('admin.users.delete')}
+          <DialogTitle className="text-xl font-bold flex justify-center text-red-700">
+            {t('admin.texts.userDelete')}
           </DialogTitle>
           <DialogDescription className="hidden" />
         </DialogHeader>
         <DialogFooter>
           <p>
-            {t('admin.users.delete.confirm', {
-              name: `${adminUser.firstName} ${adminUser.lastName} ${adminUser.email}`,
+            {t('admin.texts.confirm.userDelete', {
+              user: `${adminUser.firstName} ${adminUser.lastName} ${adminUser.email}`,
             })}
           </p>
         </DialogFooter>
         <span className="flex justify-around gap-6 px-4">
           <SecondaryButton type="button" onClick={() => onOpenChange(false)}>
-            {t('common.button.backTitle')}
+            {t('bookings.button.returnBack')}
           </SecondaryButton>
           <PrimaryButton
             type="submit"
@@ -68,7 +68,7 @@ const DeleteUserModal = (props: TProps) => {
             handleClick={handleDelete}
             loading={isLoading}
           >
-            {t('admin.users.delete.buttonTitle')}
+            {t('bookings.actionButtons.delete')}
           </PrimaryButton>
         </span>
       </DialogContent>
