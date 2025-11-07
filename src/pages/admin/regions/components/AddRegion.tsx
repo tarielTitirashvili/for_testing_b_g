@@ -72,9 +72,9 @@ const AddRegion: FunctionComponent<IAddRegionProps> = ({ regionId }) => {
     
     const handleRegion = (data: IAddRegionFormData) => {
         if (regionId) {
-            handleEditRegion(data as IAddRegionFormData)
+            handleEditRegion(data)
         } else {
-            handleAddRegion(data as IAddRegionFormData)
+            handleAddRegion(data)
         }
         setModalOpen(false)
     }

@@ -1,7 +1,8 @@
 import { lazy } from 'react'
-import { Globe, HousePlus, UserRoundCog, UserRoundPlus } from 'lucide-react'
+import { BriefcaseBusiness, Globe, HousePlus, UserRoundCog, UserRoundPlus } from 'lucide-react'
 import type { TFunction } from 'i18next'
 import type { AppRouteObject } from '@/hooks/useGenerateRoutes'
+import BusinessCategories from '@/pages/admin/businessCategories/BusinessCategories'
 
 const Registration = lazy(() => import('../pages/admin/registrations/Registration'))
 const NotFound = lazy(() => import('../pages/business/NotFound'))
@@ -46,6 +47,12 @@ const publicRoutes = (t: TFunction): AppRouteObject[] => [
         element: <Districts />,
         title: t('sidebar.link.manageDistrict'),
         icon: <Globe />
+      },
+      {
+        path: "/manageBusinessCategory",
+        element: <BusinessCategories />,
+        title: "Manage Business Categories",
+        icon: <BriefcaseBusiness />
       },
       {
         path: '/settings',

@@ -8,7 +8,7 @@ export const apiSlice = createApi({
     baseUrl: 'https://bookitcrm.runasp.net/api/v1',
   }),
 
-  tagTypes: ['User', 'Space', 'SpaceCategory', 'Service', 'Category', "Region", "District", 'adminUsers'], // optional, for cache invalidation
+  tagTypes: ['User', 'Space', 'SpaceCategory', 'Service', 'Category', 'Region', 'District', 'adminUsers', 'BusinessCategory'], // optional, for cache invalidation
   endpoints: () => ({}), // empty for now
   keepUnusedDataFor: 0,        // 💡 don't keep cache after unsubscribing
   refetchOnMountOrArgChange: true, // 💡 refetch every time hook mounts or args change
