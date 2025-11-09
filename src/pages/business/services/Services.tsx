@@ -11,6 +11,7 @@ import BusinessHeader from "@/components/shared/serviceAndCategory/BusinessHeade
 import BusinessServiceBody from "@/components/shared/serviceAndCategory/BusinessServiceBody";
 import AddCategory from "./components/AddCategory";
 import AddService from "./components/AddService";
+import Loader from '@/components/shared/loader'
 
 export interface IServiceBase {
     id: number,
@@ -75,6 +76,7 @@ const Services: FunctionComponent = () => {
         data: services = [],
         isSuccess: isServicesSuccess,
         isLoading: isServicesLoading,
+        isFetching: isServicesFetching,
         isError: isServicesError
     } = useGetServicesQuery(+id!, { skip: !id });
 
@@ -93,32 +95,34 @@ const Services: FunctionComponent = () => {
 
     return (
         <div className="bg-white p-6 rounded-sm">
-            <Tabs
-                value={id}
-                defaultValue={categories[0]?.id.toString()}
-                onValueChange={(tabValue) => navigate(`/services/${tabValue}`)}
-            >
-                <BusinessHeader
-                    serviceCategories={categories} // categories
-                    removeCategory={removeCategory} // remove category
-                    AddCategoryComponent={AddCategory} // add category
-                    EditComponent={AddCategory} // edit category
-                    AddItemComponent={AddService} // add service
-                    isSuccess={isCategoryListSuccess}
-                    isLoading={isCategoryLoading}
-                    isError={isCategoryError}
-                />
+            <Loader loading={isServicesFetching}>
+                <Tabs
+                    value={id}
+                    defaultValue={categories[0]?.id.toString()}
+                    onValueChange={(tabValue) => navigate(`/services/${tabValue}`)}
+                    >
+                    <BusinessHeader
+                        serviceCategories={categories} // categories
+                        removeCategory={removeCategory} // remove category
+                        AddCategoryComponent={AddCategory} // add category
+                        EditComponent={AddCategory} // edit category
+                        AddItemComponent={AddService} // add service
+                        isSuccess={isCategoryListSuccess}
+                        isLoading={isCategoryLoading}
+                        isError={isCategoryError}
+                        />
 
-                <BusinessServiceBody
-                    services={services} // services
-                    categoryId={String(id)} // service id
-                    handleServiceRemove={deleteService} // remove service
-                    categories={categories} // categories
-                    isLoading={isServicesLoading}
-                    isError={isServicesError}
-                    isSuccess={isServicesSuccess}
-                />
-            </Tabs>
+                    <BusinessServiceBody
+                        services={services} // services
+                        categoryId={String(id)} // service id
+                        handleServiceRemove={deleteService} // remove service
+                        categories={categories} // categories
+                        isLoading={isServicesLoading}
+                        isError={isServicesError}
+                        isSuccess={isServicesSuccess}
+                        />
+                </Tabs>
+            </Loader>
         </div>
     )
 }

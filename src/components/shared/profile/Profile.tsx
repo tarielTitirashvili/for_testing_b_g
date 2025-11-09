@@ -1,5 +1,3 @@
-
-
 // import { api } from '@/api/api'
 import { useState, type FunctionComponent } from 'react'
 import { BusinessProfilesSelector, selectedBusinessProfileSelector } from '@/redux/auth/authSelectors'
@@ -51,7 +49,7 @@ const Profile: FunctionComponent = () => {
           handleProfileList={() => setOpen((prev) => !prev)}
         />
         {open && (
-          <div className="list absolute top-[110%] right-0 min-w-full">
+          <div className="list absolute top-[110%] right-0 min-w-full z-99999">
             <ProfileList businesses={businesses || []} />
           </div>
         )}

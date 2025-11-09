@@ -6,6 +6,8 @@ import ServiceCard from "../../../pages/business/services/components/ServiceCard
 import type { TService } from "@/pages/business/services/Services"
 import { Skeleton } from "@/components/ui/skeleton"
 import Loader from "../loader"
+import EmptyResponse from '../emptyResponse'
+import { useTranslation } from 'react-i18next'
 
 interface ICategory {
     isSystem: boolean
@@ -24,7 +26,7 @@ interface IServiceCategoryBodyProps {
 }
 
 const BusinessServiceBody: FunctionComponent<IServiceCategoryBodyProps> = ({ services, categories, categoryId, handleServiceRemove, isLoading, isError, isSuccess }) => {    
-
+    const {t} = useTranslation() 
     if (isLoading) {
         return (
             <div className="flex justify-start gap-6 flex-wrap">
@@ -38,11 +40,11 @@ const BusinessServiceBody: FunctionComponent<IServiceCategoryBodyProps> = ({ ser
     }    
 
     if (isError) {
-        return <p className="text-red-500">Failed to load spaces.</p>
+        return <p className="text-red-500">{t('business.texts.thereWasError')}</p>
     }
 
     if (isSuccess && services.length === 0) {
-        return <p>No spaces found.</p>
+        return <EmptyResponse /> 
     }
 
     return (

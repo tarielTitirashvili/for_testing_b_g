@@ -10,6 +10,7 @@ import BusinessHeader from "@/components/shared/serviceAndCategory/BusinessHeade
 import BusinessServiceBody from "@/components/shared/serviceAndCategory/BusinessServiceBody";
 import AddCategory from "@/pages/business/services/components/AddCategory";
 import AddService from "@/pages/business/services/components/AddService";
+import Loader from '@/components/shared/loader'
 
 const Menu: FunctionComponent = () => {
     const { id } = useParams()
@@ -26,6 +27,7 @@ const Menu: FunctionComponent = () => {
         data: services = [],
         isSuccess: isServicesSuccess,
         isLoading: isServicesLoading,
+        isFetching: isServicesFetching,
         isError: isServicesError
     } = useGetServicesQuery(+id!, { skip: !id });
 
@@ -44,32 +46,34 @@ const Menu: FunctionComponent = () => {
 
     return (
         <div className="bg-white p-6 rounded-sm">
-            <Tabs
-                value={id}
-                defaultValue={categories[0]?.id.toString()}
-                onValueChange={(tabValue) => navigate(`/menu/${tabValue}`)}
-            >
-                <BusinessHeader
-                    serviceCategories={categories}
-                    AddItemComponent={AddService}
-                    removeCategory={removeCategory}
-                    EditComponent={AddCategory}
-                    AddCategoryComponent={AddCategory}
-                    isSuccess={isCategoryListSuccess}
-                    isError={isCategoryError}
-                    isLoading={isCategoryLoading}
-                />
-                
-                <BusinessServiceBody
-                    categories={categories}
-                    handleServiceRemove={deleteService}
-                    categoryId={String(id)}
-                    services={services}
-                    isLoading={isServicesLoading}
-                    isError={isServicesError}
-                    isSuccess={isServicesSuccess}
-                />
-            </Tabs>
+            <Loader loading={isServicesFetching} >
+                <Tabs
+                    value={id}
+                    defaultValue={categories[0]?.id.toString()}
+                    onValueChange={(tabValue) => navigate(`/menu/${tabValue}`)}
+                    >
+                    <BusinessHeader
+                        serviceCategories={categories}
+                        AddItemComponent={AddService}
+                        removeCategory={removeCategory}
+                        EditComponent={AddCategory}
+                        AddCategoryComponent={AddCategory}
+                        isSuccess={isCategoryListSuccess}
+                        isError={isCategoryError}
+                        isLoading={isCategoryLoading}
+                        />
+                    
+                    <BusinessServiceBody
+                        categories={categories}
+                        handleServiceRemove={deleteService}
+                        categoryId={String(id)}
+                        services={services}
+                        isLoading={isServicesLoading}
+                        isError={isServicesError}
+                        isSuccess={isServicesSuccess}
+                        />
+                </Tabs>
+            </Loader>
         </div>
     )
 }

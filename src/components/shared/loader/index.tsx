@@ -15,7 +15,7 @@ const Loader = (props: Props) => {
     containerClassname,
     size = 'small',
     children,
-    loading,
+    loading=false,
   } = props
 
   const screenSize = size === 'screen'

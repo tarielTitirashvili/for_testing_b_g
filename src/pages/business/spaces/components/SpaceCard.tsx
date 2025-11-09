@@ -60,7 +60,7 @@ const SpaceCard: FunctionComponent<ISpaceCardProps> = ({ space, handleRemove, ca
         <Card className={`max-w-[360px] p-3 rounded-sm flex flex-col gap-3 shadow-none transition-colors`}>
             <CardHeader className="flex justify-between p-0">
                 <div className="category_name-desc">
-                    <CardTitle className="font-medium">{ <>{String(space.name,)} {space.id}</> || 'name' }</CardTitle>
+                    <CardTitle className="font-medium">{ <>{String(space.name,)}</> || 'name' }</CardTitle>
                     <CardDescription className="font-normal text-sm">{ 'desc' }</CardDescription>
                 </div>
                 <div className="category_params w-min cursor-pointer">
@@ -69,7 +69,7 @@ const SpaceCard: FunctionComponent<ISpaceCardProps> = ({ space, handleRemove, ca
                     >
                         <DropdownMenuRadioGroup className="flex flex-col p-1 gap-1">
                             <DropdownMenuItem asChild>
-                                <AddSpace icon triggerText="შეცვლა" categoryId={categoryId} categories={categories ?? []} space={space} spaceId={space.id} />
+                                <AddSpace icon triggerText={t('bookings.button.edit')} categoryId={categoryId} categories={categories ?? []} space={space} spaceId={space.id} />
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild onClick={() => handleRemove?.(space.id)}>
                                 <span className="text-[#E81C1C] flex items-center text-sm gap-1.5 cursor-pointer">

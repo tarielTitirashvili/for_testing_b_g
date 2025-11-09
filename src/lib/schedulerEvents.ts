@@ -117,3 +117,67 @@ export function generateCalendarEvents(view: 'day' | 'week' | 'month', start = d
 
   return calendarData;
 }
+export type EventTypeNew = {
+  id: string;
+  date: dayjs.Dayjs;
+  endDate: dayjs.Dayjs;
+  title: string;
+  description: string;
+}
+
+export type CalendarDataNew = {
+  [key: string]: EventTypeNew[];
+}
+
+/**
+ * Generates mock calendar events for a list of Harry Potter characters.
+ * @param start The start date for the events. Defaults to the current day.
+ * @returns An object with character names as keys and an array of events as values.
+ */
+export function generateCalendarEventsNew(start: dayjs.Dayjs = dayjs().startOf('day')): CalendarDataNew {
+  const characters = [
+    'Harry Potter',
+    'Hermione Granger',
+    'Ron Weasley',
+    'Albus Dumbledore',
+    'Severus Snape',
+    'Rubeus Hagrid',
+    'Lord Voldemort',
+    'Draco Malfoy',
+    'Ginny Weasley',
+    'Sirius Black',
+    'Remus Lupin',
+    'Neville Longbottom',
+    'Luna Lovegood',
+    'Minerva McGonagall',
+    'Dobby'
+  ];
+
+  const calendarData: CalendarDataNew = {};
+
+  characters.forEach(character => {
+    // Generate a random number of events for each character, between 5 and 20.
+    const numberOfEvents = Math.floor(Math.random() * 16) + 5;
+    calendarData[character] = [];
+
+    for (let i = 0; i < numberOfEvents; i++) {
+      // Generate random start time within a 24-hour period from the start date
+      const eventStart = start.add(Math.floor(Math.random() * 24), 'hour');
+      const random = Math.floor(Math.random() * (59 - 15 + 1)) + 15;
+
+      const eventEnd = eventStart.add(random, 'minute');
+
+      const event: EventType = {
+        id: crypto.randomUUID(),
+        date: eventStart,
+        endDate: eventEnd,
+        title: `${character}'s Meeting`,
+        description: `Meeting for ${character} at ${eventStart.format('HH:mm')}`,
+      };
+
+      calendarData[character].push(event);
+    }
+  });
+
+  return calendarData;
+}

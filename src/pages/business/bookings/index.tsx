@@ -15,11 +15,9 @@ const Bookings = () => {
   const { t } = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
 
-  
-
   const selectedBusinessProfile = useSelector(selectedBusinessProfileSelector)
 
-  const {data} = useGetAllOrdersQuery()
+  const {data, isLoading, isError } = useGetAllOrdersQuery()
 
   const businessType = selectedBusinessProfile?.businessCategory?.id
 
@@ -76,7 +74,12 @@ const Bookings = () => {
             </h2>
           </div>
         )}
-        <BookingsTable bookings={bookingsTableData ?? []} businessType={selectedBusinessProfile?.businessCategory ? selectedBusinessProfile?.businessCategory.id : null} />
+        <BookingsTable
+          bookingsLoadingError={isError}
+          loadingBookings={isLoading}
+          bookings={bookingsTableData ?? []} 
+          businessType={selectedBusinessProfile?.businessCategory ? selectedBusinessProfile?.businessCategory.id : null} 
+        />
       </div>
 
     </div>

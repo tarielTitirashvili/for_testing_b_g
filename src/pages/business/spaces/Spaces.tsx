@@ -11,6 +11,7 @@ import BusinessSpaceBody from "@/components/shared/serviceAndCategory/BusinessSp
 
 import AddSpaceCategory from "./components/AddSpaceCategory";
 import AddSpace from "./components/AddSpace";
+import Loader from '@/components/shared/loader'
 
 export interface ISpace {
     id: number
@@ -39,50 +40,55 @@ const Spaces: FunctionComponent = () => {
         isError:isCategoryError 
     } = useGetTableCategoryQuery()
     const [deleteTableCategory] = useDeleteTableCategoryMutation()
-
+    const shouldSkipGetSpacesQuery = !id
     // spaces
     const { 
         data: spaceList,
         isSuccess: isSpaceListSuccess,
         isLoading: isSpaceListLoading,
+        isFetching: isSpaceListFetching,
         isError: isSpaceListError
-    } = useGetSpacesQuery(+id! || undefined, { skip: !id})
+    } = useGetSpacesQuery(+id! || undefined, { skip: shouldSkipGetSpacesQuery})
     const [deleteSpace] = useDeleteSpaceMutation()    
 
     useEffect(() => {
-        if (!id && categoryList.length) {
+        if (shouldSkipGetSpacesQuery && categoryList.length) {
             navigate(`/spaces/${categoryList[0].id}`, { replace: true })
         }
     }, [id, categoryList, navigate])
 
     return (
         <div className="bg-white p-6 rounded-sm">
-            <Tabs
-                value={id}
-                defaultValue={categoryList?.[0]?.id?.toString() ?? '/spaces'}
-                onValueChange={(tabValue) => navigate(`/spaces/${tabValue}`)}
-            >
-                <BusinessHeader
-                    serviceCategories={categoryList ?? []}
-                    removeCategory={deleteTableCategory}
-                    AddCategoryComponent={AddSpaceCategory}
-                    // EditComponent={AddSpaceCategory}
-                    AddItemComponent={AddSpace}
-                    isSuccess={isCategoryListSuccess}
-                    isLoading={isCategoryLoading}
-                    isError={isCategoryError}
-                />
-                
-                <BusinessSpaceBody
-                    categories={categoryList}
-                    categoryId={String(id)}
-                    spaces={spaceList ?? []}
-                    removeSpace={(id) => deleteSpace(id)}
-                    isSuccess={isSpaceListSuccess}
-                    isLoading={isSpaceListLoading}
-                    isError={isSpaceListError}
-                />
-            </Tabs>
+            <Loader loading={isSpaceListFetching} >
+                <Tabs
+                    value={id}
+                    defaultValue={categoryList?.[0]?.id?.toString() ?? '/spaces'}
+                    onValueChange={(tabValue) => navigate(`/spaces/${tabValue}`)}
+                >
+                        <BusinessHeader
+                            serviceCategories={categoryList ?? []}
+                            removeCategory={deleteTableCategory}
+                            AddCategoryComponent={AddSpaceCategory}
+                            // EditComponent={AddSpaceCategory}
+                            AddItemComponent={AddSpace}
+                            isSuccess={isCategoryListSuccess}
+                            isLoading={isCategoryLoading}
+                            isError={isCategoryError}
+                            />
+                        
+                        <BusinessSpaceBody
+                            categories={categoryList}
+                            categoryId={String(id)}
+                            spaces={spaceList ?? []}
+                            shouldSkipGetSpacesQuery={shouldSkipGetSpacesQuery}
+                            removeSpace={(id) => deleteSpace(id)}
+                            isSuccess={isSpaceListSuccess}
+                            isLoading={isSpaceListLoading}
+                            isCategoryLoading={isCategoryLoading}
+                            isError={isSpaceListError}
+                        />
+                </Tabs>
+            </Loader>
         </div>
     )
 }

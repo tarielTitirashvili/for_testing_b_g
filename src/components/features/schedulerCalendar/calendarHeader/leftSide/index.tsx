@@ -1,12 +1,12 @@
 import type { RootState } from '@/redux/store'
 
-import DropdownSelect from '@/components/shared/inputs/dropdownSelect'
+// import DropdownSelect from '@/components/shared/inputs/dropdownSelect'
 import { CALENDAR_VIEW_OPTIONS } from '../../constants'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   setSelectedMonthIndex,
   setSelectedMonthIndexBy,
-  setSelectedView,
+  // setSelectedView,
 } from '@/redux/business/schedulerCalendar/schedulerCalendarSlice'
 import dayjs, { Dayjs } from 'dayjs'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
@@ -31,9 +31,9 @@ const SchedulerCalendarHeaderLeftSide = (props: Props) => {
   )
   const dispatch = useDispatch()
 
-  const handleChangeSelectedView = <T extends string>(value: T) => {
-    dispatch(setSelectedView(value))
-  }
+  // const handleChangeSelectedView = <T extends string>(value: T) => {
+  //   dispatch(setSelectedView(value))
+  // }
   const checkMonth = (
     date: dayjs.Dayjs,
     direction?: 'increase' | 'decrees'
@@ -118,19 +118,19 @@ const SchedulerCalendarHeaderLeftSide = (props: Props) => {
         >
           <ChevronLeft />
         </div>
+        <span className='flex items-center whitespace-nowrap'>{dayjs().month(selectedMonthIndex).format('MMMM YYYY')}</span>
         <div
           onClick={rightClick}
           className="hover:bg-gray-100 rounded-full p-1 flex justify-center align-middle"
         >
           <ChevronRight />
         </div>
-        <span className='flex items-center'>{dayjs().month(selectedMonthIndex).format('MMMM YYYY')}</span>
       </div>
-      <DropdownSelect
+      {/* <DropdownSelect
         value={selectedView}
         options={CALENDAR_VIEW_OPTIONS}
         onChange={handleChangeSelectedView}
-      />
+      /> */}
     </div>
   )
 }

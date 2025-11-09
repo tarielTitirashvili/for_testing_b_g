@@ -204,3 +204,12 @@ body {
     display: flex;
   }
 }
+
+.custom__css{
+  display: grid;
+  grid-template-columns: 1fr; /* Defines two columns of equal width */
+  grid-template-rows: auto; /* Defines two rows with automatic height */
+  grid-template-areas:
+    "columns-area"
+    "columns-area";
+}

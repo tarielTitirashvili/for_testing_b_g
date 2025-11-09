@@ -1,7 +1,8 @@
 import type { FunctionComponent } from "react"
-import { t } from "i18next"
 import { useGetStaffQuery } from "@/redux/business/staff/staffAPISlice"
 import StaffCard from "./staff/StaffCard"
+import EmptyResponse from '@/components/shared/emptyResponse'
+import { useTranslation } from 'react-i18next'
 
 export interface IStaffCard {
     id: string,
@@ -19,8 +20,10 @@ export interface IStaffCard {
 
 const Team: FunctionComponent = () => {
     const { data: staffData, isSuccess: isStaffDataSuccess, isError: isStaffDataError } = useGetStaffQuery()
+    const { t } = useTranslation()
 
-    if (isStaffDataError) return <h1>No data</h1>
+    if (isStaffDataError) return <h1>{t('business.texts.thereWasError')}</h1>
+
 
     return (
         <div className="flex flex-col gap-6 py-6">
@@ -29,6 +32,7 @@ const Team: FunctionComponent = () => {
                     { t("team.staff.count") } ({staffData?.length ?? 0})
                 </div>
             </div>
+            {staffData?.length === 0 && <EmptyResponse />}
             <div className="team_members-list flex flex-wrap gap-6">
                 {isStaffDataSuccess && staffData?.map((staff) => (
                     <StaffCard key={staff.id} {...staff} />

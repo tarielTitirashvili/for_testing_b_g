@@ -385,6 +385,11 @@
   "admin.texts.confirm.userDelete": "დარწმუნებული ხართ რომ გსურთ {{user}} მომხმარებლის წაშლა?",
   "admin.texts.userDelete": "მომხმარებლის წაშლა!!!",
 
+
+  "business.texts.categoryNotFount": "კატეგორია არ მოიძებნა",
+  "business.texts.thereWasError": "დაფიქსირდა შეცდომა",
+  "business.texts.noDataWasFound": "მონაცემები არ მოიძებნა",
+
   "business.buttons.addNewBooking": "ჯავშნის დამატება",
   "business.labels.guestName": "სტუმრის სახელი",
   "business.labels.guestName.required": "სტუმრის სახელი სავალდებულოა",

@@ -73,10 +73,12 @@ export function EventRenderer({ date, events }: EventRendererProps) {
   const getPositionOffEvent = (event: EventsArrayElementType) => {
     if (selectedView !== CALENDAR_VIEW_OPTIONS[2].value) {
       return {
-        top: `${calculateStartPoint(event)}%`,
+        left: `${calculateStartPoint(event)}%`,
+        top: '10%',
         zIndex: 10,
         position: 'absolute' as React.CSSProperties['position'],
-        height: `${(calculateEventLengthInMinutes(event) / 60) * 100 - 1}%`,
+        height: '90%',
+        width: `${(calculateEventLengthInMinutes(event) / 60) * 100 - 2}%`,
       }
     } else return {}
   }
@@ -124,10 +126,24 @@ export function EventRenderer({ date, events }: EventRendererProps) {
               // console.log(event)
               // openEventSummary(event);
             }}
-            className="line-clamp-1 w-[90%] cursor-pointer rounded-sm bg-[#3B81F6] px-1 text-[11px] text-white leading-[13px]"
+            className=" w-[90%] max-h-[80px] cursor-pointer rounded-sm bg-[#3B81F6] px-1 text-[11px] text-white leading-[13px]"
             style={getPositionOffEvent(event)}
           >
-            {event.title}
+            <h5>
+              {event.title}
+            </h5>
+            <p>
+              {event.description}
+            </p>
+            <div>
+            <b>
+              starts {event.date.format('HH:mm')}
+            </b>
+            <b>
+              ends {event.endDate.format('HH:mm')}
+            </b>
+            </div>
+
           </div>
         )
       })}

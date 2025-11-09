@@ -3,7 +3,7 @@ import type { FunctionComponent } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { DropdownMenuItem, DropdownMenuRadioGroup } from "@/components/ui/dropdown-menu";
 
-import { Clock, DollarSign, EllipsisVertical, Trash2 } from "lucide-react"
+import { Clock, DollarSign, EllipsisVertical, ImageOff, Trash2 } from "lucide-react"
 
 import { t } from "i18next";
 
@@ -34,10 +34,10 @@ const ServiceCard: FunctionComponent<IServiceCardProps> = ({ serviceId, service,
                         <img
                             src={service.file.url}
                             alt="Service"
-                            className="h-[80px] w-[80px] rounded-md"
+                            className="h-[80px] w-[80px] rounded-md object-cover"
                         />
                     ) : (
-                        <p>no img</p>
+                        <span><ImageOff className='w-18 h-18' /></span>
                     )}
                 </CardHeader>
 

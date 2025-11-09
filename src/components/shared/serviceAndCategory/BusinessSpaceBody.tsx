@@ -7,6 +7,8 @@ import type { ISpace } from "@/pages/business/spaces/Spaces"
 import SpaceCard from "../../../pages/business/spaces/components/SpaceCard"
 import Loader from "../loader"
 import { Skeleton } from "@/components/ui/skeleton"
+import EmptyResponse from '../emptyResponse'
+import { useTranslation } from 'react-i18next'
 
 interface ICategory {
     isSystem: boolean
@@ -20,14 +22,29 @@ interface ISpaceBodyProps {
     categoryId: string
     categories?: ICategory[]
     removeSpace?: (id: number) => void
-    isLoading: boolean,
-    isSuccess: boolean,
+    isLoading: boolean
+    isSuccess: boolean
     isError: boolean
+    shouldSkipGetSpacesQuery: boolean
+    isCategoryLoading: boolean
 }
 
-const BusinessSpaceBody: FunctionComponent<ISpaceBodyProps> = ({ categoryId, spaces, categories, removeSpace, isError, isLoading, isSuccess }) => {
-    
-    if (isLoading) {
+const BusinessSpaceBody: FunctionComponent<ISpaceBodyProps> = (props: ISpaceBodyProps) => {
+    const { 
+        categoryId, 
+        spaces, 
+        categories, 
+        removeSpace, 
+        isError, 
+        isLoading, 
+        isSuccess, 
+        shouldSkipGetSpacesQuery,
+        isCategoryLoading
+    } = props
+
+    const { t } = useTranslation()
+
+    if (isLoading || isCategoryLoading || shouldSkipGetSpacesQuery) {
         return (
             <div className="flex justify-start gap-6 flex-wrap">
                 {[...Array(4)].map((_, index) => (
@@ -40,11 +57,11 @@ const BusinessSpaceBody: FunctionComponent<ISpaceBodyProps> = ({ categoryId, spa
     }    
 
     if (isError) {
-        return <p className="text-red-500">Failed to load spaces.</p>
+        return <p className="text-red-500">{t('business.texts.thereWasError')}</p>
     }
 
-    if (isSuccess && spaces.length === 0) {
-        return <p>No spaces found.</p>
+    if((shouldSkipGetSpacesQuery || isSuccess) && spaces.length === 0){
+        return <EmptyResponse /> 
     }
 
     return (
@@ -59,7 +76,6 @@ const BusinessSpaceBody: FunctionComponent<ISpaceBodyProps> = ({ categoryId, spa
                     />
                 </TabsContent>
             ))}
-        
         </div>
     )
 }

@@ -55,20 +55,17 @@ const BusinessHeader: FunctionComponent<IBusinessHeader> = ({ serviceCategories,
     
     if (isError) {
         return (
-            <div className="text-red-500">Failed to load categories</div>
-        )
-    }
-
-    if (isSuccess && serviceCategories.length === 0) {
-        return (
-            <div>There no any categories yet</div>
+            <div className="text-red-500">{t('business.texts.thereWasError')}</div>
         )
     }
 
     return (
         <div className="flex justify-between flex-col lg:flex-row gap-3 lg:gap-0">
             <TabsList className="h-[50px] bg-transparent flex flex-row justify-center w-full lg:w-max">
-                {serviceCategories.map((service) => (
+                {isSuccess && serviceCategories.length === 0 ?
+                <p>{t('business.texts.categoryNotFount')}</p>
+                :
+                serviceCategories.map((service) => (
                     <TabsTrigger key={service.id} value={service.id.toString()} className="px-3 data-[state=active]:text-[#AE5700] data-[state=active]:bg-[#FEF2E6] data-[state=active]:shadow-none">
                         {service.name}
                     </TabsTrigger>
