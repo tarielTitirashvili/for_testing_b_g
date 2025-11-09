@@ -8,11 +8,6 @@ import type { IResetConfirmationFormData } from '@/pages/auth/resetPassword/Rese
 import type { IChangePasswordFormDataFormData } from '@/pages/auth/changePassword'
 import type { TRegisterNewBranchCredentials } from '@/pages/admin/registrations/RegisterNewBranch'
 
-export type TBusinessCategory = {
-  id: number
-  name: string
-}
-
 export type TLoginResponse = {
   accessToken: string
   isOTP: boolean
@@ -24,12 +19,6 @@ type payloadType = RegistrationCredentialsType | TRegisterNewBranchCredentials
 
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getProfile: builder.query<TBusinessCategory[], void>({
-      query: () => ({
-        url: '/account/profile',
-        method: 'GET',
-      }),
-    }),
     refreshChecker: builder.mutation<TLoginResponse, void>({
       query: () => {
         const accessToken = localStorage.getItem('accessToken')
@@ -130,7 +119,6 @@ export const {
   useLogOutUserMutation,
   useRegisterBusinessAndOwnerMutation,
   useLoginUserMutation,
-  useGetProfileQuery,
   useRefreshCheckerMutation,
   useResetPasswordRequestMutation,
   useResetPasswordConfirmationRequestMutation,

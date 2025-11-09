@@ -14,8 +14,6 @@ export function useAuth() {
     { isLoading, isError },
   ] = useRefreshCheckerMutation()
 
-  // const { data: profileData} = useGetProfileQuery(undefined,{ skip: skip })
-
   useEffect(() => {
     const token = localStorage.getItem('accessToken')
 

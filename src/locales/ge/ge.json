@@ -389,6 +389,7 @@
   "business.texts.categoryNotFount": "კატეგორია არ მოიძებნა",
   "business.texts.thereWasError": "დაფიქსირდა შეცდომა",
   "business.texts.noDataWasFound": "მონაცემები არ მოიძებნა",
+  "business.texts.activateUser": "ბიზნესის აქტივაცია",
 
   "business.buttons.addNewBooking": "ჯავშნის დამატება",
   "business.labels.guestName": "სტუმრის სახელი",

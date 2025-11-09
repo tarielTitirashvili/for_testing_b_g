@@ -1,4 +1,3 @@
-// import { api } from '@/api/api'
 import { useState, type FunctionComponent } from 'react'
 import { BusinessProfilesSelector, selectedBusinessProfileSelector } from '@/redux/auth/authSelectors'
 import { useSelector } from 'react-redux'

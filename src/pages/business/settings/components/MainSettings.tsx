@@ -1,12 +1,14 @@
-import { api } from "@/api/api"
+import PrimaryButton from '@/components/shared/buttons/PrimaryButton'
 import SecondaryButton from "@/components/shared/buttons/SecondaryButton"
 import CustomSwitch from "@/components/shared/customSwitch"
 import SelectDropDown from "@/components/shared/inputs/SelectDropDown"
 import TextInput from "@/components/shared/inputs/TextInput"
+import Loader from '@/components/shared/loader'
 import { TabsContent } from "@/components/ui/tabs"
-import { t } from "i18next"
-import { Mail, Phone, ClockAlert, Lock } from "lucide-react"
-import { useEffect, useState, type FunctionComponent } from "react"
+import { useGetProfileQuery, useToggleBusinessActiveStatusMutation } from '@/redux/business/settings/settingsAPISlice'
+import { Mail, Phone, ClockAlert, Lock, CircleCheck } from "lucide-react"
+import { type FunctionComponent } from "react"
+import { useTranslation } from 'react-i18next'
 
 interface IRole {
     id: string
@@ -18,7 +20,7 @@ interface IBusiness {
     name: string
 }
 
-interface IProfile {
+export interface ISettingsProfile {
     id: string
     role: IRole
     business: IBusiness
@@ -33,18 +35,12 @@ interface IProfile {
 
 const MainSettings: FunctionComponent = () => {
 
-    const [userProfile, setUserProfile] = useState<IProfile | null>(null)
+    const {data: userProfile, isLoading} = useGetProfileQuery()
 
-    const getProfile = async () => {
-        try {
-            const res = await api.get<IProfile>('/account/profile')
-            const result = res.data
-            setUserProfile(result)
-        } catch (err) {
-            console.log(err)
-        }
-    }
+    const [ toggleBusinessActiveStatusMutation, {isLoading: isToggleLoading }] = useToggleBusinessActiveStatusMutation()
 
+    const {t} = useTranslation()
+    
     const languages = [
         {
             id: '1',
@@ -67,68 +63,68 @@ const MainSettings: FunctionComponent = () => {
         },
     ]
 
-    useEffect(() => {
-        getProfile()
-    }, [])
-
     return (
         <TabsContent value="main" className="flex gap-10 p-6 border-2 rounded-md">
+            <Loader loading={isLoading || isToggleLoading}>
+                <div className="main_settings-left flex-1 flex flex-col gap-4">
 
-            <div className="main_settings-left flex-1 flex flex-col gap-4">
+                    <div className="main_settings-heading">
+                        <p className="text-[#242424] text-lg font-semibold">{ t('settings.mainSettings.title') }</p>
+                        <p className="text-[#6C6C6C] text-sm font-normal">{ t('settings.mainSettings.description') }</p>
+                    </div>
 
-                <div className="main_settings-heading">
-                    <p className="text-[#242424] text-lg font-semibold">{ t('settings.mainSettings.title') }</p>
-                    <p className="text-[#6C6C6C] text-sm font-normal">{ t('settings.mainSettings.description') }</p>
+                    <TextInput
+                        label={ t('settings.mainSettings.profile.uniqueCode') }
+                        readOnly
+                        value='CV345IK21L'
+                        />
+
+                    <TextInput
+                        label={ t('bookings.inputLabel.email') }
+                        type="email"
+                        readOnly
+                        value={userProfile?.email}
+                        InputIcon={Mail}
+                        />
+
+                    <TextInput
+                        label={ t('bookings.inputLabel.mobileNumber') }
+                        readOnly
+                        value={userProfile?.phoneNumber ?.replace(/(\+\d{3})(\d{3})(\d{2})(\d{2})(\d{2})/, "$1 $2 $3 $4 $5")}
+                        InputIcon={Phone}
+                        />
+
+                    <div className="main_settings-password_field flex w-full items-end gap-3">
+                        <TextInput 
+                            InputIcon={Lock}
+                            placeholder="•••••••••••••"
+                            label={ t('bookings.inputLabel.password') } 
+                            type="password" 
+                            className="flex-1 w-full"
+                            />
+                        <SecondaryButton className="w-fit h-10 border-[#EBEBEB]">Change Password</SecondaryButton>
+                    </div>
+
+                    <SelectDropDown
+                        label={ t('settings.mainSettings.profile.language') }
+                        options={languages}
+                        />
+
+                    <SelectDropDown
+                        label={ t('settings.mainSettings.profile.businessCategory') }
+                        options={businessCategories}
+                        />
+                    
+                    <div className="pause_business flex items-center gap-2 p-2 cursor-pointer">
+                        <ClockAlert color="#EF7800" />
+                        <span onClick={()=>{toggleBusinessActiveStatusMutation({isActive: false})}} >{ t('settings.mainSettings.profile.pauseBusiness') }</span>
+                        <PrimaryButton className='bg-[#21C55D]' loading={isToggleLoading} handleClick={()=>toggleBusinessActiveStatusMutation({isActive: true})}>
+                            {t('business.texts.activateUser')} <CircleCheck />
+                        </PrimaryButton>
+                    </div>
+
                 </div>
-
-                <TextInput
-                    label={ t('settings.mainSettings.profile.uniqueCode') }
-                    readOnly
-                    value='CV345IK21L'
-                />
-
-                <TextInput
-                    label={ t('bookings.inputLabel.email') }
-                    type="email"
-                    readOnly
-                    value={userProfile?.email}
-                    InputIcon={Mail}
-                />
-
-                <TextInput
-                    label={ t('bookings.inputLabel.mobileNumber') }
-                    readOnly
-                    value={userProfile?.phoneNumber ?.replace(/(\+\d{3})(\d{3})(\d{2})(\d{2})(\d{2})/, "$1 $2 $3 $4 $5")}
-                    InputIcon={Phone}
-                />
-
-                <div className="main_settings-password_field flex w-full items-end gap-3">
-                    <TextInput 
-                        InputIcon={Lock}
-                        placeholder="•••••••••••••"
-                        label={ t('bookings.inputLabel.password') } 
-                        type="password" 
-                        className="flex-1 w-full"
-                    />
-                    <SecondaryButton className="w-fit h-10 border-[#EBEBEB]">Change Password</SecondaryButton>
-                </div>
-
-                <SelectDropDown
-                    label={ t('settings.mainSettings.profile.language') }
-                    options={languages}
-                />
-
-                <SelectDropDown
-                    label={ t('settings.mainSettings.profile.businessCategory') }
-                    options={businessCategories}
-                />
-                
-                <div className="pause_business flex items-center gap-2 p-2 cursor-pointer">
-                    <ClockAlert color="#EF7800" />
-                    <span>{ t('settings.mainSettings.profile.pauseBusiness') }</span>
-                </div>
-
-            </div>
+            </Loader>
 
             <div className="line w-[1px] bg-[#EBEBEB]"></div>
             
