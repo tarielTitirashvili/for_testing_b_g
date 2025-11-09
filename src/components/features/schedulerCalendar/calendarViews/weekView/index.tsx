@@ -35,7 +35,7 @@ const WeekView = (props: Props) => {
   const allEvents = useMemo(() => {
     return generateCalendarEvents('week', selectedDate.startOf('week'))
   }, [selectedDate])
-
+  // console.log(allEvents)
   return (
     <div>
       <div className="grid grid-cols-[auto_1fr_1fr_1fr_1fr_1fr_1fr_1fr] place-items-center px-4 py-2">
