@@ -1,7 +1,6 @@
 import type { FunctionComponent } from "react"
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Search, Trash2 } from "lucide-react"
+import { Search } from "lucide-react"
 
 import { useDeleteBusinessCategoryMutation, useGetAllBusinessCategoriesQuery } from "@/redux/admin/businessCategory/businessCategoryAPISlice"
 
@@ -9,6 +8,7 @@ import { t } from "i18next"
 
 import AddBusinessCategory from "./components/AddBusinessCategory"
 import TextInput from "@/components/shared/inputs/TextInput"
+import BusinessCategoryTable from "./components/BusinessCategoryTable"
 
 export interface IBusinessCategory {
     id: number,
@@ -17,11 +17,15 @@ export interface IBusinessCategory {
 
 const BusinessCategories: FunctionComponent = () => {
 
-    const { data: businessCategoryData } = useGetAllBusinessCategoriesQuery()
+    const { 
+        data: businessCategoryData,
+        isLoading: isBusinessCategoryLoading,
+    } = useGetAllBusinessCategoriesQuery()
+
     const [deleteBusinessCategory] = useDeleteBusinessCategoryMutation()
 
     return (
-        <div className="business_categories bg-white p-5 rounded-md">
+        <div className="business_categories bg-white p-5 rounded-md flex flex-col gap-4">
 
             <div className="regions_header flex items-center justify-between">
                 <div className="reviews_header-search relative text-[#6C6C6C]">
@@ -37,25 +41,12 @@ const BusinessCategories: FunctionComponent = () => {
                 <AddBusinessCategory />
             </div>
 
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead className="w-full">Name</TableHead>
-                        <TableHead>Actions</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {businessCategoryData?.map(category => (
-                        <TableRow key={ category.id }>
-                            <TableCell>{ category.name }</TableCell>
-                            <TableCell className="flex gap-2">
-                                <AddBusinessCategory businessCategoryId={category.id} />
-                                <Trash2 onClick={() => deleteBusinessCategory({ id: category.id })} className="cursor-pointer text-red-600" />
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+            <BusinessCategoryTable
+                businessCategoryData={businessCategoryData ?? []}
+                deleteBusinessCategory={deleteBusinessCategory}
+                isBusinessCategoryLoading={isBusinessCategoryLoading}
+            />
+
         </div>
     )
 }

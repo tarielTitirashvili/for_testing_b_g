@@ -172,6 +172,8 @@
   "sidebar.link.manage-users": "მომხმარებლების მართვა",
   "sidebar.link.manageRegions": "რეგიონის მართვა",
   "sidebar.link.manageDistrict": "უბნის მართვა",
+  "sidebar.link.manageBusinessCategories": "ბიზნეს კატეგორიები",
+  "sidebar.link.manageLanguages": "ენების მართვა",
   
   "dashboard.cardTitle.amountBooks": "ჯავშნების რაოდენობა",
 
@@ -211,7 +213,7 @@
   "service.header.categories": "კატეგორიები",
   "service.header.category.header": "კატეგორის კონტროლი",
   "service.header.category.description": "კატეგორიების სია",
-  "service.header.addButton": "დამატება",
+  "service.header.addButton": "კატეგორიის დამატება",
   "service.header.addButton.service": "დამატება",
   "service.header.addButton.category": "დამატება",
 
@@ -385,6 +387,17 @@
   "admin.texts.confirm.userDelete": "დარწმუნებული ხართ რომ გსურთ {{user}} მომხმარებლის წაშლა?",
   "admin.texts.userDelete": "მომხმარებლის წაშლა!!!",
 
+  "admin.language.addLanguage.button": "ენის დამატება",
+  "admin.language.addLanguage.title": "დაამატე ენა",
+  "admin.language.addLanguage.description": "ენის დამატება",
+  "admin.language.addLanguage.title.edit": "ენის რედაქტირება",
+  "admin.language.addLanguage.description.edit": "დაარედაქტირე ენა",
+  
+  "admin.language.addLanguage.input.languageName": "ენის სახელი",
+  "admin.language.addLanguage.input.languageAbbreviation": "ენის აბრევიატურა",
+  "admin.language.addLanguage.input.languageCode": "ენის კოდი",
+  "admin.language.addLanguage.input.isRequired": "აუცილებელია",
+
 
   "business.texts.categoryNotFount": "კატეგორია არ მოიძებნა",
   "business.texts.thereWasError": "დაფიქსირდა შეცდომა",
@@ -396,7 +409,17 @@
   "business.labels.guestName.required": "სტუმრის სახელი სავალდებულოა",
   "business.labels.guestPhone": "სტუმრის ტელეფონი",
   "business.labels.guestPhone.required": "სტუმრის ტელეფონი სავალდებულოა",
+  "business.business": "ბიზნესი",
 
 
+  "businessCategory.add.title": "ბიზნეს კატეგორიის დამატენა",
+  "businessCategory.add.description": "დაამატე ბიზენს კატეგორია",
+  "businessCategory.edit.title": "ბიზნეს კატეგორიის რედაქტირება",
+  "businessCategory.edit.description": "დაარეადაქტირე ბიზნეს კატეგორია",
+  "businessCategory.add.categoryName": "კატეგორიის სახელი",
+  "businessCategory.add.categoryType": "კატეგორიის ტიპი",
+  "businessCategory.add.categoryName.required": "კატეგორიის სახელი აუცილებელია",
+  "businessCategory.add.categoryType.required": "კატეგორიის ტიპი აუცილებელია",
   "":""
+
 }

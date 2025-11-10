@@ -14,7 +14,10 @@ const Districts: FunctionComponent = () => {
 
     const [regionId, setRegionId] = useState<number | undefined>(undefined)
 
-    const { data: regionList = [] } = useGetAllRegionQuery()
+    const { 
+        data: regionList = [],
+        isLoading: isRegionLoading
+    } = useGetAllRegionQuery()
 
     const { 
         data: districtList = [],
@@ -24,7 +27,7 @@ const Districts: FunctionComponent = () => {
     const [deleteDistrict] = useDeleteDistrictMutation()
 
     return (
-        <div className="bg-white p-5 rounded-md">
+        <div className="bg-white p-5 rounded-md flex flex-col gap-4">
             <div className="regions_header flex items-center justify-between">
                 <div className="reviews_header-search relative text-[#6C6C6C] w-full">
                     <Search
@@ -39,9 +42,10 @@ const Districts: FunctionComponent = () => {
                 <AddDistrict regions={regionList} />
             </div>  
             <RegionsAndDistrictsList
-                districtList={districtList}
                 regionList={regionList}
                 setRegionId={setRegionId}
+                isRegionLoading={isRegionLoading}
+                districtList={districtList}
                 handleDistrictRemove={deleteDistrict}
                 isDistrictDataFetching={isDistrictDataFetching}
             />

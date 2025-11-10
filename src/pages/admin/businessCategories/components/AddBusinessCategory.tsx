@@ -1,4 +1,4 @@
-import { useEffect, type FunctionComponent } from "react"
+import { useEffect, useState, type FunctionComponent } from "react"
 
 import { useForm } from "react-hook-form"
 
@@ -14,6 +14,7 @@ import SecondaryButton from "@/components/shared/buttons/SecondaryButton"
 
 import SelectDropDown from "@/components/shared/inputs/SelectDropDown"
 import TextInput from "@/components/shared/inputs/TextInput"
+import { t } from "i18next"
 
 export interface IAddBusinessCategoryFormData {
     businessCategoryTypeId: number
@@ -65,6 +66,8 @@ const AddBusinessCategory: FunctionComponent<IAddBusinessCategoryProps> = ({ bus
         }
     })
 
+    const [modalOpen, setModalOpen] = useState<boolean>(false)
+
     const { 
         data: businessCategoryData,
         isSuccess: isBusinessCategorySuccess
@@ -97,7 +100,7 @@ const AddBusinessCategory: FunctionComponent<IAddBusinessCategoryProps> = ({ bus
         } else {
             handleBusinessCategoryEdit(data)
         }
-        
+        setModalOpen(false)
     }
 
     useEffect(() => {
@@ -107,7 +110,7 @@ const AddBusinessCategory: FunctionComponent<IAddBusinessCategoryProps> = ({ bus
     }, [isBusinessCategorySuccess])
 
     return (
-        <Dialog>
+        <Dialog open={modalOpen} onOpenChange={setModalOpen}>
             {businessCategoryId ? (
                 <DialogTrigger asChild>
                     <Pencil size={20} className="cursor-pointer" />
@@ -115,33 +118,43 @@ const AddBusinessCategory: FunctionComponent<IAddBusinessCategoryProps> = ({ bus
             ) : (
                 <DialogTrigger asChild className="max-w-fit">
                     <PrimaryPressable>
-                        <Plus /> Add Category
+                        <Plus /> { t('categories.addCategory.modal.title') }
                     </PrimaryPressable>
                 </DialogTrigger>
             )}
             
             <DialogContent className="max-w-[500px] w-full">
                 <DialogHeader>
-                    <DialogTitle>Add Category</DialogTitle>
-                    <DialogDescription>Manage category</DialogDescription>
+                    {!businessCategoryId ? (
+                        <>
+                            <DialogTitle>{t('businessCategory.add.title')}</DialogTitle>
+                            <DialogDescription>{t('businessCategory.add.description')}</DialogDescription>
+                        </>
+                    ): (
+                        <>
+                            <DialogTitle>{t('businessCategory.edit.title')}</DialogTitle>
+                            <DialogDescription>{t('businessCategory.edit.description')}</DialogDescription>
+                        </>
+                    )}
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit(handleBusinessCategory)} className="flex flex-col gap-4">
 
                     <TextInput 
-                        label="Category Name"
+                        label={t("businessCategory.add.categoryName")}
                         placeholder="Business Category"
                         {...register('locales.0.name', {
-                            required: "Business Category name is required"
+                            required: t('businessCategory.add.categoryName.required')
                         })}
                         error={errors.locales && errors.locales[0]?.name?.message}
                     />
                     
                     <SelectDropDown
+                        label={t('businessCategory.add.categoryType')}
                         options={businessCategoryTypes}
                         sentId
                         {...register('businessCategoryTypeId', {
-                            required: "Business Category type is required",
+                            required: t('businessCategory.add.categoryType.required'),
                             valueAsNumber: true
                         })}
                         error={errors.businessCategoryTypeId && errors.businessCategoryTypeId.message}
@@ -149,10 +162,10 @@ const AddBusinessCategory: FunctionComponent<IAddBusinessCategoryProps> = ({ bus
 
                     <DialogFooter>
                         <DialogClose asChild>
-                            <SecondaryButton>Close</SecondaryButton>
+                            <SecondaryButton type="button">{ t('bookings.button.close') }</SecondaryButton>
                         </DialogClose>
-                        <PrimaryButton>
-                            Add
+                        <PrimaryButton type="submit">
+                            { !businessCategoryId ? t('bookings.button.save') : t('bookings.button.edit') }
                         </PrimaryButton>
                     </DialogFooter>
                 </form>

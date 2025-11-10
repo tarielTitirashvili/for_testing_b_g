@@ -1,5 +1,5 @@
 import { lazy } from 'react'
-import { BriefcaseBusiness, Globe, HousePlus, UserRoundCog, UserRoundPlus } from 'lucide-react'
+import { BriefcaseBusiness, Globe, HousePlus, LanguagesIcon, UserRoundCog, UserRoundPlus } from 'lucide-react'
 import type { TFunction } from 'i18next'
 import type { AppRouteObject } from '@/hooks/useGenerateRoutes'
 import BusinessCategories from '@/pages/admin/businessCategories/BusinessCategories'
@@ -12,6 +12,7 @@ const RegisterNewBranch = lazy(() => import('../pages/admin/registrations/Regist
 const Users = lazy(() => import('../pages/admin/users'))
 const Regions = lazy(() => import('../pages/admin/regions/Regions'))
 const Districts = lazy(() => import('../pages/admin/districts/Districts'))
+const Languages = lazy(() => import('../pages/admin/languages/Language'))
 
 const publicRoutes = (t: TFunction): AppRouteObject[] => [
   {
@@ -49,10 +50,16 @@ const publicRoutes = (t: TFunction): AppRouteObject[] => [
         icon: <Globe />
       },
       {
-        path: "/manageBusinessCategory",
+        path: "/manageBusinessCategories",
         element: <BusinessCategories />,
-        title: "Manage Business Categories",
+        title: t('sidebar.link.manageBusinessCategories'),
         icon: <BriefcaseBusiness />
+      },
+      {
+        path: "/manageLanguages",
+        element: <Languages />,
+        title: t('sidebar.link.manageLanguages'),
+        icon: <LanguagesIcon />
       },
       {
         path: '/settings',

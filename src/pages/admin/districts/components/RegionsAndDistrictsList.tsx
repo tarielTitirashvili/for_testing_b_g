@@ -15,17 +15,31 @@ import type { IRegion } from "../../regions/Regions"
 import { Skeleton } from "@/components/ui/skeleton"
 
 import AddDistrict from "./AddDistrict"
+import { t } from "i18next"
 
 interface IRegionsAndDistrictsListProps {
     regionList: IRegion[],
+    isRegionLoading: boolean
     districtList: IDistrict[]
     setRegionId: React.Dispatch<SetStateAction<number | undefined>>
     handleDistrictRemove: (districtId: number) => void
     isDistrictDataFetching: boolean
 }
 
-const RegionsAndDistrictsList: FunctionComponent<IRegionsAndDistrictsListProps> = ({ regionList, districtList, setRegionId, handleDistrictRemove, isDistrictDataFetching }) => {
+const RegionsAndDistrictsList: FunctionComponent<IRegionsAndDistrictsListProps> = ({ regionList, districtList, isRegionLoading, setRegionId, handleDistrictRemove, isDistrictDataFetching }) => {
     
+    if (isRegionLoading) {
+        return (
+            <>
+                <Skeleton className="h-8 w-full" />
+                <Skeleton className="h-8 w-full" />
+                <Skeleton className="h-8 w-full" />
+                <Skeleton className="h-8 w-full" />
+                <Skeleton className="h-8 w-full" />
+            </>
+        )
+    }
+
     return (
         <Accordion type="single" collapsible>
             {regionList.map(region => (
@@ -36,8 +50,8 @@ const RegionsAndDistrictsList: FunctionComponent<IRegionsAndDistrictsListProps> 
                             <Table>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead className="w-full">Name</TableHead>
-                                        <TableHead>Actions</TableHead>
+                                        <TableHead className="w-full">{ t('admin.district') }</TableHead>
+                                        <TableHead>{ t('bookings.table.actions') }</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -51,7 +65,7 @@ const RegionsAndDistrictsList: FunctionComponent<IRegionsAndDistrictsListProps> 
                                             {districtList.map((district) => (
                                                 <TableRow key={district.id}>
                                                     <TableCell>{ district.name }</TableCell>
-                                                    <TableCell className="flex gap-2">
+                                                    <TableCell className="flex gap-2 justify-end">
                                                         <AddDistrict districtId={district.id} regions={regionList} />
                                                         <Trash2 onClick={() => handleDistrictRemove(district.id)} className="cursor-pointer" color="red" size={20} />
                                                     </TableCell>

@@ -47,7 +47,7 @@ const RegionsTable: FunctionComponent<IRegionsTableProps> = ({ regionsList, hand
                 {regionsList && regionsList.map((region) => (
                     <TableRow key={region.id}>
                         <TableCell>{ region.name }</TableCell>
-                        <TableCell className="flex gap-2">
+                        <TableCell className="flex gap-2 justify-end">
                             <AddRegion regionId={region.id} />
                             <Trash2 onClick={() => handleRemoveRegion(region.id)} className="cursor-pointer" color="red" size={20} />
                         </TableCell>
