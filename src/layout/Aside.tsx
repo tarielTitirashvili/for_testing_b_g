@@ -4,7 +4,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar'
 import { LogOut, Settings } from 'lucide-react'
 
-import bookItLogo from '/assets/images/bookItLogo.svg'
+import bookItLogo from '/assets/images/gegmio.svg'
 
 import { t } from 'i18next'
 import { useDispatch } from 'react-redux'
@@ -33,11 +33,13 @@ const Aside: FunctionComponent<IAsideProps> = ({basePathName}) => {
             <SidebarContent className='bg-black py-6 px-5 flex flex-col aside-scrollbar'>
                 <SidebarHeader>
                     <div className="aside_header-wrapper flex items-center gap-3">
-                        <img
-                            src={bookItLogo}
-                            alt="Bookit"
-                            className='w-[34px]'
-                        />
+                        <span className='bg-[linear-gradient(90deg,#FF3033,#EF7800)] rounded-2xl p-2'>
+                            <img
+                                src={bookItLogo}
+                                alt="Bookit"
+                                className='w-[34px]'
+                            />
+                        </span>
                         <p className='text-sm text-[#AEAEAE]'>
                             { t("sidebar.link.title") }
                         </p>
