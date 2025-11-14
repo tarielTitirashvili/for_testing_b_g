@@ -4,7 +4,7 @@ import axios from "axios";
 import { getDispatch } from '@/redux/storeAccessor'
 import { logout } from '@/redux/auth/authSlice'
 import { apiSlice } from '@/redux/APISlice'
-import createErrorToast from '@/utils/createErrorToast'
+import createToast from '@/lib/createToast'
 
 export const axiosBaseQuery =
   (
@@ -59,11 +59,11 @@ export const axiosBaseQuery =
     if(error.status === 401){
       dispatch(logout())
       dispatch(apiSlice.util.resetApiState())
-      createErrorToast(error?.response?.data?.title, error?.response?.data?.text)
+      createToast.error(error?.response?.data?.title, error?.response?.data?.text)
       return error.title
     }
     if(error.status && error.status !== 400){
-      return createErrorToast(error?.response?.data?.title, error?.response?.data?.text)
+      return createToast.error(error?.response?.data?.title, error?.response?.data?.text)
     }
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error

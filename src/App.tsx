@@ -11,6 +11,7 @@ const App = () => {
 
   return (
     <div className="font-[FiraGO] w-full max-w-full bg-[#EFF0F1] min-h-[100svh]">
+      {/* this toaster is for ./utils/createTost.tsx do not delete without checking ./utils/createTost.tsx */}
       <Toaster position='top-center' id='global-error-notifier' richColors />
       <AllRoutes />
     </div>

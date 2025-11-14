@@ -420,6 +420,11 @@
   "businessCategory.add.categoryType": "კატეგორიის ტიპი",
   "businessCategory.add.categoryName.required": "კატეგორიის სახელი აუცილებელია",
   "businessCategory.add.categoryType.required": "კატეგორიის ტიპი აუცილებელია",
+
+  "business.successMessage.saveWasSuccessFull": "მონაცემები წარმატებით განახლდა",
+  "business.successMessage.fileUploadWasSuccessful": "ფაილი წარმატებით აიტვირთა",
+  "business.successMessage.filesUploadWasSuccessful": "ფაილები წარმატებით აიტვირთა",
+
   "":""
 
 }

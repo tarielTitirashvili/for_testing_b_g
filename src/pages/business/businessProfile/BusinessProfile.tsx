@@ -18,6 +18,7 @@ import type { HalfHourTimeIntervals } from '@/components/utils/halfHourIntervals
 import Loader from '@/components/shared/loader'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
+import createToast from '@/lib/createToast'
 
 dayjs.extend(utc)
 
@@ -105,7 +106,7 @@ const BusinessProfile: FunctionComponent = () => {
     },
   ] = useUploadFileMutation()
 
-  const [editBusinessProfile, { isLoading: editIsProcessing }] = useEditBusinessProfileMutation()
+  const [editBusinessProfile, { isLoading: editIsProcessing, isSuccess: isSuccessEdit }] = useEditBusinessProfileMutation()
 
   const onSubmit = (data: IBusinessFormData) => {
     editBusinessProfile(data)
@@ -142,6 +143,12 @@ const BusinessProfile: FunctionComponent = () => {
     }
   }, [isSuccess])
 
+  useEffect(()=>{
+    if(isSuccessEdit){
+      createToast.success(t('business.successMessage.saveWasSuccessFull'))
+    }
+  },[isSuccessEdit])
+
   const filesRegister = register('files', {})
 
   useEffect(() => {
@@ -162,6 +169,11 @@ const BusinessProfile: FunctionComponent = () => {
           value: filesObj,
         },
       })
+      if(fileMutationData.length >1){
+        createToast.success(t('business.successMessage.filesUploadWasSuccessful'))
+      }else{
+        createToast.success(t('business.successMessage.fileUploadWasSuccessful'))
+      }
     }
   }, [fileMutationData])
 
