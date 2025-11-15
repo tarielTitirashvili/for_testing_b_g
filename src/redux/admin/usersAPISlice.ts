@@ -28,7 +28,7 @@ export type TAdminUsersUserEditParams = {
 }
 
 
-export const businessProfileAPISlice = apiSlice.injectEndpoints({
+export const usersAPISlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAdminUsers: builder.query<TAdminUsers, TGetAdminUsersQueryParams>({
       query: (params) => ({
@@ -70,4 +70,4 @@ export const {
   useDeleteUserMutation,
   useGetUserRolesQuery,
   useEditAdminUserMutation
-} = businessProfileAPISlice
+} = usersAPISlice

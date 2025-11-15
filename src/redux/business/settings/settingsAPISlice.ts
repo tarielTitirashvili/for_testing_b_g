@@ -8,7 +8,7 @@ export type TActivateBusinessPayload = {
 }
 
 
-export const spaceApiSlice = apiSlice.injectEndpoints({
+export const settingsAPISlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getProfile: builder.query<ISettingsProfile, void>({
           query: () => ({
@@ -28,4 +28,4 @@ export const spaceApiSlice = apiSlice.injectEndpoints({
 })
 
 
-export const { useToggleBusinessActiveStatusMutation, useGetProfileQuery } = spaceApiSlice
+export const { useToggleBusinessActiveStatusMutation, useGetProfileQuery } = settingsAPISlice

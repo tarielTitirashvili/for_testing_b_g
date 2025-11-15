@@ -6,7 +6,7 @@ export type TBusinessCategory = {
   name: string
 }
 
-export const authApiSlice = apiSlice.injectEndpoints({
+export const staticAPISlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     // business categories
     getBusinessCategories: builder.query<TBusinessCategory[], void>({
@@ -47,4 +47,4 @@ export const {
   useGetRegionsQuery,
   useGetDistrictQuery,
   useGetGenderDropdownQuery
-} = authApiSlice
+} = staticAPISlice

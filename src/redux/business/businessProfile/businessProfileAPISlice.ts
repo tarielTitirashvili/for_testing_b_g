@@ -38,7 +38,7 @@ export const businessProfileAPISlice = apiSlice.injectEndpoints({
     }),
   }),
 })
-// export const { useGetBusinessProfileQuery, useEditBusinessProfileMutation } = businessProfileAPISlice
+
 export const {
   useGetBusinessProfileQuery,
   useUploadFileMutation,

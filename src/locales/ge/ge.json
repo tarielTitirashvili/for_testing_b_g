@@ -377,6 +377,8 @@
   "admin.editRegion.title": "დაარედაქტირე რეგიონი",
   "admin.editRegion.description": "დაარედაქტირე რეგიონი მარტივად",
   "admin.region.required": "რეგიონი აუცილებელია",
+  "admin.modal.deleteRegion.title": "რეგიონის წაშლა",
+  "admin.modal.deleteRegion.text": "დარწმუნებული ხართ რომ გსურთ {{region}} რეგიონის წაშლა?",
 
   "admin.district": "უბანი",
   "admin.addDistrict.title": "დაამატე უბანი",
@@ -384,6 +386,9 @@
   "admin.editDistrict.title": "დაარედაქტირე უბანი",
   "admin.editDistrict.description": "დაარედაქტირე უბანი მარტივად",
   "admin.district.required": "უბანი აუცილებელია",
+  "admin.modal.deleteDistrict.title": "უბნის წაშლა",
+  "admin.modal.deleteDistrict.text": "დარწმუნებული ხართ რომ გსურთ {{district}} უბნის წაშლა?",
+  
   "admin.texts.confirm.userDelete": "დარწმუნებული ხართ რომ გსურთ {{user}} მომხმარებლის წაშლა?",
   "admin.texts.userDelete": "მომხმარებლის წაშლა!!!",
 
@@ -392,6 +397,9 @@
   "admin.language.addLanguage.description": "ენის დამატება",
   "admin.language.addLanguage.title.edit": "ენის რედაქტირება",
   "admin.language.addLanguage.description.edit": "დაარედაქტირე ენა",
+  
+  "admin.language.deleteModal.title": "ენის წაშლა",
+  "admin.language.deleteModal.text": "დარწმუნებული ხართ რომ გსურთ {{ language }} ენის წაშლა",
   
   "admin.language.addLanguage.input.languageName": "ენის სახელი",
   "admin.language.addLanguage.input.languageAbbreviation": "ენის აბრევიატურა",
@@ -420,6 +428,8 @@
   "businessCategory.add.categoryType": "კატეგორიის ტიპი",
   "businessCategory.add.categoryName.required": "კატეგორიის სახელი აუცილებელია",
   "businessCategory.add.categoryType.required": "კატეგორიის ტიპი აუცილებელია",
+  "businessCategory.modal.deleteCategory.title": "ბიზნეს კატეგორიის წაშლა",
+  "businessCategory.modal.deleteCategory.text": "დარწმუნებული ხართ წაშალოთ ბიზნეს კატეგორია {{ businessCategory }}?",
 
   "business.successMessage.saveWasSuccessFull": "მონაცემები წარმატებით განახლდა",
   "business.successMessage.fileUploadWasSuccessful": "ფაილი წარმატებით აიტვირთა",

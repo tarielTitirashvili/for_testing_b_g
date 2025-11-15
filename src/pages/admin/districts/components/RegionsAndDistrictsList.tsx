@@ -6,16 +6,16 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
-import { Trash2 } from "lucide-react"
-
 import type { IDistrict } from "@/redux/admin/region/regionAPISlice"
 
 import type { IRegion } from "../../regions/Regions"
 
 import { Skeleton } from "@/components/ui/skeleton"
 
-import AddDistrict from "./AddDistrict"
 import { t } from "i18next"
+
+import AddDistrict from "./AddDistrict"
+import DeleteConfirmationModal from "@/components/shared/modal/DeleteConfirmationModal"
 
 interface IRegionsAndDistrictsListProps {
     regionList: IRegion[],
@@ -67,7 +67,15 @@ const RegionsAndDistrictsList: FunctionComponent<IRegionsAndDistrictsListProps> 
                                                     <TableCell>{ district.name }</TableCell>
                                                     <TableCell className="flex gap-2 justify-end">
                                                         <AddDistrict districtId={district.id} regions={regionList} />
-                                                        <Trash2 onClick={() => handleDistrictRemove(district.id)} className="cursor-pointer" color="red" size={20} />
+                                                        {/* <DeleteDistrict districtId={district.id} districtName={district.name} handleRemoveDistrict={handleDistrictRemove} /> */}
+                                                        <DeleteConfirmationModal
+                                                            itemId={district.id}
+                                                            handleDeleteItem={handleDistrictRemove}
+                                                            modalTitle={ t('admin.modal.deleteDistrict.title') }
+                                                            modalDescription={ t("admin.modal.deleteDistrict.text", {
+                                                                district: `"${district.name}"`
+                                                            }) }
+                                                        />
                                                     </TableCell>
                                                 </TableRow>
                                             ))}

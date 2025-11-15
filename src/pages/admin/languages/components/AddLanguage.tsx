@@ -43,7 +43,7 @@ const AddLanguage: FunctionComponent<IAddLanguageProps> = ({ languageId }) => {
     const {
         data: languageData,
         isSuccess: isLanguageSuccess,
-    } = useGetLanguageByIdQuery(languageId, { skip: !languageId })
+    } = useGetLanguageByIdQuery(languageId, { skip: !languageId || !modalOpen })
 
     const [addLanguage] = useAddLanguageMutation()
     const [editLanguage] = useEditLanguageMutation()

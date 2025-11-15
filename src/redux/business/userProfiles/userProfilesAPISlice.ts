@@ -5,7 +5,7 @@ import { apiSlice } from '@/redux/APISlice'
 import type { TLoginResponse } from '@/redux/auth/authAPISlice'
 import { login } from '@/redux/auth/authSlice'
 
-export const businessProfileAPISlice = apiSlice.injectEndpoints({
+export const userProfiles = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getUserProfiles: builder.query<IBusiness[], void>({
       query: () => ({
@@ -32,6 +32,5 @@ export const businessProfileAPISlice = apiSlice.injectEndpoints({
     }),
   }),
 })
-// export const { useGetBusinessProfileQuery, useEditBusinessProfileMutation } = businessProfileAPISlice
 export const { useGetUserProfilesQuery, useSwitchProfileMutation } =
-  businessProfileAPISlice
+  userProfiles

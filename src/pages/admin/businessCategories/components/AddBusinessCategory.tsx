@@ -2,11 +2,15 @@ import { useEffect, useState, type FunctionComponent } from "react"
 
 import { useForm } from "react-hook-form"
 
+import { useGetAllLanguagesQuery } from "@/redux/admin/language/languageAPISlice"
+
 import { useCreateBusinessCategoryMutation, useEditBusinessCategoryMutation, useGetBusinessCategoryByIdQuery } from "@/redux/admin/businessCategory/businessCategoryAPISlice"
 
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
 import { Pencil, Plus } from "lucide-react"
+
+import { t } from "i18next"
 
 import PrimaryButton from "@/components/shared/buttons/PrimaryButton"
 import PrimaryPressable from "@/components/shared/buttons/PrimaryPressable"
@@ -14,7 +18,6 @@ import SecondaryButton from "@/components/shared/buttons/SecondaryButton"
 
 import SelectDropDown from "@/components/shared/inputs/SelectDropDown"
 import TextInput from "@/components/shared/inputs/TextInput"
-import { t } from "i18next"
 
 export interface IAddBusinessCategoryFormData {
     businessCategoryTypeId: number
@@ -58,11 +61,14 @@ const businessCategoryTypes: IBusinessCategoryList[] = [
 
 const AddBusinessCategory: FunctionComponent<IAddBusinessCategoryProps> = ({ businessCategoryId }) => {
 
+    const { data: languageData = [] } = useGetAllLanguagesQuery()
+
+
     const { register, handleSubmit, formState: { errors }, reset } = useForm<IAddBusinessCategoryFormData>({
         defaultValues: {
-            locales: [
-                { languageId: 1}
-            ]
+            locales: languageData.map(lang => ({
+                languageId: lang.id,
+            }))
         }
     })
 
@@ -71,21 +77,30 @@ const AddBusinessCategory: FunctionComponent<IAddBusinessCategoryProps> = ({ bus
     const { 
         data: businessCategoryData,
         isSuccess: isBusinessCategorySuccess
-    } = useGetBusinessCategoryByIdQuery(businessCategoryId, { skip: !businessCategoryId })
+    } = useGetBusinessCategoryByIdQuery(businessCategoryId, { skip: !businessCategoryId || !modalOpen })
 
     const [createBusinessCategory] = useCreateBusinessCategoryMutation()
     const [editBusinessCategory] = useEditBusinessCategoryMutation()
 
     const handleBusinessCategoryCreate = (data: IAddBusinessCategoryFormData) => {
-        createBusinessCategory(data)
+    
+        const payload: IAddBusinessCategoryFormData = {
+            businessCategoryTypeId: data.businessCategoryTypeId,
+            locales: data.locales.map((locale, index) => ({
+                name: locale.name,
+                languageId: languageData[index].id
+            })),
+        };
+        
+        createBusinessCategory(payload)
     }
 
     const handleBusinessCategoryEdit = (data: IAddBusinessCategoryFormData) => {
-        const payload: IEditBusinessCategoryFormData = {
+        const payload = {
             model: {
                 id: businessCategoryId!,
                 businessCategoryTypeId: data.businessCategoryTypeId,
-                locales: data.locales.map(locale => ({
+                locales: data.locales.map((locale) => ({
                     name: locale.name,
                     languageId: locale.languageId
                 }))
@@ -148,6 +163,19 @@ const AddBusinessCategory: FunctionComponent<IAddBusinessCategoryProps> = ({ bus
                         })}
                         error={errors.locales && errors.locales[0]?.name?.message}
                     />
+
+                    {/* Need for other languages */}
+                    {/* {languageData.map((lang, index) => (
+                        <TextInput
+                            key={lang.id}
+                            label={`${t("businessCategory.add.categoryName")} (${lang.name})`}
+                            placeholder={`Business Category (${lang.abbreviature})`}
+                            {...register(`locales.${index}.name`, {
+                                required: t('businessCategory.add.categoryName.required')
+                            })}
+                            error={errors.locales?.[index]?.name?.message}
+                        />
+                    ))} */}
                     
                     <SelectDropDown
                         label={t('businessCategory.add.categoryType')}

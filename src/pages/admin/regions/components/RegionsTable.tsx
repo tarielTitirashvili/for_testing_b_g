@@ -4,13 +4,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 
 import { Skeleton } from "@/components/ui/skeleton"
 
-import { Trash2 } from "lucide-react"
-
 import type { IRegion } from "../Regions"
 
 import { t } from "i18next"
 
 import AddRegion from "./AddRegion"
+import DeleteConfirmationModal from "@/components/shared/modal/DeleteConfirmationModal"
 
 interface IRegionsTableProps {
     regionsList: IRegion[] | []
@@ -49,7 +48,14 @@ const RegionsTable: FunctionComponent<IRegionsTableProps> = ({ regionsList, hand
                         <TableCell>{ region.name }</TableCell>
                         <TableCell className="flex gap-2 justify-end">
                             <AddRegion regionId={region.id} />
-                            <Trash2 onClick={() => handleRemoveRegion(region.id)} className="cursor-pointer" color="red" size={20} />
+                            <DeleteConfirmationModal
+                                handleDeleteItem={handleRemoveRegion}
+                                itemId={region.id}
+                                modalTitle={ t('admin.modal.deleteRegion.title') }
+                                modalDescription={ t("admin.modal.deleteRegion.text", {
+                                    region: `"${region.name}"`
+                                }) }
+                            />
                         </TableCell>
                     </TableRow>
                 ))}

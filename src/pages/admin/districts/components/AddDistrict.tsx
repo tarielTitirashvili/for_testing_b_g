@@ -60,7 +60,7 @@ const AddDistrict: FunctionComponent<IAddDistrictProps> = ({ districtId, regions
     const [createDistrict, { isLoading: isCreateDistrictLoading }] = useCreateDistrictMutation()
     const [editDistrict, { isLoading: isEditDistrictLoading }] = useEditDistrictMutation()
 
-    const { data: districtData, isSuccess: isDistrictDataSuccess } = useGetDistrictByIdQuery(districtId, { skip: !districtId })
+    const { data: districtData, isSuccess: isDistrictDataSuccess } = useGetDistrictByIdQuery(districtId, { skip: !openModal || !districtId })
 
 
     const handleEdit = (data: IAddDistrictFormData) => {

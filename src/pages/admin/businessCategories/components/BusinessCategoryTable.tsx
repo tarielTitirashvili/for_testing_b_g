@@ -8,9 +8,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 
 import { Skeleton } from "@/components/ui/skeleton"
 
-import { Trash2 } from "lucide-react"
 
 import AddBusinessCategory from "./AddBusinessCategory"
+import DeleteBusinessCategory from "./DeleteBusinessCategory"
 
 interface IBusinessCategoryTable {
     businessCategoryData: IBusinessCategory[],
@@ -46,7 +46,7 @@ const BusinessCategoryTable: FunctionComponent<IBusinessCategoryTable> = ({ busi
                         <TableCell>{ category.name }</TableCell>
                         <TableCell className="flex gap-2 justify-end">
                             <AddBusinessCategory businessCategoryId={category.id} />
-                            <Trash2 onClick={() => deleteBusinessCategory({ id: category.id })} className="cursor-pointer text-red-600" />
+                            <DeleteBusinessCategory businessCategoryId={category.id} businessCategoryName={category.name} deleteBusinessCategory={deleteBusinessCategory}  />
                         </TableCell>
                     </TableRow>
                 ))}

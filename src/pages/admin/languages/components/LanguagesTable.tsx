@@ -4,11 +4,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 
 import type { IGetLanguages } from "@/redux/admin/language/languageAPISlice"
 
-import { Trash2 } from "lucide-react"
+import { t } from "i18next"
+
+import { Skeleton } from "@/components/ui/skeleton"
 
 import AddLanguage from "./AddLanguage"
-import { t } from "i18next"
-import { Skeleton } from "@/components/ui/skeleton"
+import DeleteConfirmationModal from "@/components/shared/modal/DeleteConfirmationModal"
 
 interface ILanguagesTableProps {
     languageData: IGetLanguages[]
@@ -44,7 +45,14 @@ const LanguagesTable: FunctionComponent<ILanguagesTableProps> = ({ languageData,
                         <TableCell className="w-full">{language.name}</TableCell>
                         <TableCell className="flex items-center gap-2 justify-end">
                             <AddLanguage languageId={language.id} />
-                            <Trash2 className="text-red-600 cursor-pointer" onClick={() => deleteLanguage(language.id)} />
+                            <DeleteConfirmationModal
+                                itemId={language.id}
+                                handleDeleteItem={deleteLanguage}
+                                modalTitle={ t('admin.language.deleteModal.title') }
+                                modalDescription={ t("admin.language.deleteModal.text", {
+                                    language: `"${language.name}"`
+                                }) }
+                            />
                         </TableCell>
                     </TableRow>
                 ))}

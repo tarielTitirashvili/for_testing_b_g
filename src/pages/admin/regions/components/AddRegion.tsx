@@ -50,7 +50,7 @@ const AddRegion: FunctionComponent<IAddRegionProps> = ({ regionId }) => {
         }
     })
 
-    const { data: regionData, isSuccess: isRegionDataSuccess } = useGetRegionByIdQuery(regionId, { skip: !regionId })
+    const { data: regionData, isSuccess: isRegionDataSuccess } = useGetRegionByIdQuery(regionId, { skip: !modalOpen || !regionId })
     
     const [addRegion, { isLoading: isAddRegionLoading }] = useAddRegionMutation()
     const [editRegion, { isLoading: isEditRegionLoading }] = useEditRegionMutation()
