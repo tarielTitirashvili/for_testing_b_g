@@ -86,7 +86,6 @@ const AddStaff: FunctionComponent<IAddStaffProps> = ({ services, roles, staffId 
             serviceIds: [...data.serviceIds],
         }
 
-        console.log(payload)
         addStaff(payload)
     }
 

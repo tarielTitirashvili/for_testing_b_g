@@ -74,7 +74,6 @@ const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categ
 
         }
 
-        console.log(JSON.stringify(payload, null, 2))
         editSpaceService(payload)
     }
 
@@ -93,7 +92,6 @@ const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categ
             }]
         }
 
-        console.log(JSON.stringify(payload, null, 2))
         createdSpaceService(payload)
     }
 

@@ -56,7 +56,6 @@ const AddCategory: FunctionComponent<IAddCategoryProps> = ({ categoryId, icon, t
         }
 
         editCategory(payload)
-        console.log(payload)
     }
 
     const handleCreateCategory = (data: IAddCategoryFormData) => {
@@ -66,7 +65,6 @@ const AddCategory: FunctionComponent<IAddCategoryProps> = ({ categoryId, icon, t
         }
 
         createCategory([payload])
-        console.log(payload)
     }
 
     const handleCategory = (data: IAddCategoryFormData) => {

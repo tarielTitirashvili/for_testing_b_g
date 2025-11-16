@@ -49,7 +49,7 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
             invalidatesTags: ['Category']
         }),
 
-        deleteCategory: builder.mutation<void, string>({
+        deleteCategory: builder.mutation<void, number>({
             query: (categoryId) => ({
                 url: '/category',
                 method: 'DELETE',
@@ -94,7 +94,7 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
             invalidatesTags: ['SpaceCategory']
         }),
 
-        deleteTableCategory: builder.mutation<void, string>({
+        deleteTableCategory: builder.mutation<void, number>({
             query: (tableCategoryData) => ({
                 url: '/tablecategory',
                 method: 'DELETE',

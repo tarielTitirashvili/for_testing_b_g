@@ -41,6 +41,7 @@ const Spaces: FunctionComponent = () => {
     } = useGetTableCategoryQuery()
     const [deleteTableCategory] = useDeleteTableCategoryMutation()
     const shouldSkipGetSpacesQuery = !id
+
     // spaces
     const { 
         data: spaceList,
@@ -49,6 +50,7 @@ const Spaces: FunctionComponent = () => {
         isFetching: isSpaceListFetching,
         isError: isSpaceListError
     } = useGetSpacesQuery(+id! || undefined, { skip: shouldSkipGetSpacesQuery})
+    
     const [deleteSpace] = useDeleteSpaceMutation()    
 
     useEffect(() => {

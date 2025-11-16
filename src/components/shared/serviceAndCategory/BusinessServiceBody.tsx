@@ -2,12 +2,16 @@ import type { FunctionComponent } from "react"
 
 import { TabsContent } from "@/components/ui/tabs"
 
-import ServiceCard from "../../../pages/business/services/components/ServiceCard"
 import type { TService } from "@/pages/business/services/Services"
+
 import { Skeleton } from "@/components/ui/skeleton"
-import Loader from "../loader"
-import EmptyResponse from '../emptyResponse'
+
 import { useTranslation } from 'react-i18next'
+
+import ServiceCard from "../../../pages/business/services/components/ServiceCard"
+import EmptyResponse from '../emptyResponse'
+
+import Loader from "../loader"
 
 interface ICategory {
     isSystem: boolean
@@ -19,14 +23,16 @@ interface IServiceCategoryBodyProps {
     services: TService[]
     categoryId: string
     categories: ICategory[]
-    handleServiceRemove?: (id: number) => void
+    handleServiceRemove: (id: number) => void
     isLoading: boolean
     isError: boolean
     isSuccess: boolean
 }
 
 const BusinessServiceBody: FunctionComponent<IServiceCategoryBodyProps> = ({ services, categories, categoryId, handleServiceRemove, isLoading, isError, isSuccess }) => {    
+    
     const {t} = useTranslation() 
+    
     if (isLoading) {
         return (
             <div className="flex justify-start gap-6 flex-wrap">

@@ -226,6 +226,8 @@
   "services.addService.price": "ფასი (₾)",
   "services.addService.time": "დრო (წთ)",
   "services.addService.uploadImage": "ატვირთე სურათი",
+  "services.deleteModalt.title": "სერვისის წაშლა",
+  "services.deleteModalt.description": "დარწმუნებული ხართ რომ სერვისი {{ service }}-ის წაშლა გსურთ",
 
   "services.addService.required.name": "სერვისის სახელი აუცილებელია",
   "services.addService.required.description": "სერვისის აღწერა აუცილებელია",
@@ -237,6 +239,8 @@
   "categories.addCategory.modal.description": "დაამატე ახალი კატეგორია",
   "categories.addCategory.modal.description.edit": "დაარედაქტირე ბიზნეს კატეგორია",
   "categories.addCategory.placeholder": "ჩაწერე კატეგორიის დასახელება",
+  "categories.deleteModalt.title": "კატეგორიის წაშლა",
+  "categories.deleteModalt.description": "დარწმუნებული ხართ რომ გსურთ წაშალოთ კატეგორია {{ category }}",
 
   "space.addSpace.modal.title": "სივრცის დამატება",
   "space.addSpace.modal.title.edit": "დაარედაქტირე სივრცე",
@@ -247,6 +251,8 @@
 
   "space.addSpace.required.name": "მაგიდის სახელი აუცილებელია",
   "space.addSpace.required.guestCount": "სტუმრების რაოდენობა აუცილებელია",
+  "space.deleteModalt.title": "სივრცის წაშლა!",
+  "space.deleteModalt.description": "დარწმუნებული ხართ რომ გსურთ წაშალოთ სივრცე '{{ space }}'?",
 
   "space.card.guestCnt": "ადამიანი",
   "space.modal.confirmText": "დარწმუნებული ხარ რომ გინდა ადგილის განთავისუფლება?",

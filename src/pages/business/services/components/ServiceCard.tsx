@@ -3,13 +3,15 @@ import type { FunctionComponent } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { DropdownMenuItem, DropdownMenuRadioGroup } from "@/components/ui/dropdown-menu";
 
-import { Clock, DollarSign, EllipsisVertical, ImageOff, Trash2 } from "lucide-react"
+import { Clock, DollarSign, EllipsisVertical, ImageOff } from "lucide-react"
 
+import type { TService } from "../Services";
 import { t } from "i18next";
 
-import CustomDropdown from "../../../../components/shared/buttons/CustomDropdown";
 import AddService from "./AddService";
-import type { TService } from "../Services";
+
+import DeleteConfirmationModal from "@/components/shared/modal/DeleteConfirmationModal";
+import CustomDropdown from "@/components/shared/buttons/CustomDropdown";
 
 interface ICategory {
     isSystem: boolean
@@ -20,7 +22,7 @@ interface ICategory {
 interface IServiceCardProps {
     serviceId: number
     service: TService
-    handleRemove?: (id: number) => void
+    handleRemove: (id: number) => void
     categories: ICategory[]
     categoryId: string
 }
@@ -65,10 +67,15 @@ const ServiceCard: FunctionComponent<IServiceCardProps> = ({ serviceId, service,
                             <AddService icon categories={categories && categories} service={service} serviceId={serviceId} categoryId={categoryId} />
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild onClick={() => handleRemove?.(service.id)}>
-                            <div className="text-[#E81C1C] flex items-center text-sm gap-1.5 cursor-pointer">
-                                <Trash2 color="#E81C1C" />
-                                <span className="text-[#E81C1C]">{ t("bookings.actionButtons.delete") }</span>
-                            </div>
+                            <DeleteConfirmationModal
+                                itemId={service.id}
+                                handleDeleteItem={handleRemove}
+                                dropdownItem
+                                modalTitle={t('services.deleteModalt.title')}
+                                modalDescription={t('services.deleteModalt.description', {
+                                    service: `${service.name}`
+                                })}
+                            />
                         </DropdownMenuItem>
                     </DropdownMenuRadioGroup>
                 </CustomDropdown>

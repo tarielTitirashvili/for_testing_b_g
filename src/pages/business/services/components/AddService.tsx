@@ -93,7 +93,6 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
       locales: data.locales,
     }
     createService(payload)
-    console.log(payload)
   }
 
   const handleEdit = (data: IAddSalonServiceFormData) => {

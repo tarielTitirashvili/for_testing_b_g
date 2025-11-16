@@ -29,15 +29,15 @@ const Menu: FunctionComponent = () => {
         isLoading: isServicesLoading,
         isFetching: isServicesFetching,
         isError: isServicesError
-    } = useGetServicesQuery(+id!, { skip: !id });
+    } = useGetServicesQuery(id! ? +id : undefined, { skip: !id });
 
     const [deleteCategory] = useDeleteCategoryMutation()
     const [deleteService] = useRemoveServiceMutation()
     
-    const removeCategory = async (id: string) => {
+    const removeCategory = async (id: number) => {
         deleteCategory(id)
     }
-
+    
     useEffect(() => {
         if (!id && categories.length) {
             navigate(`/menu/${categories[0].id}`, { replace: true })
@@ -51,7 +51,7 @@ const Menu: FunctionComponent = () => {
                     value={id}
                     defaultValue={categories[0]?.id.toString()}
                     onValueChange={(tabValue) => navigate(`/menu/${tabValue}`)}
-                    >
+                >
                     <BusinessHeader
                         serviceCategories={categories}
                         AddItemComponent={AddService}
@@ -61,7 +61,7 @@ const Menu: FunctionComponent = () => {
                         isSuccess={isCategoryListSuccess}
                         isError={isCategoryError}
                         isLoading={isCategoryLoading}
-                        />
+                    />
                     
                     <BusinessServiceBody
                         categories={categories}
@@ -71,7 +71,7 @@ const Menu: FunctionComponent = () => {
                         isLoading={isServicesLoading}
                         isError={isServicesError}
                         isSuccess={isServicesSuccess}
-                        />
+                    />
                 </Tabs>
             </Loader>
         </div>

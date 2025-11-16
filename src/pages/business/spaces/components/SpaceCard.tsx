@@ -2,7 +2,7 @@ import type { FunctionComponent } from "react"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
-import { EllipsisVertical, Trash2, Users2 } from "lucide-react"
+import { EllipsisVertical, Users2 } from "lucide-react"
 
 import { DropdownMenuItem, DropdownMenuRadioGroup } from "@/components/ui/dropdown-menu"
 
@@ -16,6 +16,7 @@ import AddSpace, { type IEditSpace } from "./AddSpace"
 
 import CustomDropdown from "@/components/shared/buttons/CustomDropdown"
 import CategoryStatusSwitch from "@/components/shared/customSwitch/CategoryStatusSwitch"
+import DeleteConfirmationModal from "@/components/shared/modal/DeleteConfirmationModal"
 
 interface ICategory {
     isSystem: boolean
@@ -26,7 +27,7 @@ interface ICategory {
 interface ISpaceCardProps {
     space: ISpace
     categories?: ICategory[]
-    handleRemove?: (id: number) => void
+    handleRemove: (id: number) => void
     categoryId?: string
 }
 
@@ -72,10 +73,15 @@ const SpaceCard: FunctionComponent<ISpaceCardProps> = ({ space, handleRemove, ca
                                 <AddSpace icon triggerText={t('bookings.button.edit')} categoryId={categoryId} categories={categories ?? []} space={space} spaceId={space.id} />
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild onClick={() => handleRemove?.(space.id)}>
-                                <span className="text-[#E81C1C] flex items-center text-sm gap-1.5 cursor-pointer">
-                                    <Trash2 color="#E81C1C" size={20} />
-                                    <span className="text-[#E81C1C]">{ t("bookings.actionButtons.delete") }</span>
-                                </span>
+                                <DeleteConfirmationModal
+                                    itemId={space.id}
+                                    handleDeleteItem={handleRemove}
+                                    dropdownItem
+                                    modalTitle={t('space.deleteModalt.title')}
+                                    modalDescription={t('space.deleteModalt.description', {
+                                        space: space.name
+                                    })}
+                                />
                             </DropdownMenuItem>
                         </DropdownMenuRadioGroup>
                     </CustomDropdown>

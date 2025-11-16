@@ -2,11 +2,12 @@ import type { FunctionComponent } from "react"
 
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
-import { Settings, Trash2 } from "lucide-react"
+import { Settings } from "lucide-react"
 
 import { t } from "i18next"
 
 import SecondaryButton from "../buttons/SecondaryButton"
+import DeleteConfirmationModal from "../modal/DeleteConfirmationModal"
 
 interface IEntity {
     isSystem?: boolean
@@ -26,7 +27,7 @@ interface IEntityListProps {
     label?: string
     primaryButtonText?: string
     primaryButtonClick?: () => void
-    removeItem?: (id: string) => void
+    removeItem?: (id: number) => void
     EditComponent?: React.ComponentType<EditComponentProps>
 }
 
@@ -52,7 +53,14 @@ const EntityList: FunctionComponent<IEntityListProps> = ({ entities, title, desc
                                 </div>
                                 <div className="action_btns flex items-center gap-2">
                                     {EditComponent && <EditComponent icon categoryId={entity.id} />}
-                                    <Trash2 onClick={() => removeItem?.(entity.id)} color="#E81C1C" size={23} className="cursor-pointer" />
+                                    <DeleteConfirmationModal
+                                        itemId={+entity.id}
+                                        handleDeleteItem={removeItem!}
+                                        modalTitle={t("categories.deleteModalt.title")}
+                                        modalDescription={t("categories.deleteModalt.description", {
+                                            category: entity.name
+                                        })}
+                                    />
                                 </div>
                             </div>
                         ))}

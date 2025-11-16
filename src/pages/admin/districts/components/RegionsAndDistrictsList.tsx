@@ -67,7 +67,6 @@ const RegionsAndDistrictsList: FunctionComponent<IRegionsAndDistrictsListProps> 
                                                     <TableCell>{ district.name }</TableCell>
                                                     <TableCell className="flex gap-2 justify-end">
                                                         <AddDistrict districtId={district.id} regions={regionList} />
-                                                        {/* <DeleteDistrict districtId={district.id} districtName={district.name} handleRemoveDistrict={handleDistrictRemove} /> */}
                                                         <DeleteConfirmationModal
                                                             itemId={district.id}
                                                             handleDeleteItem={handleDistrictRemove}

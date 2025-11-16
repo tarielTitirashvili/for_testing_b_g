@@ -58,7 +58,6 @@ const AddRegion: FunctionComponent<IAddRegionProps> = ({ regionId }) => {
     const handleAddRegion = (data: IAddRegionFormData) => {
         addRegion(data)
         reset()
-        console.log(JSON.stringify(data, null, 2))
     }
 
     const handleEditRegion = (data: IAddRegionFormData) => {
@@ -69,7 +68,6 @@ const AddRegion: FunctionComponent<IAddRegionProps> = ({ regionId }) => {
             }
         }
         editRegion(payload)
-        console.log(JSON.stringify(payload, null, 2))
     }
     
     const handleRegion = (data: IAddRegionFormData) => {

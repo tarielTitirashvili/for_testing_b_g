@@ -24,7 +24,6 @@ export interface IRole {
 
 const RolesAndRights: FunctionComponent = () => {
 
-
     const { data: staffData = [] } = useGetStaffQuery()
     const { data: services = [] } = useGetAllServiceNamesQuery()
     const { data: roles = [] } = useGetBusinessRolesQuery() 

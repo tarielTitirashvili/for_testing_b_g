@@ -4,11 +4,12 @@ import { TabsContent } from "@/components/ui/tabs"
 
 import type { ISpace } from "@/pages/business/spaces/Spaces"
 
+import { useTranslation } from 'react-i18next'
+import { Skeleton } from "@/components/ui/skeleton"
+
 import SpaceCard from "../../../pages/business/spaces/components/SpaceCard"
 import Loader from "../loader"
-import { Skeleton } from "@/components/ui/skeleton"
 import EmptyResponse from '../emptyResponse'
-import { useTranslation } from 'react-i18next'
 
 interface ICategory {
     isSystem: boolean
@@ -16,12 +17,11 @@ interface ICategory {
     name: string
 }
 
-
 interface ISpaceBodyProps {
     spaces: ISpace[]
     categoryId: string
     categories?: ICategory[]
-    removeSpace?: (id: number) => void
+    removeSpace: (id: number) => void
     isLoading: boolean
     isSuccess: boolean
     isError: boolean

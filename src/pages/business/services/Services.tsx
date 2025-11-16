@@ -83,7 +83,7 @@ const Services: FunctionComponent = () => {
     const [deleteCategory] = useDeleteCategoryMutation()
     const [deleteService] = useRemoveServiceMutation()
  
-    const removeCategory = async (id: string) => {
+    const removeCategory = async (id: number) => {
         deleteCategory(id)
     }
 
@@ -98,8 +98,8 @@ const Services: FunctionComponent = () => {
             <Loader loading={isServicesFetching}>
                 <Tabs
                     value={id}
-                    defaultValue={categories[0]?.id.toString()}
-                    onValueChange={(tabValue) => navigate(`/services/${tabValue}`)}
+                        defaultValue={categories[0]?.id.toString()}
+                        onValueChange={(tabValue) => navigate(`/services/${tabValue}`)}
                     >
                     <BusinessHeader
                         serviceCategories={categories} // categories
@@ -110,7 +110,7 @@ const Services: FunctionComponent = () => {
                         isSuccess={isCategoryListSuccess}
                         isLoading={isCategoryLoading}
                         isError={isCategoryError}
-                        />
+                    />
 
                     <BusinessServiceBody
                         services={services} // services
@@ -120,7 +120,7 @@ const Services: FunctionComponent = () => {
                         isLoading={isServicesLoading}
                         isError={isServicesError}
                         isSuccess={isServicesSuccess}
-                        />
+                    />
                 </Tabs>
             </Loader>
         </div>

@@ -14,14 +14,21 @@ interface IDeleteConfirmationModal {
     handleDeleteItem: (itemId: number) => void
     modalTitle: string
     modalDescription: string
+    dropdownItem?: boolean
 }
 
-const DeleteConfirmationModal: FunctionComponent<IDeleteConfirmationModal> = ({ itemId, handleDeleteItem, modalTitle, modalDescription }) => {
+const DeleteConfirmationModal: FunctionComponent<IDeleteConfirmationModal> = ({ itemId, handleDeleteItem, modalTitle, modalDescription, dropdownItem }) => {
     return (
         <Dialog>
-            <DialogTrigger>
-                <Trash2 className="cursor-pointer" color="red" size={22} />
-            </DialogTrigger>
+            { dropdownItem ? (
+                <DialogTrigger className="cursor-pointer text-red-500 hover:bg-[#F5F5F5] w-full focus:bg-accent data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+                    <Trash2 color="red" /> { t('bookings.actionButtons.delete') }
+                </DialogTrigger>
+            ): (
+                <DialogTrigger>
+                    <Trash2 className="cursor-pointer" color="red" size={22} />
+                </DialogTrigger>
+            ) }
             <DialogContent className="max-w-[500px] w-full px-6 py-8 flex flex-col gap-6">
                 <DialogHeader>
                     <DialogTitle className="text-center text-xl font-bold flex justify-center text-red-700">
