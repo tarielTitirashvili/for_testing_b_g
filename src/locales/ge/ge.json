@@ -240,6 +240,7 @@
   "categories.addCategory.modal.description.edit": "დაარედაქტირე ბიზნეს კატეგორია",
   "categories.addCategory.placeholder": "ჩაწერე კატეგორიის დასახელება",
   "categories.deleteModalt.title": "კატეგორიის წაშლა",
+  "categories.manageCategories.text":"მართე კატეგორიები მარტივად",
   "categories.deleteModalt.description": "დარწმუნებული ხართ რომ გსურთ წაშალოთ კატეგორია {{ category }}",
 
   "space.addSpace.modal.title": "სივრცის დამატება",
@@ -424,7 +425,9 @@
   "business.labels.guestPhone": "სტუმრის ტელეფონი",
   "business.labels.guestPhone.required": "სტუმრის ტელეფონი სავალდებულოა",
   "business.business": "ბიზნესი",
-
+  "business.business.place.text": "ადგილი",
+  "business.businessTexts.inside":"შიგნით",
+  "business.businessTexts.outside":"გარეთ",
 
   "businessCategory.add.title": "ბიზნეს კატეგორიის დამატენა",
   "businessCategory.add.description": "დაამატე ბიზენს კატეგორია",
@@ -440,6 +443,13 @@
   "business.successMessage.saveWasSuccessFull": "მონაცემები წარმატებით განახლდა",
   "business.successMessage.fileUploadWasSuccessful": "ფაილი წარმატებით აიტვირთა",
   "business.successMessage.filesUploadWasSuccessful": "ფაილები წარმატებით აიტვირთა",
+  "business.successMessage.infoWasSuccessFullyUpdated": "ინფორმაცია წარმატებით განახლდა",
+  "business.successMessage.spaceWasSuccessFullyAdded": "სივრცე წარმატებით დაემატა",
+  "business.successMessage.spaceWasSuccessFullyDeleted": "სივრცე წარმატებით წაიშალა",
+  "business.successMessage.categoryWasSuccessFullyAdded": "კატეგორია წარმატებით დაემატა",
+  "business.successMessage.categoryWasSuccessfullyDeleted": "კატეგორია წარმატებით წაიშალა",
+
+  "business.successMessage.createDishWasSuccessFull": "კერძი წარმატებით დაემატა",
 
   "":""
 

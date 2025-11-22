@@ -25,9 +25,10 @@ interface IServiceCardProps {
     handleRemove: (id: number) => void
     categories: ICategory[]
     categoryId: string
+    isDeleteProgress?: boolean
 }
 
-const ServiceCard: FunctionComponent<IServiceCardProps> = ({ serviceId, service, categories, handleRemove, categoryId }) => {
+const ServiceCard: FunctionComponent<IServiceCardProps> = ({ serviceId, service, categories, handleRemove, categoryId, isDeleteProgress }) => {
     return (
         <Card className="flex flex-row justify-between gap-0 w-full shadow-none border-2 rounded-md p-3 grow">
             <div className="service_info-full flex gap-3">
@@ -75,6 +76,7 @@ const ServiceCard: FunctionComponent<IServiceCardProps> = ({ serviceId, service,
                                 modalDescription={t('services.deleteModalt.description', {
                                     service: `${service.name}`
                                 })}
+                                isDeleteProgress={isDeleteProgress}
                             />
                         </DropdownMenuItem>
                     </DropdownMenuRadioGroup>

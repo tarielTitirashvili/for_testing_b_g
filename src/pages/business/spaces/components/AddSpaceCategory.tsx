@@ -1,4 +1,4 @@
-import { useState, type FunctionComponent } from "react"
+import { useEffect, useState, type FunctionComponent } from "react"
 
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Pencil } from "lucide-react"
@@ -10,6 +10,7 @@ import SecondaryButton from "@/components/shared/buttons/SecondaryButton"
 import PrimaryButton from "@/components/shared/buttons/PrimaryButton"
 import { useCreateTableCategoryMutation } from "@/redux/business/category/categoryAPISlice"
 import { t } from "i18next"
+import createToast from '@/lib/createToast'
 
 interface IAddCategoryFormData {
     languageId: number,
@@ -33,7 +34,7 @@ const AddSpaceCategory: FunctionComponent<IAddSpaceCategoryProps> = ({ icon, tri
 
     const [modalOpen, setModalOpen] = useState<boolean>(false)
 
-    const [createTableCategory] = useCreateTableCategoryMutation()
+    const [createTableCategory, {isLoading, isSuccess}] = useCreateTableCategoryMutation()
     // const { data: categoryData, isSuccess: isCategorySuccess } = useGetTableCategoryByIdQuery(+categoryId!, { skip: !categoryId })
 
 
@@ -54,6 +55,12 @@ const AddSpaceCategory: FunctionComponent<IAddSpaceCategoryProps> = ({ icon, tri
     //         reset(formatted)
     //     }
     // }, [])
+
+    useEffect(()=>{
+        if(isSuccess){
+            createToast.success(t('business.successMessage.categoryWasSuccessFullyAdded'))
+        }
+    },[isSuccess])
     
     return (
         <Dialog open={modalOpen} onOpenChange={setModalOpen}>
@@ -66,28 +73,28 @@ const AddSpaceCategory: FunctionComponent<IAddSpaceCategoryProps> = ({ icon, tri
                 <DialogHeader>  
                     <p>{categoryId}</p>
                     <DialogTitle>
-                        კატეგორიის დამატება
+                        {t('service.header.addButton')}
                     </DialogTitle>
                     <DialogDescription>
-                        მართე კატეგორიები მარტივად
+                        {t('categories.manageCategories.text')}
                     </DialogDescription>
                 </DialogHeader>
                 <form onSubmit={handleSubmit(handleSpaceCategory)} className="dialog_body flex flex-col gap-6">
                     <SelectDropDown
-                        label="კატეგორია"
+                        label={t('bookings.button.category')}
                         sentId={false}
                         options={[
-                            { id: '1', name: 'შიგნით' },
-                            { id: '2', name: 'გარეთ' },
+                            { id: '1', name: t('business.businessTexts.inside') },
+                            { id: '2', name: t('business.businessTexts.outside') },
                         ]}
                         {...register('name', { required: t('bookings.button.required.category') })}
                         error={errors.name?.message}
                     />
                     <DialogFooter className="flex">
                         <DialogClose asChild className="flex-1">
-                            <SecondaryButton>გაუქმება</SecondaryButton>
+                            <SecondaryButton>{t('bookings.actionButtons.cancel')}</SecondaryButton>
                         </DialogClose>
-                        <PrimaryButton className="flex-1">დამატება</PrimaryButton>
+                        <PrimaryButton loading={isLoading} className="flex-1">{t('bookings.button.add')}</PrimaryButton>
                     </DialogFooter>
                 </form>
             </DialogContent>

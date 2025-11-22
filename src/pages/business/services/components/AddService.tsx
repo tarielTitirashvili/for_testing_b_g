@@ -16,6 +16,9 @@ import type { TService } from '../Services'
 import TextInput from '@/components/shared/inputs/TextInput'
 import SelectDropDown from '@/components/shared/inputs/SelectDropDown'
 import PrimaryButton from '@/components/shared/buttons/PrimaryButton'
+import createToast from '@/lib/createToast'
+import { useDispatch } from 'react-redux'
+import { apiSlice } from '@/redux/APISlice'
 
 export interface IAddSalonServiceFormData {
   categoryId: number
@@ -75,8 +78,10 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
     serviceId ? serviceId : undefined, { skip: serviceId === undefined }
   )
 
-  const [createService] = useCreateServiceMutation()
-  const [editService] = useEditServiceMutation()
+  const dispatch = useDispatch()
+
+  const [createService, {isLoading: isCreateServiceLoading, isSuccess: isCreateServiceSuccess}] = useCreateServiceMutation()
+  const [editService, {isLoading: isEditServiceLoading, isSuccess: isEditServiceSuccess}] = useEditServiceMutation()
 
   const [image, setImage] = useState<string | null>(null)
   const [imageError, setImageError] = useState<string | null>(null)
@@ -140,6 +145,15 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
       }
     }
   }, [serviceByIdSuccess])
+
+  useEffect(()=>{
+    if(isCreateServiceSuccess)
+      createToast.success(t('business.successMessage.createDishWasSuccessFull'))
+    if(isEditServiceSuccess)
+      createToast.success(t('business.successMessage.infoWasSuccessFullyUpdated'))
+    if(isEditServiceSuccess || isCreateServiceSuccess)
+      dispatch(apiSlice.util.invalidateTags(["Service"]))
+  },[isCreateServiceSuccess, isEditServiceSuccess])
 
   return (
     <Dialog open={modalOpen} onOpenChange={setModalOpen}>
@@ -224,7 +238,7 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
             <DialogClose className="flex-1 w-full border-[#BEBEBE] border-2 rounded-md py-2 cursor-pointer">
               {t('bookings.button.close')}
             </DialogClose>
-            <PrimaryButton className='flex-1'>
+            <PrimaryButton loading={isCreateServiceLoading ||isEditServiceLoading} className='flex-1'>
               {serviceId ? t('bookings.button.edit') : t('bookings.button.save')}
             </PrimaryButton>
           </div>

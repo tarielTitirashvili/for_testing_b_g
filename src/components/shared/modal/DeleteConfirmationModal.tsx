@@ -15,9 +15,10 @@ interface IDeleteConfirmationModal {
     modalTitle: string
     modalDescription: string
     dropdownItem?: boolean
+    isDeleteProgress?: boolean
 }
 
-const DeleteConfirmationModal: FunctionComponent<IDeleteConfirmationModal> = ({ itemId, handleDeleteItem, modalTitle, modalDescription, dropdownItem }) => {
+const DeleteConfirmationModal: FunctionComponent<IDeleteConfirmationModal> = ({ itemId, handleDeleteItem, modalTitle, modalDescription, dropdownItem, isDeleteProgress }) => {
     return (
         <Dialog>
             { dropdownItem ? (
@@ -49,6 +50,7 @@ const DeleteConfirmationModal: FunctionComponent<IDeleteConfirmationModal> = ({ 
                         <PrimaryButton
                             type="submit"
                             className="bg-red-500"
+                            loading={isDeleteProgress}
                             handleClick={() => handleDeleteItem(itemId)}
                         >
                             { t("bookings.actionButtons.delete") }

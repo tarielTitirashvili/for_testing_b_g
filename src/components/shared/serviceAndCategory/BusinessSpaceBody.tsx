@@ -27,6 +27,7 @@ interface ISpaceBodyProps {
     isError: boolean
     shouldSkipGetSpacesQuery: boolean
     isCategoryLoading: boolean
+    isDeleteProgress?: boolean
 }
 
 const BusinessSpaceBody: FunctionComponent<ISpaceBodyProps> = (props: ISpaceBodyProps) => {
@@ -39,7 +40,8 @@ const BusinessSpaceBody: FunctionComponent<ISpaceBodyProps> = (props: ISpaceBody
         isLoading, 
         isSuccess, 
         shouldSkipGetSpacesQuery,
-        isCategoryLoading
+        isCategoryLoading,
+        isDeleteProgress
     } = props
 
     const { t } = useTranslation()
@@ -73,6 +75,7 @@ const BusinessSpaceBody: FunctionComponent<ISpaceBodyProps> = (props: ISpaceBody
                         handleRemove={removeSpace}
                         categories={categories ?? []}
                         space={space}
+                        isDeleteProgress={isDeleteProgress}
                     />
                 </TabsContent>
             ))}

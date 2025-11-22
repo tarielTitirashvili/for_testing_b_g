@@ -59,7 +59,8 @@ export const serviceApiSlice = apiSlice.injectEndpoints({
                 method: "PUT",
                 data: data,
             }),
-            invalidatesTags: ['Service']
+            // invalidatesTags: ['Service']
+            //! call this invalidation inside component after success to prevent rerenders aff parent components and show success message
         }),
 
         removeService: builder.mutation<void, number>({
@@ -76,7 +77,8 @@ export const serviceApiSlice = apiSlice.injectEndpoints({
                 method: "POST",
                 data: data
             }),
-            invalidatesTags: ['Service']
+            // invalidatesTags: ['Service']
+            //! call this invalidation inside component after success to prevent rerenders aff parent components and show success message
         })
 
     })

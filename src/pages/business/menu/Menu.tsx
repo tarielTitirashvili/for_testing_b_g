@@ -11,6 +11,8 @@ import BusinessServiceBody from "@/components/shared/serviceAndCategory/Business
 import AddCategory from "@/pages/business/services/components/AddCategory";
 import AddService from "@/pages/business/services/components/AddService";
 import Loader from '@/components/shared/loader'
+import createToast from '@/lib/createToast'
+import { useTranslation } from 'react-i18next'
 
 const Menu: FunctionComponent = () => {
     const { id } = useParams()
@@ -31,7 +33,9 @@ const Menu: FunctionComponent = () => {
         isError: isServicesError
     } = useGetServicesQuery(id! ? +id : undefined, { skip: !id });
 
-    const [deleteCategory] = useDeleteCategoryMutation()
+    const { t } = useTranslation()
+
+    const [deleteCategory, {isLoading: isDeleteCategoryProgress, isSuccess: isDeleteCategorySuccess}] = useDeleteCategoryMutation()
     const [deleteService] = useRemoveServiceMutation()
     
     const removeCategory = async (id: number) => {
@@ -43,6 +47,12 @@ const Menu: FunctionComponent = () => {
             navigate(`/menu/${categories[0].id}`, { replace: true })
         }
     }, [id, categories, navigate])
+
+    useEffect(()=>{
+        if(isDeleteCategorySuccess){
+            createToast.success(t('business.successMessage.categoryWasSuccessfullyDeleted'))
+        }
+    },[isDeleteCategorySuccess])
 
     return (
         <div className="bg-white p-6 rounded-sm">
@@ -61,6 +71,7 @@ const Menu: FunctionComponent = () => {
                         isSuccess={isCategoryListSuccess}
                         isError={isCategoryError}
                         isLoading={isCategoryLoading}
+                        isDeleteProgress={isDeleteCategoryProgress}
                     />
                     
                     <BusinessServiceBody
@@ -71,6 +82,7 @@ const Menu: FunctionComponent = () => {
                         isLoading={isServicesLoading}
                         isError={isServicesError}
                         isSuccess={isServicesSuccess}
+                        isDeleteProgress={isDeleteCategoryProgress}
                     />
                 </Tabs>
             </Loader>

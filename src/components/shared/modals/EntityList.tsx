@@ -29,9 +29,10 @@ interface IEntityListProps {
     primaryButtonClick?: () => void
     removeItem?: (id: number) => void
     EditComponent?: React.ComponentType<EditComponentProps>
+    isDeleteProgress?: boolean
 }
 
-const EntityList: FunctionComponent<IEntityListProps> = ({ entities, title, description, label, /*primaryButtonText, primaryButtonClick, */ removeItem, EditComponent }) => {
+const EntityList: FunctionComponent<IEntityListProps> = ({ entities, title, description, label, /*primaryButtonText, primaryButtonClick, */ removeItem, EditComponent, isDeleteProgress }) => {
     
     return (
         <Dialog>
@@ -60,6 +61,7 @@ const EntityList: FunctionComponent<IEntityListProps> = ({ entities, title, desc
                                         modalDescription={t("categories.deleteModalt.description", {
                                             category: entity.name
                                         })}
+                                        isDeleteProgress={isDeleteProgress}
                                     />
                                 </div>
                             </div>

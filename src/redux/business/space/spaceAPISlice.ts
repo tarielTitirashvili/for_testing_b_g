@@ -34,7 +34,8 @@ export const spaceApiSlice = apiSlice.injectEndpoints({
                 method: 'PUT',
                 data: data,
             }),
-            invalidatesTags: ['Space'],
+            // invalidatesTags: ['Space'],
+            // //! call this invalidation inside component after success to prevent rerenders aff parent components and show success message
         }),
 
         deleteSpace: builder.mutation<void, number | undefined>({
@@ -51,7 +52,8 @@ export const spaceApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 data
             }),
-            invalidatesTags: ['Space'],
+            // invalidatesTags: ['Space'],
+            // //! call this invalidation inside component after success to prevent rerenders aff parent components and show success message
         }),
         
         switchSpaceStatus: builder.mutation<void, IEditSpace>({

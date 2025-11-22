@@ -12,6 +12,8 @@ import BusinessSpaceBody from "@/components/shared/serviceAndCategory/BusinessSp
 import AddSpaceCategory from "./components/AddSpaceCategory";
 import AddSpace from "./components/AddSpace";
 import Loader from '@/components/shared/loader'
+import createToast from '@/lib/createToast'
+import { useTranslation } from 'react-i18next'
 
 export interface ISpace {
     id: number
@@ -31,6 +33,7 @@ const Spaces: FunctionComponent = () => {
 
     const { id } = useParams()
     const navigate = useNavigate()
+    const { t } = useTranslation()
 
     // space category
     const { 
@@ -39,7 +42,7 @@ const Spaces: FunctionComponent = () => {
         isLoading:isCategoryLoading,
         isError:isCategoryError 
     } = useGetTableCategoryQuery()
-    const [deleteTableCategory] = useDeleteTableCategoryMutation()
+    const [deleteTableCategory, {isLoading: isDeleteProgress, isSuccess: isDeleteSuccess}] = useDeleteTableCategoryMutation()
     const shouldSkipGetSpacesQuery = !id
 
     // spaces
@@ -51,13 +54,22 @@ const Spaces: FunctionComponent = () => {
         isError: isSpaceListError
     } = useGetSpacesQuery(+id! || undefined, { skip: shouldSkipGetSpacesQuery})
     
-    const [deleteSpace] = useDeleteSpaceMutation()    
+    const [deleteSpace, {isLoading: isSpaceDeleteLoading, isSuccess: isSpaceDeleteSuccess}] = useDeleteSpaceMutation()    
 
     useEffect(() => {
         if (shouldSkipGetSpacesQuery && categoryList.length) {
             navigate(`/spaces/${categoryList[0].id}`, { replace: true })
         }
     }, [id, categoryList, navigate])
+
+    useEffect(()=>{
+        if(isDeleteSuccess){
+            createToast.success(t('business.successMessage.categoryWasSuccessfullyDeleted'))
+        }
+        if(isSpaceDeleteSuccess){
+            createToast.success(t('business.successMessage.spaceWasSuccessFullyDeleted'))
+        }
+    },[isDeleteSuccess, isSpaceDeleteSuccess])
 
     return (
         <div className="bg-white p-6 rounded-sm">
@@ -72,6 +84,7 @@ const Spaces: FunctionComponent = () => {
                             removeCategory={deleteTableCategory}
                             AddCategoryComponent={AddSpaceCategory}
                             // EditComponent={AddSpaceCategory}
+                            isDeleteProgress={isDeleteProgress}
                             AddItemComponent={AddSpace}
                             isSuccess={isCategoryListSuccess}
                             isLoading={isCategoryLoading}
@@ -88,6 +101,7 @@ const Spaces: FunctionComponent = () => {
                             isLoading={isSpaceListLoading}
                             isCategoryLoading={isCategoryLoading}
                             isError={isSpaceListError}
+                            isDeleteProgress={isSpaceDeleteLoading}
                         />
                 </Tabs>
             </Loader>

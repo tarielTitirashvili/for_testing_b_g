@@ -27,9 +27,10 @@ interface IServiceCategoryBodyProps {
     isLoading: boolean
     isError: boolean
     isSuccess: boolean
+    isDeleteProgress?: boolean
 }
 
-const BusinessServiceBody: FunctionComponent<IServiceCategoryBodyProps> = ({ services, categories, categoryId, handleServiceRemove, isLoading, isError, isSuccess }) => {    
+const BusinessServiceBody: FunctionComponent<IServiceCategoryBodyProps> = ({ services, categories, categoryId, handleServiceRemove, isLoading, isError, isSuccess, isDeleteProgress }) => {    
     
     const {t} = useTranslation() 
     
@@ -64,6 +65,7 @@ const BusinessServiceBody: FunctionComponent<IServiceCategoryBodyProps> = ({ ser
                         handleRemove={handleServiceRemove}
                         categories={categories}
                         categoryId={categoryId}
+                        isDeleteProgress={isDeleteProgress}
                     />
                 </TabsContent>
             ))}

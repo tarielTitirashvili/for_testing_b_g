@@ -3,7 +3,7 @@ import { useEffect, useState, type FunctionComponent } from "react"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { useForm } from "react-hook-form"
 
-import { useCreateSpaceMutation, useEditSpaceMutation, useGetSpaceByIdQuery, type ISpaceResponse } from "@/redux/business/space/spaceAPISlice"
+import { spaceApiSlice, useCreateSpaceMutation, useEditSpaceMutation, useGetSpaceByIdQuery, type ISpaceResponse } from "@/redux/business/space/spaceAPISlice"
 
 import type { ISpace } from "../Spaces"
 
@@ -13,6 +13,8 @@ import SecondaryButton from "@/components/shared/buttons/SecondaryButton"
 import PrimaryButton from "@/components/shared/buttons/PrimaryButton"
 import { Pen } from "lucide-react"
 import { t } from "i18next"
+import { useDispatch } from 'react-redux'
+import createToast from '@/lib/createToast'
 
 export interface IAddSpaceFormData {
     tableCategoryId: number,
@@ -56,8 +58,11 @@ const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categ
     const { data: spaceDataById, isSuccess: spaceByIdSuccess } = useGetSpaceByIdQuery(spaceId, {
         skip: spaceId === undefined
     })
-    const [editSpaceService] = useEditSpaceMutation()
-    const [createdSpaceService] = useCreateSpaceMutation()
+
+    const dispatch = useDispatch()
+
+    const [editSpaceService, {isSuccess: isSpaceEditSuccess, isLoading: isSpaceEditLoading}] = useEditSpaceMutation()
+    const [createdSpaceService, {isSuccess: isSpaceCreationSuccess, isLoading: isSpaceCreationLoading}] = useCreateSpaceMutation()
 
     const handleSpaceServiceEdit = (data: IAddSpaceFormData) => {
         const payload: IEditSpace = {
@@ -117,6 +122,15 @@ const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categ
         }
     }, [spaceByIdSuccess])
 
+    useEffect(()=>{
+        if(isSpaceEditSuccess)
+            createToast.success(t('business.successMessage.infoWasSuccessFullyUpdated'))
+        if(isSpaceCreationSuccess)
+            createToast.success(t('business.successMessage.spaceWasSuccessFullyAdded'))
+        if(isSpaceCreationSuccess || isSpaceEditSuccess)
+            dispatch(spaceApiSlice.util.invalidateTags(["Space"]))
+    },[isSpaceEditSuccess, isSpaceCreationSuccess, dispatch])
+
     return (
         <Dialog open={modalOpen} onOpenChange={setModalOpen}>
             <DialogTrigger
@@ -156,7 +170,7 @@ const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categ
                         <DialogClose asChild className="flex-1">
                             <SecondaryButton>{ t('bookings.button.close') }</SecondaryButton>
                         </DialogClose>
-                        <PrimaryButton className="flex-1">
+                        <PrimaryButton loading={isSpaceEditLoading || isSpaceCreationLoading} className="flex-1">
                             {spaceId ? t('bookings.button.edit') : t('bookings.button.save')}
                         </PrimaryButton>
                     </DialogFooter>

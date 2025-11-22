@@ -29,9 +29,10 @@ interface ISpaceCardProps {
     categories?: ICategory[]
     handleRemove: (id: number) => void
     categoryId?: string
+    isDeleteProgress?: boolean
 }
 
-const SpaceCard: FunctionComponent<ISpaceCardProps> = ({ space, handleRemove, categories, categoryId }) => {
+const SpaceCard: FunctionComponent<ISpaceCardProps> = ({ space, handleRemove, categories, categoryId, isDeleteProgress }) => {
 
     // move up -----------
     const [switchSpaceStatus] = useSwitchSpaceStatusMutation()
@@ -81,6 +82,7 @@ const SpaceCard: FunctionComponent<ISpaceCardProps> = ({ space, handleRemove, ca
                                     modalDescription={t('space.deleteModalt.description', {
                                         space: space.name
                                     })}
+                                    isDeleteProgress={isDeleteProgress}
                                 />
                             </DropdownMenuItem>
                         </DropdownMenuRadioGroup>

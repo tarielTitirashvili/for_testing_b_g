@@ -38,10 +38,11 @@ interface IBusinessHeader {
     isSuccess: boolean
     isLoading: boolean
     isError: boolean
+    isDeleteProgress?: boolean
 }
 
 
-const BusinessHeader: FunctionComponent<IBusinessHeader> = ({ serviceCategories, removeCategory, AddItemComponent, AddCategoryComponent, EditComponent, isError, isLoading, isSuccess }) => {
+const BusinessHeader: FunctionComponent<IBusinessHeader> = ({ serviceCategories, removeCategory, AddItemComponent, AddCategoryComponent, EditComponent, isError, isLoading, isSuccess, isDeleteProgress }) => {
     
     if (isLoading) {
         return (
@@ -85,16 +86,17 @@ const BusinessHeader: FunctionComponent<IBusinessHeader> = ({ serviceCategories,
                     description={t('service.header.category.description')}
                     removeItem={removeCategory}
                     EditComponent={EditComponent}
+                    isDeleteProgress={isDeleteProgress}
                 />
                 <CustomDropdown
                     trigger={<PrimaryPressable> <Plus /> {t("bookings.button.add")}</PrimaryPressable>}
                 >
                     <DropdownMenuGroup className="flex flex-col gap-2 p-2">
                         <DropdownMenuItem asChild>
-                            {AddItemComponent && <AddItemComponent triggerText="ადგილი" categories={serviceCategories} />}
+                            {AddItemComponent && <AddItemComponent triggerText={t('business.business.place.text')} categories={serviceCategories} />}
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                            { AddCategoryComponent && <AddCategoryComponent triggerText="კატეგორია" /> }
+                            { AddCategoryComponent && <AddCategoryComponent triggerText={t('bookings.button.category')} /> }
                         </DropdownMenuItem>
                     </DropdownMenuGroup>
                 </CustomDropdown>
