@@ -5,6 +5,7 @@ import { getDispatch } from '@/redux/storeAccessor'
 import { logout } from '@/redux/auth/authSlice'
 import { apiSlice } from '@/redux/APISlice'
 import createToast from '@/lib/createToast'
+import { t } from 'i18next'
 
 export const axiosBaseQuery =
   (
@@ -59,7 +60,7 @@ export const axiosBaseQuery =
     if(error.status === 401){
       dispatch(logout())
       dispatch(apiSlice.util.resetApiState())
-      createToast.error(error?.response?.data?.title, error?.response?.data?.text)
+      createToast.error(error?.response?.data?.title, t('common.errorMessage.logoutError'))
       return error.title
     }
     if(error.status && error.status !== 400){

@@ -450,6 +450,7 @@
   "business.successMessage.categoryWasSuccessfullyDeleted": "კატეგორია წარმატებით წაიშალა",
 
   "business.successMessage.createDishWasSuccessFull": "კერძი წარმატებით დაემატა",
+  "common.errorMessage.logoutError":"სესიის ვადა ამოიწურა",
 
   "":""
 
