@@ -8,16 +8,18 @@ import TableRows from './tableRows'
 import EmptyResponse from '@/components/shared/emptyResponse'
 import Loader from '@/components/shared/loader'
 import TableSkeletonRow from './tableSkeletonRow'
+import type { IConfirmBookingPayload } from '@/redux/business/booking/bookingAPISlice'
 
 type Props = {
   bookings: BookingType[]
   businessType: 1 | 2 | null
   bookingsLoadingError: boolean
   loadingBookings: boolean
+  confirmationMutation: (payload: IConfirmBookingPayload) =>void
 }
 
 const BookingsTable = (props: Props) => {
-  const { bookings, businessType, bookingsLoadingError, loadingBookings } = props
+  const { bookings, businessType, bookingsLoadingError, loadingBookings, confirmationMutation } = props
   const { t } = useTranslation()
 
   const tableHeadRenderer = (children: React.ReactNode) => (
@@ -75,13 +77,13 @@ const BookingsTable = (props: Props) => {
         <TableBody>
           {/* skeletons */}
           {
-            loadingBookings && Array.from({ length: 10 }, (_, i) => i).map(i=>{
+            loadingBookings && bookings.length === 0 && Array.from({ length: 10 }, (_, i) => i).map(i=>{
               return  <TableSkeletonRow key={i} />
             })
           }
           {/* data mapping */}
-          {bookings.map((booking, index) => {
-            return <TableRows booking={booking} key={index} businessType={businessType} />
+          {bookings.map((booking) => {
+            return <TableRows booking={booking} key={booking.UId} businessType={businessType} confirmationMutation={confirmationMutation} />
           })}
         </TableBody>
       </Table>

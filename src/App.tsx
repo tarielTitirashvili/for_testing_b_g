@@ -5,6 +5,11 @@ import'dayjs/locale/ka'
 
 import './fonts.css'
 import { Toaster } from 'sonner'
+import utc from "dayjs/plugin/utc"
+import timezone from "dayjs/plugin/timezone"
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 const App = () => {
   dayjs.locale('ka')

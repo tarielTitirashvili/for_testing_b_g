@@ -18,7 +18,8 @@ export const apiSlice = createApi({
     'District',
     'adminUsers',
     'BusinessCategory',
-    "Language"
+    "Language",
+    'Bookings'
   ], // optional, for cache invalidation
   endpoints: () => ({}), // empty for now
   keepUnusedDataFor: 0,        // 💡 don't keep cache after unsubscribing

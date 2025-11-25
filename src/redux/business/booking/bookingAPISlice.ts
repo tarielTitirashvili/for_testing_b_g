@@ -52,6 +52,10 @@ export interface Status {
     name: string;
 }
 
+export interface IConfirmBookingPayload {
+    orderId: number
+}
+
 
 export const bookingApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -60,12 +64,17 @@ export const bookingApiSlice = apiSlice.injectEndpoints({
             query: () => ({
                 url: "/business/orders",
                 method: "GET"
-            })
+            }),
+            providesTags: ['Bookings']
         }),
-
-
-
+        confirmBooking: builder.mutation<void, IConfirmBookingPayload>({
+            query: (payload) => ({
+                url: `/business/orders/${payload.orderId}/confirm`,
+                method: "POST"
+            }),
+            invalidatesTags: ['Bookings'],
+        }),
     })
 })
 
-export const { useGetAllOrdersQuery } = bookingApiSlice
+export const { useGetAllOrdersQuery, useConfirmBookingMutation } = bookingApiSlice

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 
-import { useGetAllOrdersQuery } from '@/redux/business/booking/bookingAPISlice'
+import { useConfirmBookingMutation, useGetAllOrdersQuery } from '@/redux/business/booking/bookingAPISlice'
 import { useSelector } from 'react-redux'
 import { selectedBusinessProfileSelector } from '@/redux/auth/authSelectors'
 
@@ -18,17 +18,19 @@ const Bookings = () => {
   const selectedBusinessProfile = useSelector(selectedBusinessProfileSelector)
 
   const {data, isLoading, isError } = useGetAllOrdersQuery()
+  const [confirmationMutation, {isLoading: isConfirmationLoading} ] = useConfirmBookingMutation()
 
   const businessType = selectedBusinessProfile?.businessCategory?.id
 
   const bookingsTableData =
     data?.data.map((order, index) => {
       const base = {
-        id: index + 1,
+        UId: index + 1,
         dateTime: order.startDate,
         customer: `${order.client.firstName ?? ''} ${order.client.lastName ?? ''}`.trim(),
         phone: order.client.phoneNumber ?? '-',
         status: order.statusId.id,
+        id: order.id
       }
 
       if (businessType === 1) {
@@ -49,7 +51,7 @@ const Bookings = () => {
 
       return base
   }) ?? []
-
+  console.log(bookingsTableData)
   return (
 
     <div className="rounded-md flex flex-col gap-6 max-w-full">
@@ -76,9 +78,10 @@ const Bookings = () => {
         )}
         <BookingsTable
           bookingsLoadingError={isError}
-          loadingBookings={isLoading}
+          loadingBookings={isLoading || isConfirmationLoading}
           bookings={bookingsTableData ?? []} 
           businessType={selectedBusinessProfile?.businessCategory ? selectedBusinessProfile?.businessCategory.id : null} 
+          confirmationMutation={confirmationMutation}
         />
       </div>
 

@@ -32,6 +32,7 @@ export const BOOKING_TIME_OPTIONS = [
 ]
 
 export type BookingType = {
+  UId: number
   id: number
   dateTime: string
   customer: string
