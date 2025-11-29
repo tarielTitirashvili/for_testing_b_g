@@ -1,29 +1,28 @@
-import type { EventsArrayElementType } from '@/lib/schedulerEvents'
 import type { RootState } from '@/redux/store'
 // import { CalendarEventType, useEventStore } from "@/lib/store";
 
 import dayjs from 'dayjs'
 import { useSelector } from 'react-redux'
-import { CALENDAR_VIEW_OPTIONS } from '../constants'
-import { useRef, useState } from 'react'
-import MoreEventsView from './moreEventsView'
+import { CALENDAR_VIEW_OPTIONS, transformToLocalDate } from '../constants'
+import { useRef } from 'react'
+import type { IOrder } from '@/redux/business/schedulerCalendar/schedulerCalendarAPISlice'
 
 type EventRendererProps = {
   date: dayjs.Dayjs
-  events: EventsArrayElementType[]
+  events: IOrder[]
 }
 export function EventRenderer({ date, events }: EventRendererProps) {
   const hasEventOnTwoDaysRef = useRef<boolean>(false)
   //! for monthView only
-  const [showAllEventsForMonthView, setShowAllEventsForMonthView] =
-    useState<boolean>(false)
 
   const selectedView = useSelector(
     (state: RootState) => state.schedulerCalendar.selectedView
   )
-  // console.log(events)
-  const filteredEvents = events.filter((event: EventsArrayElementType) => {
-    const endDate = event.endDate.format('DD-MM-YY HH:mm').split(' ')
+
+  const filteredEvents = events.filter((event: IOrder) => {
+    
+    const endDate = transformToLocalDate(event.endDate).format('DD-MM-YY HH:mm').split(' ')
+    const startDate = transformToLocalDate(event.startDate)
     const formattedDate = date.format('DD-MM-YY')
     // if (selectedView === CALENDAR_VIEW_OPTIONS[2].value) {
     //   // monthView
@@ -39,7 +38,7 @@ export function EventRenderer({ date, events }: EventRendererProps) {
       if (
         endDate[0] === formattedDate &&
         date.format('HH') === '00' &&
-        event.date.format('DD-MM-YY') !== formattedDate &&
+        startDate.format('DD-MM-YY') !== formattedDate &&
         endDate[1] !== '00:00'
       ) {
         hasEventOnTwoDaysRef.current = true
@@ -48,33 +47,34 @@ export function EventRenderer({ date, events }: EventRendererProps) {
         const start = date;
         const end = date.add(15, 'minute');
 
-        return event.date.isAfter(start) && event.date.isBefore(end);
+        return startDate.isAfter(start) && startDate.isBefore(end);
         // return event.date.format('DD-MM-YY HH') === date.format('DD-MM-YY HH')
       }
     // }
   })
-  // console.log(date.toString(), filteredEvents)
 
-  const calculateEventLengthInMinutes = (event: EventsArrayElementType) => {
+  const calculateEventLengthInMinutes = (event: IOrder) => {
+    const startDate = transformToLocalDate(event.startDate)
+    const endDate = transformToLocalDate(event.endDate)
     const startOfDay = date.startOf('day')
     //!if event starts yesterday
-    if (event.date.isBefore(startOfDay, 'day')) {
-      return event.endDate.diff(startOfDay, 'minute')
+    if (startDate.isBefore(startOfDay, 'day')) {
+      return endDate.diff(startOfDay, 'minute')
       //! if event finishes tomorrow
-    } else if (event.endDate.isAfter(startOfDay, 'day')) {
-      return startOfDay.add(1, 'day').diff(event.date, 'minute')
+    } else if (endDate.isAfter(startOfDay, 'day')) {
+      return startOfDay.add(1, 'day').diff(startDate, 'minute')
       //! all other cases
-    } else return event.endDate.diff(event.date, 'minute')
+    } else return endDate.diff(startDate, 'minute')
   }
-  const calculateStartPoint = (event: EventsArrayElementType) => {
+  const calculateStartPoint = (event: IOrder) => {
     if (hasEventOnTwoDaysRef.current) {
       return 0
     } else {
-      return ((event.date.minute() - date.minute()) / 15) * 100
+      return ((transformToLocalDate(event.startDate).minute() - date.minute()) / 15) * 100
     }
   }
 
-  const getPositionOffEvent = (event: EventsArrayElementType) => {
+  const getPositionOffEvent = (event: IOrder) => {
     if (selectedView !== CALENDAR_VIEW_OPTIONS[2].value) {
       return {
         left: `${calculateStartPoint(event)}%`,
@@ -95,25 +95,7 @@ export function EventRenderer({ date, events }: EventRendererProps) {
 
   const handleClickMore = (e?: React.MouseEvent<HTMLElement>) => {
     e?.stopPropagation()
-    setShowAllEventsForMonthView(true)
-  }
-
-  const handleClose = (e?: React.MouseEvent<HTMLElement>) => {
-    e?.stopPropagation()
-    setShowAllEventsForMonthView(false)
-  }
-
-  //! modal for month view 3+ bookings
-  if (showAllEventsForMonthView) {
-    return (
-      <MoreEventsView
-        filteredEvents={filteredEvents}
-        date={date}
-        handleClose={handleClose}
-        getPositionOffEvent={getPositionOffEvent}
-        showAllEventsForMonthView={showAllEventsForMonthView}
-      />
-    )
+    // setShowAllEventsForMonthView(true)
   }
 
   return (
@@ -134,17 +116,17 @@ export function EventRenderer({ date, events }: EventRendererProps) {
             style={getPositionOffEvent(event)}
           >
             <h5>
-              {event.title}
+              {event.services && event.services.length > 0 ? event.services[0].name : ''}
             </h5>
             <p>
-              {event.description}
+              {event.notes}
             </p>
             <div>
             <b>
-              starts {event.date.format('HH:mm')}
+              {/* starts {event.startDate.format('HH:mm')} */}
             </b>
             <b>
-              ends {event.endDate.format('HH:mm')}
+              {/* ends {event.endDate.format('HH:mm')} */}
             </b>
             </div>
 

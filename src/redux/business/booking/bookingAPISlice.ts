@@ -12,11 +12,11 @@ export interface OrderItem {
     id: number;
     startDate: string;
     client: Client;
-    services: ServiceItem[]; 
-    staff: Staff;
+    services: IServiceItem[]; 
+    staff: IStaff;
     durationMinutes: number;
     price: number | null;
-    statusId: Status;
+    statusId: IStatus;
     tableCategoryId: number | null;
     guestCount: number | null;
     endDate: string;
@@ -26,7 +26,7 @@ export interface OrderItem {
     isExternal: boolean;
 }
 
-export interface Client {
+interface Client {
     id: string;
     firstName: string | null;
     lastName: string | null;
@@ -34,20 +34,20 @@ export interface Client {
     phoneNumber: string | null;
 }
 
-export interface ServiceItem {
+interface IServiceItem {
     id: number;
     name: string;
     durationMinutes: number;
     price: number;
 }
 
-export interface Staff {
+export interface IStaff {
     id: string | null;
     firstName: string | null;
     lastName: string | null;
 }
 
-export interface Status {
+export interface IStatus {
     id: number;
     name: string;
 }

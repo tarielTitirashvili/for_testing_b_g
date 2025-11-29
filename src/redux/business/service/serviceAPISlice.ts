@@ -14,7 +14,7 @@ export interface IBeseService {
 }
 
 // fot service names
-interface IService {
+export interface IService {
     id: number
     name: string
 }

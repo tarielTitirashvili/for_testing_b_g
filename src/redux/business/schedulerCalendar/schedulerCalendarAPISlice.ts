@@ -1,88 +1,100 @@
 // import type { IRole } from "@/pages/business/settings/components/RolesAndRights";
 // import type { IAddStaffFormData } from "@/pages/business/teams/staff/AddStaff";
-import { apiSlice } from "@/redux/APISlice";
-import type { Dayjs } from 'dayjs'
+import { apiSlice } from '@/redux/APISlice'
+// import type { Dayjs } from 'dayjs'
+import type { IService } from '../service/serviceAPISlice'
+import type { IStaff, IStatus } from '../booking/bookingAPISlice'
+// import dayjs from 'dayjs'
+
+export interface IRootCalendarResponse {
+  staff: StaffOrdersItem[] | []
+  tables: ITableWithOrders[] | []
+}
+export interface StaffOrdersItem {
+  staff: IStaff
+  orders: IOrder[]
+}
+export interface ITableWithOrders {
+  table: ITableInfo
+  orders: IOrder[]
+}
 
 type TGetCAlendarBookingsParams = {
-    start: string,
-    end: string,
-    includeExternal: boolean,
-    includeInternal: boolean,
-    staffIds: string[],
-    tableCategoryIds: number[],
-    statusIds: number[],
-  }
-  export interface IRootCalendarResponse {
-  staff: [];
-  tables: ITableWithOrders[];
+  start: string
+  end: string
+  includeExternal: boolean
+  includeInternal: boolean
+  staffIds: string[]
+  tableCategoryIds: number[]
+  statusIds: number[]
 }
-
-// export interface StaffMember {
-//   // You can add fields if staff objects are not empty
-// }
-
-export interface ITableWithOrders {
-  table: ITableInfo;
-  orders: IOrder[];
+interface ITableInfo {
+  id: number
+  name: string
 }
-
-export interface ITableInfo {
-  id: number;
-  name: string;
-}
-
 export interface IOrder {
-  id: number;
-  startDate: Dayjs;
-  endDate: Dayjs;
-  isExternal: boolean;
-  status: IOrderStatus;
-  services: [] | null;
-  tableCategoryId: number;
-  guestCount: number;
-  price: number | null;
-  notes: string;
+  id: number
+  startDate: string
+  endDate: string
+  isExternal: boolean
+  status: IStatus
+  services: IService[] | [] | null
+  tableCategoryId: number | null
+  guestCount: number | null
+  price: number | null
+  notes: string | null
 }
-
-export interface IOrderStatus {
-  id: number;
-  name: string;
-}
-
-// export interface Service {
-//   // Add service fields if backend sends them later
-// }
 
 export const schedulerCalendarAPISlice = apiSlice.injectEndpoints({
-    endpoints: (builder) => ({
+  endpoints: (builder) => ({
+    getCalendarBookings: builder.query<
+      IRootCalendarResponse,
+      TGetCAlendarBookingsParams
+    >({
+      query: (params) => ({
+        url: '/business/calendar',
+        method: 'GET',
+        params,
+      }),
+      // transformResponse: (response: IRootCalendarResponse) => {
+      //   const localDate = (date: Dayjs| string) => dayjs.utc(date).tz(dayjs.tz.guess())
 
-        getCalendarBookings: builder.query<IRootCalendarResponse,TGetCAlendarBookingsParams>({
-            query: (params) => ({
-                url: "/business/calendar",
-                method: "GET",
-                params
-            })
-        }),
+      //   let formattedStaff: StaffOrdersItem[] | [] = []
+      //   if(response.staff.length > 0){
+      //     formattedStaff = response.staff.map((staffItem) => {
+      //       const formattedOrders = staffItem.orders.map((order) => {
+      //         return {
+      //           ...order,
+      //           startDate: localDate(order.startDate as Dayjs),
+      //           endDate: localDate(order.endDate as Dayjs),
+      //         }
+      //       })
+      //       return {...staffItem, orders: formattedOrders}
+      //     })
+      //   }
+      //   return {...response, staff: formattedStaff}
+      // },
+    }),
 
-        // getBusinessRoles: builder.query<IRole[], void>({
-        //     query: () => ({
-        //         url: "/business/business-roles",
-        //         method: "GET"
-        //     })
-        // }),
+    // getBusinessRoles: builder.query<IRole[], void>({
+    //     query: () => ({
+    //         url: "/business/business-roles",
+    //         method: "GET"
+    //     })
+    // }),
 
-        // createStaff: builder.mutation<void, IAddStaffFormData>({
-        //     query: (data) => ({
-        //         url: "/business/register-staff",
-        //         method: "POST",
-        //         data: data
-        //     })
-        // })
-    })
+    // createStaff: builder.mutation<void, IAddStaffFormData>({
+    //     query: (data) => ({
+    //         url: "/business/register-staff",
+    //         method: "POST",
+    //         data: data
+    //     })
+    // })
+  }),
 })
 
-export const { 
-    useGetCalendarBookingsQuery,
-    // useGetBusinessRolesQuery, 
-    // useCreateStaffMutation
+export const {
+  useGetCalendarBookingsQuery,
+  // useGetBusinessRolesQuery,
+  // useCreateStaffMutation
 } = schedulerCalendarAPISlice

@@ -3,6 +3,7 @@ import { useGetStaffQuery } from "@/redux/business/staff/staffAPISlice"
 import StaffCard from "./staff/StaffCard"
 import EmptyResponse from '@/components/shared/emptyResponse'
 import { useTranslation } from 'react-i18next'
+import type { IService } from '@/redux/business/service/serviceAPISlice'
 
 export interface IStaffCard {
     id: string
@@ -14,10 +15,7 @@ export interface IStaffCard {
         id: string
         name: string
     }
-    services: {
-        id: number
-        name: string
-    }[]
+    services: IService[]
 }
 
 const Team: FunctionComponent = () => {

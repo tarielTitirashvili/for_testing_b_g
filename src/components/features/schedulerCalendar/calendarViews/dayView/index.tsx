@@ -1,100 +1,116 @@
-import { ScrollArea } from '@/components/ui/scroll-area'
-import dayjs from 'dayjs'
-import { useEffect, useState } from 'react'
 import { getHours } from '../../constants'
+import { Dayjs } from 'dayjs'
 import type { OnDayClick } from '..'
-import type { EventsArrayElementType } from '@/lib/schedulerEvents'
 import { EventRenderer } from '../eventRenderer'
+import type { IRootCalendarResponse } from '@/redux/business/schedulerCalendar/schedulerCalendarAPISlice'
+import EmptyResponse from '@/components/shared/emptyResponse'
+import { useTranslation } from 'react-i18next'
 
 type Props = {
-  selectedDate: dayjs.Dayjs
+  selectedDate: Dayjs
   handleClick: OnDayClick
-  events: EventsArrayElementType[] | []
+  calendarEvents: IRootCalendarResponse
 }
 
 const DayView = (props: Props) => {
-  const { selectedDate, handleClick, events } = props
+  const { selectedDate, handleClick, calendarEvents } = props
+  const { t } = useTranslation()
 
-  const [currentTime, setCurrentTime] = useState(dayjs())
+  const calendarEventsData = calendarEvents.staff.length
+    ? calendarEvents.staff
+    : calendarEvents.tables
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(dayjs())
-    }, 60000)
-    return clearInterval(interval)
-  }, [])
 
-  const isToday = selectedDate.format('DD-MM-YY') === dayjs().format('DD-MM-YY')
+  if (calendarEvents.staff.length === 0 && calendarEvents.tables.length === 0) {
+    return (
+      <div className="h-150 flex items-center justify-center">
+        <EmptyResponse customMessage={t('business.texts.noBookingWasFound')} />
+      </div>
+    )
+  }
 
   return (
-    <>
-      <div className="grid grid-cols-[auto_auto_1fr] px-4">
-        <div className="w-16 border-r border-gray-300 text-xs">GMT +2</div>
-        <div className="flex w-16 flex-col items-center">
-          <div className={`text-xs ${isToday ? 'text-[#EF7800]' : ''}`}>
-            {selectedDate.format('ddd')}{' '}
-          </div>
-          <div
-            className={`h-12 w-12 rounded-full p-2 text-2xl ${
-              isToday
-                ? 'bg-[#EF7800] text-[#fff] rounded-full flex items-center justify-center'
-                : ''
-            }`}
-          >
-            {selectedDate.format('D')}
-          </div>
-        </div>
-        <div></div>
-      </div>
-      <ScrollArea className="h-[70vh]">
-        <div className="grid grid-cols-[auto_1fr] p-4">
-          <div className="w-16 border-r border-gray-300">
-            {getHours.map((hour, index) => (
-              <div key={index} className="relative h-16">
-                <div className="absolute -top-2 text-xs text-gray-600">
-                  {hour.format('HH:mm')}
-                </div>
+    <div>
+      <div className="flex w-full h-[75vh] overflow-auto ">
+        <div className="sticky left-0 z-30">
+          <div className="h-10 border-b-2 border-[#EBEBEB]"></div>
+          {/* tariel this need to be separate component */}
+          {calendarEventsData.map((item) => {
+            const name =
+              'staff' in item
+                ? `${item.staff.firstName} ${item.staff.lastName}`
+                : item.table.name
+            const id = 'staff' in item ? item.staff.id : item.table.id
+            return (
+              <div
+                key={id}
+                className="h-25 bg-[#fff] border-b-2 border-r-2 border-[#EBEBEB] flex items-center justify-center"
+              >
+                {name}
               </div>
-            ))}
-          </div>
-          {/* Day/Boxes Column */}
-          <div className="relative border-r border-t border-gray-300">
-            {getHours.map((hour, i) => {
+            )
+          })}
+          {/* tariel this need to be separate component */}
+        </div>
+        <div
+          className={'flex flex-col relative '}
+          style={{ height: `${100 * 0 - 70}px` }}
+        >
+          <div className={'flex sticky top-0 z-31 '}>
+            {getHours.map((hour, index) => {
               return (
                 <div
-                  key={i}
-                  className={
-                    'relative flex h-16 cursor-pointer flex-col items-center gap-y-2 border-b border-gray-300 hover:bg-gray-100'
-                  }
-                  onClick={() => handleClick(selectedDate, hour)}
+                  key={index}
+                  className="w-52 h-10 flex items-end bg-[#fff] border-b-2 border-[#EBEBEB]"
                 >
-                  <EventRenderer
-                    events={events}
-                    date={selectedDate
-                      .hour(hour.hour())
-                      .minute(hour.minute())
-                      .second(hour.second())}
-                  />
+                  <div className="origin-bottom-left translate-x-[-50%] text-xs">
+                    {hour.format('HH:mm')}
+                  </div>
                 </div>
               )
             })}
-
-            {/* Current time indicator */}
-            {isToday && (
-              <div
+          </div>
+          {calendarEventsData.map((item, index) => {
+            return (
+              <div key={index} className="flex">
+                {getHours.map((Hourglass, index) => {
+                  return (
+                    <div
+                      key={`${index}`}
+                      className="h-25 w-52 border-b-1 border-r-2 border-[#EBEBEB] pointer hover:bg-gray-50 flex relative items-center justify-center"
+                      onClick={() => {
+                        handleClick(Hourglass)
+                        console.log('Hourglass', Hourglass.format('HH:mm'))
+                      }}
+                    >
+                      <EventRenderer
+                        events={item.orders}
+                        date={selectedDate
+                          .hour(Hourglass.hour())
+                          .minute(Hourglass.minute())
+                          .second(Hourglass.second())}
+                      />
+                    </div>
+                  )
+                })}
+                {/* {selectedDate && (
+                <div
                 className={'absolute z-20 h-0.5 w-full bg-red-500'}
                 style={{
                   top: `${
-                    ((currentTime.hour() * 60 + currentTime.minute()) / 1440) *
+                    ((currentTime.hour() * 60 + currentTime.minute()) /
+                    1440) *
                     100
-                  }%`,
-                }}
-              />
-            )}
-          </div>
+                    }%`,
+                    }}
+                    />
+                    )} */}
+              </div>
+            )
+          })}
         </div>
-      </ScrollArea>
-    </>
+      </div>
+    </div>
   )
 }
 

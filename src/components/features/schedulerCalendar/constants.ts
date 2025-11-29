@@ -1,4 +1,4 @@
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 // import weekOfYear from 'dayjs/plugin/weekOfYear'
 
 export const CALENDAR_VIEW_OPTIONS = [
@@ -63,6 +63,9 @@ export const getWeekDays = (date: dayjs.Dayjs): WeekDay[] => {
 export const getHours = Array.from({ length: 96 }, (_, i) =>
   dayjs().startOf('day').add(i * 15, 'minute')
 );
+
+export const transformToLocalDate = (date: Dayjs | string) => dayjs.utc(date).tz(dayjs.tz.guess()) as Dayjs
+
 
 // Function to generate weeks of the month dynamically
 

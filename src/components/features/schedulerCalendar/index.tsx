@@ -10,8 +10,8 @@ const SchedulerCalendar = () => {
   const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs()) // redux cant work with state in date format so we should use local state
 
   const { data: calendarEvents, isFetching: isEventsFetching, isLoading: isEventsLoading } = useGetCalendarBookingsQuery({
-    start: dayjs().subtract(12, "week").tz(dayjs.tz.guess()).format("YYYY-MM-DDTHH:mm:ssZ").toString(),
-    end: dayjs().add(3, 'day').tz(dayjs.tz.guess()).format("YYYY-MM-DDTHH:mm:ssZ").toString(),
+    start: dayjs().tz(dayjs.tz.guess()).startOf("day").format("YYYY-MM-DDTHH:mm:ssZ").toString(),
+    end: dayjs().tz(dayjs.tz.guess()).endOf("day").format("YYYY-MM-DDTHH:mm:ssZ").toString(),
     includeExternal: true,
     includeInternal: true,
     staffIds: [],
