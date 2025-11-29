@@ -8,18 +8,21 @@ import type dayjs from 'dayjs'
 import { generateDailyOneHourEvents } from '@/lib/schedulerEvents'
 import { useMemo } from 'react'
 import NewDayView from './newDayView'
+import type { IRootCalendarResponse } from '@/redux/business/schedulerCalendar/schedulerCalendarAPISlice'
 
 type Props = {
   selectedDate: Dayjs
+  calendarEvents: IRootCalendarResponse
 }
 
 export type OnDayClick = (day: dayjs.Dayjs, hour?: dayjs.Dayjs) => void;
 
 const CalendarView = (props: Props) => {
-  const { selectedDate } = props
+  const { selectedDate, calendarEvents } = props
   // const selectedView = useSelector(
   //   (state: RootState) => state.schedulerCalendar.selectedView
   // )
+  console.log(calendarEvents)
   const handleClick: OnDayClick = (day, hour) => {
     console.log('day',day)
     console.log('hour',hour)

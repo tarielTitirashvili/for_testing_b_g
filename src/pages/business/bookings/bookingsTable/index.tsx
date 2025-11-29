@@ -16,10 +16,11 @@ type Props = {
   bookingsLoadingError: boolean
   loadingBookings: boolean
   confirmationMutation: (payload: IConfirmBookingPayload) =>void
+  cancelBookingMutation: (payload: IConfirmBookingPayload) =>void
 }
 
 const BookingsTable = (props: Props) => {
-  const { bookings, businessType, bookingsLoadingError, loadingBookings, confirmationMutation } = props
+  const { bookings, businessType, bookingsLoadingError, loadingBookings, confirmationMutation, cancelBookingMutation } = props
   const { t } = useTranslation()
 
   const tableHeadRenderer = (children: React.ReactNode) => (
@@ -83,7 +84,13 @@ const BookingsTable = (props: Props) => {
           }
           {/* data mapping */}
           {bookings.map((booking) => {
-            return <TableRows booking={booking} key={booking.UId} businessType={businessType} confirmationMutation={confirmationMutation} />
+            return <TableRows 
+              booking={booking}
+              key={booking.UId}
+              businessType={businessType}
+              confirmationMutation={confirmationMutation}
+              cancelBookingMutation={cancelBookingMutation}
+            />
           })}
         </TableBody>
       </Table>

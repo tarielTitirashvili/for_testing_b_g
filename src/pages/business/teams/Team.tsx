@@ -5,15 +5,17 @@ import EmptyResponse from '@/components/shared/emptyResponse'
 import { useTranslation } from 'react-i18next'
 
 export interface IStaffCard {
-    id: string,
-    firstName: string,
-    lastName: string,
+    id: string
+    firstName: string
+    lastName: string
+    phoneNumber: string
+    email: string
     role: {
-        id: string,
+        id: string
         name: string
-    },
+    }
     services: {
-        id: number,
+        id: number
         name: string
     }[]
 }

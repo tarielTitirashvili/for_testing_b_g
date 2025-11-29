@@ -17,10 +17,11 @@ type Props = {
   booking: BookingType,
   businessType: 1 | 2 | null
   confirmationMutation: (payload: IConfirmBookingPayload) =>void
+  cancelBookingMutation: (payload: IConfirmBookingPayload) =>void
 }
 
 const TableRows = (props: Props) => {
-  const { booking, businessType, confirmationMutation } = props
+  const { booking, businessType, confirmationMutation, cancelBookingMutation } = props
   const { t } = useTranslation()
   
   const status: { label: string; variant: BadgeVariant } =
@@ -99,7 +100,7 @@ const TableRows = (props: Props) => {
         </div>
       </TableCell>
       <TableCell className="min-w-[90px] h-[75px] font-[400] flex justify-center items-center pl-5">
-        <RowActionButtons variant={status.variant} id={booking.id} onClickConfirm={confirmationMutation}  />
+        <RowActionButtons variant={status.variant} id={booking.id} onClickConfirm={confirmationMutation} onClickCancel={cancelBookingMutation} />
       </TableCell>
     </TableRow>
   )

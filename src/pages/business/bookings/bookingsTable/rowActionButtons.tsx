@@ -12,10 +12,11 @@ type Props = {
   variant: BadgeVariant
   id: number
   onClickConfirm: (payload: IConfirmBookingPayload) =>void
+  onClickCancel: (payload: IConfirmBookingPayload) =>void
 }
 
 const RowActionButtons = (props: Props) => {
-  const { variant, onClickConfirm, id } = props
+  const { variant, onClickConfirm, id, onClickCancel } = props
 
   const { t } = useTranslation()
 
@@ -26,7 +27,7 @@ const RowActionButtons = (props: Props) => {
             <span className="hover:bg-[#e6e4e4] rounded-full p-1 cursor-pointer" onClick={()=>onClickConfirm({orderId: id})}>
               <Check color="#21C55D" />
             </span>
-            <span className="hover:bg-[#e6e4e4] rounded-full p-1 cursor-pointer">
+            <span className="hover:bg-[#e6e4e4] rounded-full p-1 cursor-pointer" onClick={()=>onClickCancel({orderId: id})}>
               <X color="#E81C1C" />
             </span>
           </div>

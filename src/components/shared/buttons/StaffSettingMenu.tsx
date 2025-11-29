@@ -30,7 +30,7 @@ const StaffSettingMenu: FunctionComponent<IStaffSettingMenu> = ({ id, services, 
                     <Calendar fontWeight={800} color="black" /> { t("bookings.button.seeInCalendar") }
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild className="font-medium cursor-pointer" onSelect={e => e.preventDefault()}>
-                    <label htmlFor={id}><AddStaff services={services} roles={roles} staffId={id} /> { t("bookings.actionButtons.edit") }</label>
+                    <AddStaff services={services} roles={roles} staffId={id} triggerText={t("bookings.actionButtons.edit")} triggerClassName='flex p-2 items-center gap-2 cursor-pointer hover:bg-[var(--accent)] hover:rounded-l text-[14px]' />
                 </DropdownMenuItem>
                 <DropdownMenuItem className="font-medium cursor-pointer">
                     <Trash2 color="red" /> <span className="text-red-500">{ t("bookings.actionButtons.delete") }</span>

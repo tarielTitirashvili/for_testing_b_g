@@ -74,7 +74,14 @@ export const bookingApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Bookings'],
         }),
+        cancelBooking: builder.mutation<void, IConfirmBookingPayload>({
+            query: (payload) => ({
+                url: `/business/orders/${payload.orderId}/cancel`,
+                method: "POST"
+            }),
+            invalidatesTags: ['Bookings'],
+        }),
     })
 })
 
-export const { useGetAllOrdersQuery, useConfirmBookingMutation } = bookingApiSlice
+export const { useGetAllOrdersQuery, useConfirmBookingMutation, useCancelBookingMutation } = bookingApiSlice

@@ -60,9 +60,9 @@ export const getWeekDays = (date: dayjs.Dayjs): WeekDay[] => {
   return weekDates
 }
 
-export const getHours = Array.from({ length: 24 }, (_, i) =>
-  dayjs().startOf('day').add(i, 'hour')
-)
+export const getHours = Array.from({ length: 96 }, (_, i) =>
+  dayjs().startOf('day').add(i * 15, 'minute')
+);
 
 // Function to generate weeks of the month dynamically
 

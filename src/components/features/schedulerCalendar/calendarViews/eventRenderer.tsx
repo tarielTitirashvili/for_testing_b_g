@@ -12,7 +12,6 @@ type EventRendererProps = {
   date: dayjs.Dayjs
   events: EventsArrayElementType[]
 }
-
 export function EventRenderer({ date, events }: EventRendererProps) {
   const hasEventOnTwoDaysRef = useRef<boolean>(false)
   //! for monthView only
@@ -22,20 +21,20 @@ export function EventRenderer({ date, events }: EventRendererProps) {
   const selectedView = useSelector(
     (state: RootState) => state.schedulerCalendar.selectedView
   )
-
+  // console.log(events)
   const filteredEvents = events.filter((event: EventsArrayElementType) => {
     const endDate = event.endDate.format('DD-MM-YY HH:mm').split(' ')
     const formattedDate = date.format('DD-MM-YY')
-    if (selectedView === CALENDAR_VIEW_OPTIONS[2].value) {
-      // monthView
-      return (
-        event.date.format('DD-MM-YY') === formattedDate ||
-        (endDate[0] === formattedDate && endDate[1] !== '00:00')
-      )
-    } else if (
-      selectedView === CALENDAR_VIEW_OPTIONS[0].value ||
-      selectedView === CALENDAR_VIEW_OPTIONS[1].value
-    ) {
+    // if (selectedView === CALENDAR_VIEW_OPTIONS[2].value) {
+    //   // monthView
+    //   return (
+    //     event.date.format('DD-MM-YY') === formattedDate ||
+    //     (endDate[0] === formattedDate && endDate[1] !== '00:00')
+    //   )
+    // } else if (
+      // selectedView === CALENDAR_VIEW_OPTIONS[0].value ||
+      // selectedView === CALENDAR_VIEW_OPTIONS[1].value
+    // ) {
       // week and day views
       if (
         endDate[0] === formattedDate &&
@@ -46,10 +45,15 @@ export function EventRenderer({ date, events }: EventRendererProps) {
         hasEventOnTwoDaysRef.current = true
         return true
       } else {
-        return event.date.format('DD-MM-YY HH') === date.format('DD-MM-YY HH')
+        const start = date;
+        const end = date.add(15, 'minute');
+
+        return event.date.isAfter(start) && event.date.isBefore(end);
+        // return event.date.format('DD-MM-YY HH') === date.format('DD-MM-YY HH')
       }
-    }
+    // }
   })
+  // console.log(date.toString(), filteredEvents)
 
   const calculateEventLengthInMinutes = (event: EventsArrayElementType) => {
     const startOfDay = date.startOf('day')
@@ -66,7 +70,7 @@ export function EventRenderer({ date, events }: EventRendererProps) {
     if (hasEventOnTwoDaysRef.current) {
       return 0
     } else {
-      return (event.date.minute() / 60) * 100
+      return ((event.date.minute() - date.minute()) / 15) * 100
     }
   }
 
@@ -78,7 +82,7 @@ export function EventRenderer({ date, events }: EventRendererProps) {
         zIndex: 10,
         position: 'absolute' as React.CSSProperties['position'],
         height: '90%',
-        width: `${(calculateEventLengthInMinutes(event) / 60) * 100 - 2}%`,
+        width: `${(calculateEventLengthInMinutes(event) / 15) * 100 - 2}%`,
       }
     } else return {}
   }

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 
-import { useConfirmBookingMutation, useGetAllOrdersQuery } from '@/redux/business/booking/bookingAPISlice'
+import { useCancelBookingMutation, useConfirmBookingMutation, useGetAllOrdersQuery } from '@/redux/business/booking/bookingAPISlice'
 import { useSelector } from 'react-redux'
 import { selectedBusinessProfileSelector } from '@/redux/auth/authSelectors'
 
@@ -19,6 +19,7 @@ const Bookings = () => {
 
   const {data, isLoading, isError } = useGetAllOrdersQuery()
   const [confirmationMutation, {isLoading: isConfirmationLoading} ] = useConfirmBookingMutation()
+  const [cancelBookingMutation, {isLoading: isCancelLoading}] = useCancelBookingMutation()
 
   const businessType = selectedBusinessProfile?.businessCategory?.id
 
@@ -78,10 +79,11 @@ const Bookings = () => {
         )}
         <BookingsTable
           bookingsLoadingError={isError}
-          loadingBookings={isLoading || isConfirmationLoading}
+          loadingBookings={isLoading || isConfirmationLoading || isCancelLoading}
           bookings={bookingsTableData ?? []} 
           businessType={selectedBusinessProfile?.businessCategory ? selectedBusinessProfile?.businessCategory.id : null} 
           confirmationMutation={confirmationMutation}
+          cancelBookingMutation={cancelBookingMutation}
         />
       </div>
 

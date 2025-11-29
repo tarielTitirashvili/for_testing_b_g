@@ -70,7 +70,7 @@ const RolesAndRights: FunctionComponent = () => {
                             </TableHeader>
 
                             <TableBody>
-                                {staffData.map(member => (
+                                {staffData.map((member, index) => (
                                     <TableRow key={member.id} className="border-none">
                                         <TableCell className="border-t-1 px-4 py-3">{member.firstName} {member.lastName}</TableCell>
                                         <TableCell className="border-t-1 px-4 py-3">{/* member.email */}</TableCell>
@@ -78,7 +78,7 @@ const RolesAndRights: FunctionComponent = () => {
                                         <TableCell className="border-t-1 px-4 py-3"><span className="border-2 py-1 px-3 rounded-full">{member.role.name}</span></TableCell>
                                         <TableCell className="border-t-1 px-4 py-3">
                                             <div className="action_btns flex gap-3 cursor-pointer">
-                                                <AddStaff roles={roles} services={services} staffId={member.id} />
+                                                <AddStaff roles={roles} services={services} staffId={member.id} arrayIndex={index} />
                                                 <Trash2 color="#E81C1C" size={20} />
                                             </div>
                                         </TableCell>

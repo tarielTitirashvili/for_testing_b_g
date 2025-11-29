@@ -38,9 +38,12 @@ interface IAddStaffProps {
     services: IService[]
     roles: IRole[]
     staffId?: string
+    arrayIndex?: number
+    triggerText?: string
+    triggerClassName?: string
 }
 
-const AddStaff: FunctionComponent<IAddStaffProps> = ({ services, roles, staffId }) => {
+const AddStaff: FunctionComponent<IAddStaffProps> = ({ services, roles, staffId, arrayIndex, triggerText='', triggerClassName='' }) => {
 
     const [staffImage, setStaffImage] = useState<string | null>(null)
 
@@ -99,13 +102,13 @@ const AddStaff: FunctionComponent<IAddStaffProps> = ({ services, roles, staffId 
 
     useEffect(() => {
         if (staffData && staffData.length > 0) {
-            const staff = staffData[0]
+            const staff = staffData[arrayIndex || 0]
 
             const formattedData: IAddStaffFormData = {
                 firstName: staff.firstName ?? '',
                 lastName: staff.lastName ?? '',
-                email: '',
-                phoneNumber: '',
+                email: staff.email,
+                phoneNumber: staff.phoneNumber,
                 roleId: staff.role?.id?.toString() ?? '',
                 serviceIds: staff.services?.map((s: IService) => s.id.toString()) ?? [],
             }
@@ -124,7 +127,10 @@ const AddStaff: FunctionComponent<IAddStaffProps> = ({ services, roles, staffId 
                         გუნდის წევრი
                     </span>
                 ) : (
-                    <Pencil size={20} color='black' />
+                    <span className={`${triggerClassName}`}>
+                        <Pencil size={20} color='black' />
+                        { triggerText }
+                    </span>
                 ) }
             </DialogTrigger>
             <DialogContent className='max-w-[500px] w-full px-6 py-8 flex flex-col gap-6'>
