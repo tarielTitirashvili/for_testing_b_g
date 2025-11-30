@@ -16,12 +16,12 @@ const DayView = (props: Props) => {
   const { selectedDate, handleClick, calendarEvents } = props
   const { t } = useTranslation()
 
-  const calendarEventsData = calendarEvents.staff.length
-    ? calendarEvents.staff
-    : calendarEvents.tables
+  const calendarEventsData = calendarEvents.staff?.data.length
+    ? calendarEvents.staff?.data
+    : calendarEvents.tables?.data
 
 
-  if (calendarEvents.staff.length === 0 && calendarEvents.tables.length === 0) {
+  if (calendarEvents.staff?.data?.length === 0 && calendarEvents.tables?.data?.length === 0) {
     return (
       <div className="h-150 flex items-center justify-center">
         <EmptyResponse customMessage={t('business.texts.noBookingWasFound')} />
@@ -35,7 +35,7 @@ const DayView = (props: Props) => {
         <div className="sticky left-0 z-30">
           <div className="h-10 border-b-2 border-[#EBEBEB]"></div>
           {/* tariel this need to be separate component */}
-          {calendarEventsData.map((item) => {
+          {calendarEventsData?.map((item) => {
             const name =
               'staff' in item
                 ? `${item.staff.firstName} ${item.staff.lastName}`
@@ -70,7 +70,7 @@ const DayView = (props: Props) => {
               )
             })}
           </div>
-          {calendarEventsData.map((item, index) => {
+          {calendarEventsData?.map((item, index) => {
             return (
               <div key={index} className="flex">
                 {getHours.map((Hourglass, index) => {

@@ -7,8 +7,21 @@ import type { IStaff, IStatus } from '../booking/bookingAPISlice'
 // import dayjs from 'dayjs'
 
 export interface IRootCalendarResponse {
-  staff: StaffOrdersItem[] | []
-  tables: ITableWithOrders[] | []
+  staff: IStaffMainObject | null
+  tables: ITableMainObject | null
+}
+
+interface  IPagination {
+  offset: number
+  page: number
+  pageCount: number
+  totalItemCount: number
+}
+interface IStaffMainObject extends IPagination {
+  data: StaffOrdersItem[] | []
+}
+interface ITableMainObject extends IPagination {
+  data: ITableWithOrders[] | []
 }
 export interface StaffOrdersItem {
   staff: IStaff
