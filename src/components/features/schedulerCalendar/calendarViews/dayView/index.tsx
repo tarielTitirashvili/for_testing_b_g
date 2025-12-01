@@ -23,7 +23,7 @@ const DayView = (props: Props) => {
 
   console.log('calendarEventsData', calendarEventsData)
 
-  if (calendarEvents.staff?.data?.length === 0 && calendarEvents.tables?.data?.length === 0) {
+  if (calendarEvents.staff?.data?.length === 0 && calendarEvents.tables?.data?.length === 0 ) {
     return (
       <div className="h-150 flex items-center justify-center">
         <EmptyResponse customMessage={t('business.texts.noBookingWasFound')} />
@@ -33,7 +33,7 @@ const DayView = (props: Props) => {
 
   return (
     <div>
-      <div className="flex w-full h-[75vh] overflow-auto ">
+      <div className={`flex w-full h-[${calendarEventsData?.length || 0 * 100 + 10}px] overflow-auto `}>
         <div className="sticky left-0 z-30">
           <div className="h-10 min-w-20 p-1 border-b-2 border-[#EBEBEB]"></div>
           <PinnedHead calendarEventsData={calendarEventsData || []} />

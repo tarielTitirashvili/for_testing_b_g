@@ -19,9 +19,7 @@ const CalendarView = (props: Props) => {
   }
 
   return <div>
-    <div>
       <DayView selectedDate={selectedDate} handleClick={handleClick} calendarEvents={calendarEvents} />
-    </div>
   </div>
 }
 

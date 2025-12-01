@@ -1,6 +1,5 @@
 import type { Dayjs } from 'dayjs'
 import SchedulerCalendarHeaderLeftSide from './leftSide'
-import SchedulerCalendarHeaderRightSide from './rightSide'
 
 type Props = {
   selectedDate: Dayjs
@@ -13,7 +12,6 @@ const CalendarHeader = (props:Props) => {
   return (
     <div className='flex align-middle justify-between w-full px-3 py-1.5'>
       <SchedulerCalendarHeaderLeftSide selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
-      <SchedulerCalendarHeaderRightSide/>
     </div>
   )
 }

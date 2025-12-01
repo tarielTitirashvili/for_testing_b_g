@@ -1,7 +1,6 @@
 import type { RootState } from '@/redux/store'
 
-// import DropdownSelect from '@/components/shared/inputs/dropdownSelect'
-import { CALENDAR_VIEW_OPTIONS } from '../../constants'
+import { CALENDAR_VIEW_OPTIONS, getWeekDays } from '../../constants'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   setSelectedMonthIndex,
@@ -12,6 +11,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import PrimaryButton from '@/components/shared/buttons/PrimaryButton'
+import DayRenderer from './dayRenderer'
 
 type Props = {
   selectedDate: Dayjs
@@ -30,6 +30,8 @@ const SchedulerCalendarHeaderLeftSide = (props: Props) => {
     (state: RootState) => state.schedulerCalendar.selectedMonthIndex
   )
   const dispatch = useDispatch()
+  const weekDays = getWeekDays(selectedDate)
+  console.log('getWeekDays', weekDays)
 
   // const handleChangeSelectedView = <T extends string>(value: T) => {
   //   dispatch(setSelectedView(value))
@@ -103,34 +105,49 @@ const SchedulerCalendarHeaderLeftSide = (props: Props) => {
         break
     }
   }
-
+  const buttonClassName =
+    'hover:bg-gray-100 h-8.5 rounded-full p-1 flex justify-center align-middle border-1 border-[#F4F5F5] cursor-pointer'
   return (
-    <div className="flex items-center">
+    <div className="flex items-center w-full">
       <span className="p-1">
-        <PrimaryButton className="bg-[#EF7800] text-[#fff] px-4 py-1.5" handleClick={handleClickToday}>
+        <PrimaryButton
+          className="bg-[#EF7800] text-[#fff] px-4 py-1.5"
+          handleClick={handleClickToday}
+        >
           {t('calendar.text.today')}
         </PrimaryButton>
       </span>
       <div className="flex pr-2">
-        <div
-          onClick={leftClick}
-          className="hover:bg-gray-100 rounded-full p-1 flex justify-center align-middle"
-        >
+        <div onClick={leftClick} className={buttonClassName}>
           <ChevronLeft />
         </div>
-        <span className='flex items-center whitespace-nowrap'>{dayjs().month(selectedMonthIndex).format('MMMM YYYY')}</span>
-        <div
-          onClick={rightClick}
-          className="hover:bg-gray-100 rounded-full p-1 flex justify-center align-middle"
-        >
+        <span className="flex items-center whitespace-nowrap">
+          {dayjs().month(selectedMonthIndex).format('MMMM YYYY')}
+        </span>
+        <div onClick={rightClick} className={buttonClassName}>
           <ChevronRight />
         </div>
       </div>
-      {/* <DropdownSelect
-        value={selectedView}
-        options={CALENDAR_VIEW_OPTIONS}
-        onChange={handleChangeSelectedView}
-      /> */}
+      <div className="flex gap-1.5 flex-1 items-center">
+        <div onClick={leftClick} className={buttonClassName}>
+          <ChevronLeft />
+        </div>
+        <div className="flex gap-2 flex-1">
+          {weekDays.map((day) => {
+            return (
+              <DayRenderer
+                key={day.date.format('YYYY-MM-DD')}
+                day={day}
+                setSelectedDate={setSelectedDate}
+                isSelectedDate={selectedDate.format('YYYY-MM-DD') === day.date.format('YYYY-MM-DD')}
+              />
+            )
+          })}
+        </div>
+        <div onClick={rightClick} className={buttonClassName}>
+          <ChevronRight />
+        </div>
+      </div>
     </div>
   )
 }

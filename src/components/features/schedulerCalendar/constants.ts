@@ -36,29 +36,6 @@ export const getMonth = (month = dayjs().month()) => {
   )
 }
 
- type WeekDay = {
-  today: boolean
-  currentDate: dayjs.Dayjs
-  isCurrentDay: (day: dayjs.Dayjs) => boolean;
-}
-
-export const getWeekDays = (date: dayjs.Dayjs): WeekDay[] => {
-  const startOfWeek = date.startOf('week')
-  const weekDates = []
-
-  // Loop through the 7 days of the week
-  for (let i = 0; i < 7; i++) {
-    const currentDate = startOfWeek.add(i, 'day')
-    weekDates.push({
-      currentDate,
-      today:
-        currentDate.toDate().toDateString() === dayjs().toDate().toDateString(),
-      isCurrentDay,
-    })
-  }
-
-  return weekDates
-}
 
 export const getHours = Array.from({ length: 96 }, (_, i) =>
   dayjs().startOf('day').add(i * 15, 'minute')
@@ -67,27 +44,23 @@ export const getHours = Array.from({ length: 96 }, (_, i) =>
 export const transformToLocalDate = (date: Dayjs | string) => dayjs.utc(date).tz(dayjs.tz.guess()) as Dayjs
 
 
-// Function to generate weeks of the month dynamically
+export function getWeekDays(date: string | Dayjs) {
+  const input = dayjs(date).startOf("day");
+  const today = dayjs().startOf("day");
 
-// export const getWeeks = (monthIndex: number) => {
-//   const year = dayjs().year()
-//   const firstDayOfMonth = dayjs(new Date(year, monthIndex, 1))
-//   const lastDayOfMonth = dayjs(new Date(year, monthIndex + 1, 0)) // Last day of the month
+  // ISO week: Monday = 1, Sunday = 7
+  const monday = input.startOf("week");
 
-//   const weeks: number[] = []
+  return Array.from({ length: 7 }, (_, i) => {
+    const current = monday.add(i, "day");
 
-//   // Loop from the first day to the last day of the month
-//   let currentDay = firstDayOfMonth
-//   while (
-//     currentDay.isBefore(lastDayOfMonth) ||
-//     currentDay.isSame(lastDayOfMonth)
-//   ) {
-//     const weekNumber = currentDay.week() //This requires the WeekOfYear plugin to work as imported above
-//     if (!weeks.includes(weekNumber)) {
-//       weeks.push(weekNumber)
-//     }
-//     currentDay = currentDay.add(1, 'day') // Move to the next day
-//   }
+    const monthsDiff = Math.abs(current.diff(today, "month", true));
+    const isFarFromToday = monthsDiff > 1;
 
-//   return weeks
-// }
+    return {
+      date: current,
+      isCurrentDay: current.isSame(today, "day"),
+      isFarFromToday
+    };
+  });
+}
