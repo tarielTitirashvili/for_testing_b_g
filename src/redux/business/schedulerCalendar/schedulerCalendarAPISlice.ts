@@ -41,9 +41,13 @@ type TGetCAlendarBookingsParams = {
   tableCategoryIds: number[]
   statusIds: number[]
 }
-interface ITableInfo {
+export interface ITableInfo {
   id: number
   name: string
+  category: {
+    id: number
+    name: string
+  }
 }
 export interface IOrder {
   id: number

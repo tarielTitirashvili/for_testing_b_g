@@ -45,6 +45,11 @@ export interface IStaff {
     id: string | null;
     firstName: string | null;
     lastName: string | null;
+    file?:{
+        id: string;
+        isProfile: boolean;
+        url: string;
+    } | null
 }
 
 export interface IStatus {

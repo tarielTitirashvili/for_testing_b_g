@@ -1,10 +1,11 @@
 import { getHours } from '../../constants'
 import { Dayjs } from 'dayjs'
 import type { OnDayClick } from '..'
-import { EventRenderer } from '../eventRenderer'
+import { EventRenderer } from './eventRenderer'
 import type { IRootCalendarResponse } from '@/redux/business/schedulerCalendar/schedulerCalendarAPISlice'
 import EmptyResponse from '@/components/shared/emptyResponse'
 import { useTranslation } from 'react-i18next'
+import PinnedHead from './pinnedHead'
 
 type Props = {
   selectedDate: Dayjs
@@ -20,6 +21,7 @@ const DayView = (props: Props) => {
     ? calendarEvents.staff?.data
     : calendarEvents.tables?.data
 
+  console.log('calendarEventsData', calendarEventsData)
 
   if (calendarEvents.staff?.data?.length === 0 && calendarEvents.tables?.data?.length === 0) {
     return (
@@ -33,24 +35,8 @@ const DayView = (props: Props) => {
     <div>
       <div className="flex w-full h-[75vh] overflow-auto ">
         <div className="sticky left-0 z-30">
-          <div className="h-10 border-b-2 border-[#EBEBEB]"></div>
-          {/* tariel this need to be separate component */}
-          {calendarEventsData?.map((item) => {
-            const name =
-              'staff' in item
-                ? `${item.staff.firstName} ${item.staff.lastName}`
-                : item.table.name
-            const id = 'staff' in item ? item.staff.id : item.table.id
-            return (
-              <div
-                key={id}
-                className="h-25 bg-[#fff] border-b-2 border-r-2 border-[#EBEBEB] flex items-center justify-center"
-              >
-                {name}
-              </div>
-            )
-          })}
-          {/* tariel this need to be separate component */}
+          <div className="h-10 min-w-20 p-1 border-b-2 border-[#EBEBEB]"></div>
+          <PinnedHead calendarEventsData={calendarEventsData || []} />
         </div>
         <div
           className={'flex flex-col relative '}
@@ -77,7 +63,7 @@ const DayView = (props: Props) => {
                   return (
                     <div
                       key={`${index}`}
-                      className="h-25 w-52 border-b-1 border-r-2 border-[#EBEBEB] pointer hover:bg-gray-50 flex relative items-center justify-center"
+                      className="h-25 w-52 border-b-1 border-r-2 border-[#EBEBEB] pointer flex relative items-center justify-center"
                       onClick={() => {
                         handleClick(Hourglass)
                         console.log('Hourglass', Hourglass.format('HH:mm'))
@@ -85,6 +71,8 @@ const DayView = (props: Props) => {
                     >
                       <EventRenderer
                         events={item.orders}
+                        staff={ 'staff' in item ? item.staff : null }
+                        table={ 'table' in item ? item.table : null }
                         date={selectedDate
                           .hour(Hourglass.hour())
                           .minute(Hourglass.minute())
@@ -93,18 +81,6 @@ const DayView = (props: Props) => {
                     </div>
                   )
                 })}
-                {/* {selectedDate && (
-                <div
-                className={'absolute z-20 h-0.5 w-full bg-red-500'}
-                style={{
-                  top: `${
-                    ((currentTime.hour() * 60 + currentTime.minute()) /
-                    1440) *
-                    100
-                    }%`,
-                    }}
-                    />
-                    )} */}
               </div>
             )
           })}
