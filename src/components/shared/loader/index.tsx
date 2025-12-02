@@ -39,6 +39,7 @@ const Loader = (props: Props) => {
           top-0 
           z-[90000000]
           rounded-xl
+          cursor-wait!
           ${containerClassname ? containerClassname : ''}`
         }
       >
@@ -62,6 +63,7 @@ const Loader = (props: Props) => {
       justify-center 
       items-center 
       relative
+      cursor-wait!
       ${containerClassname ? containerClassname : ''}`}
     >
       Loading...

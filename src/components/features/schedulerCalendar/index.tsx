@@ -25,9 +25,10 @@ const SchedulerCalendar = () => {
   }
 
   // console.log(local)
+  const calendarLoading = isEventsFetching || isEventsLoading
   return (
-    <Loader loading={isEventsFetching || isEventsLoading}>
-      <CalendarHeader selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
+    <Loader loading={calendarLoading}>
+      <CalendarHeader selectedDate={selectedDate} calendarLoading={calendarLoading} setSelectedDate={setSelectedDate}/>
       <CalendarView calendarEvents={calendarEvents} selectedDate={selectedDate} />
     </Loader>
   )

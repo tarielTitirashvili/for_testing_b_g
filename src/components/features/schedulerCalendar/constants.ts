@@ -60,7 +60,8 @@ export function getWeekDays(date: string | Dayjs) {
     return {
       date: current,
       isCurrentDay: current.isSame(today, "day"),
-      isFarFromToday
+      isFarFromToday,
+      isBeforeToday: current.isBefore(today, "day"),
     };
   });
 }
