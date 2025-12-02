@@ -23,11 +23,11 @@ export function EventRenderer({ date, events, staff, table }: EventRendererProps
   )
 
   const filteredEvents = events.filter((event: IOrder) => {
-    const endDate = transformToLocalDate(event.endDate)
-      .format('DD-MM-YY HH:mm')
-      .split(' ')
+    // const endDate = transformToLocalDate(event.endDate)
+    //   .format('DD-MM-YY HH:mm')
+    //   .split(' ')
     const startDate = transformToLocalDate(event.startDate)
-    const formattedDate = date.format('DD-MM-YY')
+    // const formattedDate = date.format('DD-MM-YY')
     // if (selectedView === CALENDAR_VIEW_OPTIONS[2].value) {
     //   // monthView
     //   return (
@@ -39,21 +39,20 @@ export function EventRenderer({ date, events, staff, table }: EventRendererProps
     // selectedView === CALENDAR_VIEW_OPTIONS[1].value
     // ) {
     // week and day views
-    if (
-      endDate[0] === formattedDate &&
-      date.format('HH') === '00' &&
-      startDate.format('DD-MM-YY') !== formattedDate &&
-      endDate[1] !== '00:00'
-    ) {
-      hasEventOnTwoDaysRef.current = true
-      return true
-    } else {
-      const start = date
-      const end = date.add(15, 'minute')
-
+    // if (
+    //   endDate[0] === formattedDate &&
+    //   date.format('HH') === '00' &&
+    //   startDate.format('DD-MM-YY') !== formattedDate &&
+    //   endDate[1] !== '00:00'
+    // ) {
+    //   hasEventOnTwoDaysRef.current = true
+    //   return true
+    // } else {
+      const start = date.subtract(1, 'second')
+      const end = date.add(15, 'minute').add(2, 'second')
       return startDate.isAfter(start) && startDate.isBefore(end)
       // return event.date.format('DD-MM-YY HH') === date.format('DD-MM-YY HH')
-    }
+    // }
     // }
   })
 

@@ -9,8 +9,8 @@ import {
 } from '@/redux/business/schedulerCalendar/schedulerCalendarSlice'
 import dayjs, { Dayjs } from 'dayjs'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
-import PrimaryButton from '@/components/shared/buttons/PrimaryButton'
+// import { useTranslation } from 'react-i18next'
+// import PrimaryButton from '@/components/shared/buttons/PrimaryButton'
 import DayRenderer from './dayRenderer'
 
 type Props = {
@@ -21,7 +21,7 @@ type Props = {
 const SchedulerCalendarHeaderLeftSide = (props: Props) => {
   const { selectedDate, setSelectedDate } = props
 
-  const { t } = useTranslation()
+  // const { t } = useTranslation()
 
   const selectedView = useSelector(
     (state: RootState) => state.schedulerCalendar.selectedView
@@ -66,10 +66,10 @@ const SchedulerCalendarHeaderLeftSide = (props: Props) => {
         checkMonth(selectedDate.subtract(1, 'week'), 'decrees')
         setSelectedDate(selectedDate.subtract(1, 'week'))
         break
-      case CALENDAR_VIEW_OPTIONS[0].value: // day
-        checkMonth(selectedDate.subtract(1, 'day'), 'decrees')
-        setSelectedDate(selectedDate.subtract(1, 'day'))
-        break
+      // case CALENDAR_VIEW_OPTIONS[0].value: // day
+      //   checkMonth(selectedDate.subtract(1, 'day'), 'decrees')
+      //   setSelectedDate(selectedDate.subtract(1, 'day'))
+      //   break
       default:
         break
     }
@@ -85,38 +85,38 @@ const SchedulerCalendarHeaderLeftSide = (props: Props) => {
         checkMonth(selectedDate.add(1, 'week'), 'increase')
         setSelectedDate(selectedDate.add(1, 'week'))
         break
-      case CALENDAR_VIEW_OPTIONS[0].value: // day
-        checkMonth(selectedDate.add(1, 'day'), 'increase')
-        setSelectedDate(selectedDate.add(1, 'day'))
-        break
+      // case CALENDAR_VIEW_OPTIONS[0].value: // day
+      //   checkMonth(selectedDate.add(1, 'day'), 'increase')
+      //   setSelectedDate(selectedDate.add(1, 'day'))
+      //   break
       default:
         break
     }
   }
 
-  const handleClickToday = () => {
-    switch (selectedView) {
-      case CALENDAR_VIEW_OPTIONS[2].value:
-        dispatch(setSelectedMonthIndex(dayjs().month()))
-        break
-      default:
-        setSelectedDate(dayjs())
-        checkMonth(dayjs().add(1, 'day'))
-        break
-    }
-  }
+  // const handleClickToday = () => {
+  //   switch (selectedView) {
+  //     case CALENDAR_VIEW_OPTIONS[2].value:
+  //       dispatch(setSelectedMonthIndex(dayjs().month()))
+  //       break
+  //     default:
+  //       setSelectedDate(dayjs())
+  //       // checkMonth(dayjs().add(1, 'day'))
+  //       break
+  //   }
+  // }
   const buttonClassName =
-    'hover:bg-gray-100 h-8.5 rounded-full p-1 flex justify-center align-middle border-1 border-[#F4F5F5] cursor-pointer'
+    'h-8.5 rounded-full p-1 flex justify-center align-middle border-1 border-[#F4F5F5] cursor-pointer hover:bg-[#EF7800] hover:text-[#fff]'
   return (
     <div className="flex items-center w-full">
-      <span className="p-1">
+      {/* <span className="p-1">
         <PrimaryButton
           className="bg-[#EF7800] text-[#fff] px-4 py-1.5"
           handleClick={handleClickToday}
         >
           {t('calendar.text.today')}
         </PrimaryButton>
-      </span>
+      </span> */}
       <div className="flex pr-2">
         <div onClick={leftClick} className={buttonClassName}>
           <ChevronLeft />
