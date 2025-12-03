@@ -67,11 +67,12 @@ export const bookingApiSlice = apiSlice.injectEndpoints({
 
         getAllOrders: builder.query<OrdersResponse, void>({
             query: () => ({
-                url: "/business/orders",
+                url: "/business/orders?offset=100",
                 method: "GET"
             }),
             providesTags: ['Bookings']
         }),
+        
         confirmBooking: builder.mutation<void, IConfirmBookingPayload>({
             query: (payload) => ({
                 url: `/business/orders/${payload.orderId}/confirm`,

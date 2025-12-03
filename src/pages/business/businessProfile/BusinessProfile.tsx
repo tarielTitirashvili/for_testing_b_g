@@ -13,8 +13,9 @@ import {
   useUploadFileMutation,
   useEditBusinessProfileMutation,
 } from '@/redux/business/businessProfile/businessProfileAPISlice'
-// import { useGetRegionsQuery } from '@/redux/business/staticAPISlice/staticAPISlice'
+
 import type { HalfHourTimeIntervals } from '@/components/utils/halfHourIntervalsGenerator'
+
 import Loader from '@/components/shared/loader'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
@@ -85,8 +86,6 @@ const BusinessProfile: FunctionComponent = () => {
   } = useForm<IBusinessFormData>({
     mode: "onChange",
     defaultValues: {
-      preOrder: 0,
-      orderReminder: 0,
       files: [],
     },
   })
@@ -118,10 +117,11 @@ const BusinessProfile: FunctionComponent = () => {
 
   useEffect(() => {
     if (isSuccess && data) {
+      console.log(data)
       const formattedData = {
         ...data,
-        preOrder: data.preOrder ?? 0,
-        orderReminder: data.orderReminder ?? 0,
+        preOrder: data.preOrder,
+        orderReminder: data.orderReminder,
         regionId: data.region.id,
         districtId: data.district.id,
         businessBookingTime: data.businessBookingTime.map(
@@ -183,6 +183,8 @@ const BusinessProfile: FunctionComponent = () => {
   if (profileDataError) {
     return <h1>error</h1>
   }
+
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 flex-1">
@@ -196,6 +198,7 @@ const BusinessProfile: FunctionComponent = () => {
             regionId={regionId}
             setRegionId={setRegionId}
             setValue={setValue}
+            getValues={getValues}
             control={control}
             register={register}
             errors={errors}

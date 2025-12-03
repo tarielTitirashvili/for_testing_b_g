@@ -18,6 +18,9 @@ const Bookings = () => {
   const selectedBusinessProfile = useSelector(selectedBusinessProfileSelector)
 
   const {data, isLoading, isError } = useGetAllOrdersQuery()
+
+  console.log(data)
+
   const [confirmationMutation, {isLoading: isConfirmationLoading} ] = useConfirmBookingMutation()
   const [cancelBookingMutation, {isLoading: isCancelLoading}] = useCancelBookingMutation()
 

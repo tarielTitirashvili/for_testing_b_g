@@ -32,6 +32,7 @@ interface IAuthState {
 type TokenType = {
     'http://schemas.microsoft.com/ws/2008/06/identity/claims/role': TRoleType
     current_business: string
+    exp: number
 }
 
 type UserPayload = Pick<IAuthState, 'accessToken' | 'refreshToken' | 'roleId' | 'isOTP' | 'isLoginProcess'>
@@ -63,6 +64,9 @@ const userSlice = createSlice({
             state.roleId = action.payload.roleId
             state.role = accessToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
             state.isOTP = action.payload.isOTP
+
+            console.log(new Date(accessToken['exp'] * 1000).toLocaleTimeString(), "dd")
+            
             state.isLoginProcess = action.payload.isLoginProcess !== undefined ? action.payload.isLoginProcess : false
             state.currentBusiness = accessToken.current_business
 
@@ -86,10 +90,26 @@ const userSlice = createSlice({
                 localStorage.removeItem('refreshToken')
                 return initialState
             }
+        },
+        refresh(state, action: PayloadAction<{ accessToken: string; refreshToken: string }>) {
+            const { accessToken, refreshToken } = action.payload
+            const decoded: TokenType = jwtDecode<TokenType>(accessToken)
+
+            state.accessToken = jwtDecode(accessToken)
+            state.refreshToken = refreshToken
+            state.role = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+            state.currentBusiness = decoded.current_business
+            state.isAuth = true
+
+            console.log(new Date(decoded['exp'] * 1000).toLocaleTimeString(), 'refreshh')
+
+
+            localStorage.setItem("accessToken", accessToken)
+            localStorage.setItem("refreshToken", refreshToken)
         }
     }
 })
 
-export const { login, logout, otpStepWasPassed, setSelectedBusinessProfile, setBusinessProfiles } = userSlice.actions
+export const { login, logout, otpStepWasPassed, setSelectedBusinessProfile, setBusinessProfiles, refresh } = userSlice.actions
 
 export default userSlice.reducer

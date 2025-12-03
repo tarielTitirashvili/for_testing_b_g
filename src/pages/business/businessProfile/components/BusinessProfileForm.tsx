@@ -1,6 +1,10 @@
-import { Controller, type Control, type FieldErrors, type UseFormRegister, type UseFormSetValue }  from "react-hook-form"
+import { useEffect, useState, type FunctionComponent } from "react"
 
-import { ChevronDown, Facebook, Globe, Instagram, Music2 } from "lucide-react"
+import type { IBusinessAddress, IBusinessFormData } from "../BusinessProfile"
+
+import { Controller, type Control, type FieldErrors, type UseFormGetValues, type UseFormRegister, type UseFormSetValue }  from "react-hook-form"
+
+import { ChevronDown, Facebook, Globe, Instagram, MapPin, Music2 } from "lucide-react"
 
 import { useTranslation } from "react-i18next"
 
@@ -10,27 +14,29 @@ import TextInput from "@/components/shared/inputs/TextInput"
 import TextareaInput from "@/components/shared/inputs/TextareaInput"
 import SelectDropDown from "@/components/shared/inputs/SelectDropDown"
 
-import { useEffect, useState, type FunctionComponent } from "react"
-import type { IBusinessAddress, IBusinessFormData } from "../BusinessProfile"
+
 import SelectAddressMap from "./SelectAddressMap"
 import Loader from '@/components/shared/loader'
+import ReminderModal from "./ReminderModal"
 
 interface IBusinessProfileFormProps {
     data: IBusinessFormData | undefined
     register: UseFormRegister<IBusinessFormData>
     errors: FieldErrors<IBusinessFormData>
     setValue: UseFormSetValue<IBusinessFormData>
+    getValues: UseFormGetValues<IBusinessFormData>
     handleExpand: (section: string) => void
     control: Control<IBusinessFormData>
     regionId: number | null
     setRegionId: React.Dispatch<React.SetStateAction<number | null>>
 }
 
-const BusinessProfileForm: FunctionComponent<IBusinessProfileFormProps> = ({ register, errors, handleExpand, setValue, control, regionId, setRegionId, data }) => {
+const BusinessProfileForm: FunctionComponent<IBusinessProfileFormProps> = ({ register, errors, handleExpand, setValue, control, regionId, setRegionId, data, getValues }) => {
 
     const { t } = useTranslation()
     
     const forceUpdate = useState<number>(0)
+
 
     const { data: regions } = useGetRegionsQuery()
     const { data: district, isLoading, isSuccess: districtIdSuccess } = useGetDistrictQuery(regionId, {
@@ -61,7 +67,8 @@ const BusinessProfileForm: FunctionComponent<IBusinessProfileFormProps> = ({ reg
                     <ChevronDown className={`transition-transform duration-300`} />
                 </div>
             </div>
-            <div className="business_profile_form-body flex flex-col flex-1 gap-3">
+            
+            <div className="business_profile_form-body flex flex-col gap-3">
                 <TextInput
                     label={ t("businessProfile.businessInfo.name") }
                     {...register('name', { required: t('businessProfile.required.name') })}
@@ -102,6 +109,33 @@ const BusinessProfileForm: FunctionComponent<IBusinessProfileFormProps> = ({ reg
                         InputIcon={Facebook}
                         {...register('facebook', { required: t('businessProfile.socialMedia.facebook') })}
                         error={errors.facebook?.message}
+                    />
+
+                    
+                </div>
+                <div className="reminders flex w-full flex-1 justify-between gap-4">
+                    <Controller
+                        name="preOrder"
+                        control={control}
+                        render={({ field }) => (
+                            <ReminderModal
+                                name="preOrder"
+                                value={field.value}
+                                onChange={field.onChange}
+                            />
+                        )}
+                    />
+
+                    <Controller
+                        name="orderReminder"
+                        control={control}
+                        render={({ field }) => (
+                            <ReminderModal
+                                name="orderReminder"
+                                value={field.value}
+                                onChange={field.onChange}
+                            />
+                        )}
                     />
                 </div>
             </div>
@@ -165,7 +199,10 @@ const BusinessProfileForm: FunctionComponent<IBusinessProfileFormProps> = ({ reg
                         </div>
                     </div>
                 </Loader>
-                <iframe src="http://maps.google.com/maps?q=25.3076008,51.4803216&z=16&output=embed" width={'100%'} height={'130px'} ></iframe>
+                <div className="address_info w-full h-[150px] bg-[#F4F5F5] flex flex-col justify-center items-center gap-3 rounded-sm text-center">
+                    <p><MapPin /></p>
+                    <p>{ getValues('businessAddress.locales.0.name') || data?.businessAddress.locales.map(locale => locale.name) }</p>  
+                </div>
             </div>
         </div>
     )

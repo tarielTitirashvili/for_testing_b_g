@@ -1,10 +1,14 @@
-import PrimaryButton from "@/components/shared/buttons/PrimaryButton"
-import SecondaryButton from "@/components/shared/buttons/SecondaryButton"
-import TextInput from "@/components/shared/inputs/TextInput"
+import { useState, type FunctionComponent } from "react";
+
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger } from "@/components/ui/dialog"
 
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
-import { useCallback, useState, type FunctionComponent } from "react";
+
+import PrimaryButton from "@/components/shared/buttons/PrimaryButton"
+import SecondaryButton from "@/components/shared/buttons/SecondaryButton"
+import TextInput from "@/components/shared/inputs/TextInput"
+
+import axios from "axios";
 
 interface IBusinessAddress {
     name?: string
@@ -24,11 +28,13 @@ interface ISelectAddressMapProps {
 
 const SelectAddressMap: FunctionComponent<ISelectAddressMapProps> = ({ onSelect, error, value }) => {
 
-    const generateDefaultValue = value?.latitude ? {lat: value.latitude, lng: value.longitude} : null
+    const defaultCenter = { lat: 41.7151, lng: 44.8271 };
+
+    const generateDefaultValue = value?.latitude ? { lat: value.latitude, lng: value.longitude } : null;
+
     const [selected, setSelected] = useState<{ lat: number; lng: number } | null>(generateDefaultValue);
-    const [address, setAddress] = useState<string>(value?.locales[0]?.name || '');
- 
-    const defaultCenter = { lat: 41.7151, lng: 44.8271 }
+    const [address, setAddress] = useState<string>(value?.locales?.[0]?.name || "");
+    const [openModal, setOpenModal] = useState<boolean>(false)
 
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: "",
@@ -39,45 +45,52 @@ const SelectAddressMap: FunctionComponent<ISelectAddressMapProps> = ({ onSelect,
         height: "400px",
     };
 
-    const handleMapClick = useCallback((event: google.maps.MapMouseEvent) => {
+
+    // Temporary without google api key
+    const handleMapClick = async (event: google.maps.MapMouseEvent) => {
         if (!event.latLng) return;
 
         const lat = event.latLng.lat();
         const lng = event.latLng.lng();
+        setSelected({ lat, lng });
 
-        const geocoder = new google.maps.Geocoder();
-        geocoder.geocode({ location: { lat, lng } }, (results, status) => {
-            if (status === "OK" && results && results[0]) {
-                onSelect({
-                    locales: [{ name: results[0].formatted_address, languageId: 1 }],
-                    latitude: lat,
-                    longitude: lng,
-                });
-            } else {
-                setAddress(`${lat.toFixed(5)}, ${lng.toFixed(5)}`);
-                setSelected({
-                    lat,
-                    lng
-                })
-                onSelect({
-                    locales: [{ name: `${lat.toFixed(5)}, ${lng.toFixed(5)}`, languageId: 1 }],
-                    latitude: lat,
-                    longitude: lng,
-                });
-            }
+        try {
+            const res = await axios.get(
+                `https://geocode.maps.co/reverse?lat=${lat}&lon=${lng}&api_key=692a1aa339f32006593380rnq9cd76e`
+            );
+
+            setAddress((res.data.display_name).split(',').slice(0,3).join(','));
+        } catch {
+            console.log("err");
+        }
+    };
+
+    const handleSave = () => {
+        if (!selected || !address) return;
+
+        onSelect({
+            name: address,
+            locales: [{ name: address, languageId: 1 }],
+            latitude: selected.lat,
+            longitude: selected.lng,
         });
-    }, [onSelect]);
+
+        setOpenModal(false)
+    };
 
     return (
-        <Dialog>
-            <DialogTrigger className={`border-2 rounded-sm border-[#EBEBEB] w-full text-base p-2 text-[#6C6C6C] h-10 text-left cursor-pointer ${error && 'border-red-500'}`}>
-                { address || "Open Map" }
+        <Dialog open={openModal} onOpenChange={setOpenModal}>
+            <DialogTrigger
+                className={`border-2 rounded-sm border-[#EBEBEB] w-full text-base p-2 text-[#6C6C6C] h-10 text-left cursor-pointer ${
+                    error && "border-red-500"
+                }`}
+            >
+                Open Map
             </DialogTrigger>
-            {error && <span className="text-xs text-red-500 font-medium">{error}</span>}
-            <DialogContent
-                showCloseButton={false}
-                className="max-w-[500px] w-full p-0">
 
+            {error && <span className="text-xs text-red-500 font-medium">{error}</span>}
+
+            <DialogContent className="max-w-[500px] w-full p-0" showCloseButton={false}>
                 {isLoaded ? (
                     <GoogleMap
                         mapContainerStyle={containerStyle}
@@ -99,23 +112,27 @@ const SelectAddressMap: FunctionComponent<ISelectAddressMapProps> = ({ onSelect,
                 )}
 
                 <div className="map_select-bottom px-3 pb-3 flex flex-col gap-5">
-                    <div className="address">
-                        <TextInput
-                            value={selected ? `${selected.lat.toFixed(5)}, ${selected.lng.toFixed(5)}` : ""}
-                            readOnly
-                        />
-                    </div>
+                    <TextInput
+                        value={
+                            selected ? address : ''
+                        }
+                        readOnly
+                    />
 
                     <DialogFooter>
                         <DialogClose asChild>
                             <SecondaryButton>Close</SecondaryButton>
                         </DialogClose>
-                        <PrimaryButton>Save</PrimaryButton>
+
+                        <PrimaryButton handleClick={handleSave}>
+                            Save
+                        </PrimaryButton>
                     </DialogFooter>
                 </div>
             </DialogContent>
         </Dialog>
-    )
-}
+    );
+};
+
 
 export default SelectAddressMap

@@ -1,19 +1,14 @@
-import StatusBadge from "@/components/shared/buttons/BookingStatusBadges"
-import { TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { t } from "i18next"
 import type { FunctionComponent } from "react"
 
-interface INotification {
-    id: number
-    title: string
-    user_firstName: string
-    user_lastName: string
-    action: string
-    service: string
-    book_date: string
-    notification_date: string
-    status: 'read' | 'unread'
-}
+import type { INotification } from "../Notifications"
+
+import { TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { t } from "i18next"
+
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
+import { Check, EllipsisVertical } from "lucide-react"
+
+import CustomDropdown from "@/components/shared/buttons/CustomDropdown"
 
 interface INotificationContentHeaderProps {
     notifications: INotification[]
@@ -30,7 +25,7 @@ const NotificationContentHeader: FunctionComponent<INotificationContentHeaderPro
                     <TabsTrigger value="all" className="px-3 data-[state=active]:text-[#AE5700] data-[state=active]:bg-[#FEF2E6] data-[state=active]:shadow-none">
                         { t("notification.button.all") }
                     </TabsTrigger>
-                    <TabsTrigger value="books" className="px-3 data-[state=active]:text-[#AE5700] data-[state=active]:bg-[#FEF2E6] data-[state=active]:shadow-none">
+                    <TabsTrigger value="CreateOrder" className="px-3 data-[state=active]:text-[#AE5700] data-[state=active]:bg-[#FEF2E6] data-[state=active]:shadow-none">
                         { t("notification.button.bookings") }
                     </TabsTrigger>
                     <TabsTrigger value="reviews" className="px-3 data-[state=active]:text-[#AE5700] data-[state=active]:bg-[#FEF2E6] data-[state=active]:shadow-none">
@@ -39,7 +34,13 @@ const NotificationContentHeader: FunctionComponent<INotificationContentHeaderPro
                 </TabsList>
             </div>
             <div className="notification_content-header-right w-max">
-                <StatusBadge label={`${notifications.filter((notification) => notification.status === 'unread').length.toString()} ${ t("notification.badge.unread") }`} variant="canceled" className="bg-red-600 text-white w-min flex-1 px-4 py-2" />
+                <CustomDropdown
+                    trigger={<EllipsisVertical />}
+                >
+                    <DropdownMenuItem>
+                        <Check /> ყველას წაკითხულად მონიშვნა
+                    </DropdownMenuItem>
+                </CustomDropdown>
             </div>
         </div>
     )
