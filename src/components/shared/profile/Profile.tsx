@@ -48,7 +48,7 @@ const Profile: FunctionComponent = () => {
           handleProfileList={() => setOpen((prev) => !prev)}
         />
         {open && (
-          <div className="list absolute top-[110%] right-0 min-w-full z-99999">
+          <div className="list absolute top-[110%] right-0 min-w-[300px] z-99999">
             <ProfileList businesses={businesses || []} />
           </div>
         )}

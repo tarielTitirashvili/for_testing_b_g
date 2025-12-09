@@ -48,9 +48,13 @@ export function EventRenderer({ date, events, staff, table }: EventRendererProps
     //   hasEventOnTwoDaysRef.current = true
     //   return true
     // } else {
-      const start = date.subtract(1, 'second')
-      const end = date.add(15, 'minute').add(2, 'second')
-      return startDate.isAfter(start) && startDate.isBefore(end)
+      return startDate.format('DD-MM-YY HH') === date.format('DD-MM-YY HH')
+
+      // const start = date.subtract(1, 'second')
+      // const end = start.add(15, 'minute')
+      // const isAfterCheck = startDate.isAfter(start)
+      // const isBeforeCheck = startDate.isBefore(end)
+      // return isAfterCheck && isBeforeCheck
       // return event.date.format('DD-MM-YY HH') === date.format('DD-MM-YY HH')
     // }
     // }
@@ -75,7 +79,7 @@ export function EventRenderer({ date, events, staff, table }: EventRendererProps
     } else {
       return (
         ((transformToLocalDate(event.startDate).minute() - date.minute()) /
-          15) *
+          60) *
         100
       )
     }
@@ -89,7 +93,7 @@ export function EventRenderer({ date, events, staff, table }: EventRendererProps
         zIndex: 10,
         position: 'absolute' as React.CSSProperties['position'],
         height: '100%',
-        width: `${(calculateEventLengthInMinutes(event) / 15) * 100 - 2}%`,
+        width: `${(calculateEventLengthInMinutes(event) / 60) * 100 - 2}%`,
       }
     } else return {}
   }

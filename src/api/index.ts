@@ -64,7 +64,7 @@ export const axiosBaseQuery =
       return error.title
     }
     if(error.status && error.status !== 400){
-      return createToast.error(error?.response?.data?.title, error?.response?.data?.text)
+      return createToast.error(error?.response?.data?.detail, error?.response?.data?.text)
     }
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error

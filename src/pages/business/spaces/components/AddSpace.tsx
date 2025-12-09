@@ -19,7 +19,8 @@ import createToast from '@/lib/createToast'
 export interface IAddSpaceFormData {
     tableCategoryId: number,
     tableNumber: string,
-    capacity: number,
+    minCapacity: number,
+    maxCapacity: number,
     isAvailable: boolean,
     isActive: boolean,
     locales: {
@@ -68,7 +69,8 @@ const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categ
         const payload: IEditSpace = {
             serviceId: spaceId,
             tableNumber: data.tableNumber,
-            capacity: data.capacity,
+            minCapacity: data.minCapacity,
+            maxCapacity: data.maxCapacity,
             isActive: data.isActive,
             isAvailable: data.isAvailable,
             locales: [{
@@ -86,8 +88,9 @@ const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categ
 
         const payload: IAddSpaceFormData = {
             tableCategoryId: +data.tableCategoryId,
-            tableNumber: data.tableNumber || data.capacity.toString(),
-            capacity: data.capacity,
+            tableNumber: data.tableNumber || data.minCapacity.toString(),
+            minCapacity: data.minCapacity,
+            maxCapacity: data.maxCapacity,
             isActive: data.isActive || true,
             isAvailable: data.isAvailable || true,
             locales: [{
@@ -155,9 +158,15 @@ const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categ
                         />
                     <TextInput
                         type="number"
-                        label={t('space.addSpace.guestCount')}
-                        {...register('capacity', { required: t('space.addSpace.required.guestCount'), valueAsNumber: true  })}
-                        error={errors.capacity?.message}
+                        label={t('space.addSpace.minGuestCount')}
+                        {...register('minCapacity', { required: t('space.addSpace.required.minGuestCount'), valueAsNumber: true  })}
+                        error={errors.minCapacity?.message}
+                    />
+                    <TextInput
+                        type="number"
+                        label={t('space.addSpace.maxGuestCount')}
+                        {...register('maxCapacity', { required: t('space.addSpace.required.maxGuestCount'), valueAsNumber: true  })}
+                        error={errors.maxCapacity?.message}
                     />
                     <SelectDropDown
                         label={t('bookings.button.category')}

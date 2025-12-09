@@ -118,6 +118,10 @@
     @apply bg-background text-foreground;
   }
 }
+::selection {
+    background: #EF7800;
+    color: #fff;
+}
 
 body {
   background-color: #EFF0F1;

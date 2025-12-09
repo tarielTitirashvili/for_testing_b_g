@@ -11,6 +11,12 @@ export interface IRootCalendarResponse {
   tables: ITableMainObject | null
 }
 
+interface Client {
+  id: string
+  firstName: string
+  lastName: string
+}
+
 interface  IPagination {
   offset: number
   page: number
@@ -40,6 +46,8 @@ type TGetCAlendarBookingsParams = {
   staffIds: string[]
   tableCategoryIds: number[]
   statusIds: number[]
+  page: number
+  offset: number
 }
 export interface ITableInfo {
   id: number
@@ -60,6 +68,7 @@ export interface IOrder {
   guestCount: number | null
   price: number | null
   notes: string | null
+  client: Client
 }
 
 export const schedulerCalendarAPISlice = apiSlice.injectEndpoints({

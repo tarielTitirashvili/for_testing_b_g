@@ -1,9 +1,11 @@
 import { LoaderCircle } from 'lucide-react'
 import type React from 'react'
+import { useTranslation } from 'react-i18next'
 
 type Props = {
   className?: string
   containerClassname?: string
+  loadingContainerClassName?: string
   size?: 'screen' | 'small'
   children?: React.ReactNode
   loading?: boolean
@@ -13,21 +15,20 @@ const Loader = (props: Props) => {
   const {
     className,
     containerClassname,
+    loadingContainerClassName,
     size = 'small',
     children,
-    loading=false,
+    loading = false,
   } = props
-
+  const { t } = useTranslation()
   const screenSize = size === 'screen'
 
   if (loading !== undefined && children) {
-    if(!loading){
-      return<>{children}</>
-    }
-    return<span className='relative'>
-      <div
-        className={
-          `flex 
+    return (
+      <span className={`relative ${loadingContainerClassName}`}>
+        {loading && (
+          <div
+            className={`flex 
           ${screenSize ? 'width-full' : ''} 
           ${screenSize ? 'h-screen' : ''}
           justify-center 
@@ -40,19 +41,20 @@ const Loader = (props: Props) => {
           z-[90000000]
           rounded-xl
           cursor-wait!
-          ${containerClassname ? containerClassname : ''}`
-        }
-      >
-        <span className="flex items-center justify-center">
-          <LoaderCircle
-            className={`animate-spin text-[#ef7800] ${className ?? ''}`}
-            size={32}
-            strokeWidth={2}
-            />
-        </span>
-      </div>
+          ${containerClassname ? containerClassname : ''}`}
+          >
+            <span className="flex items-center justify-center">
+              <LoaderCircle
+                className={`animate-spin text-[#ef7800] ${className ?? ''}`}
+                size={32}
+                strokeWidth={2}
+              />
+            </span>
+          </div>
+        )}
         {children}
-    </span>
+      </span>
+    )
   }
 
   return (
@@ -66,13 +68,12 @@ const Loader = (props: Props) => {
       cursor-wait!
       ${containerClassname ? containerClassname : ''}`}
     >
-      Loading...
+      {t('common.loading.text')}
       <LoaderCircle
         className={`animate-spin text-[#ef7800] ${className ?? ''}`}
         size={32}
         strokeWidth={2}
       />
-      {children}
     </div>
   )
 }

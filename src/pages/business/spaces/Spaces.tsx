@@ -18,7 +18,8 @@ import { useTranslation } from 'react-i18next'
 export interface ISpace {
     id: number
     tableNumber: string
-    capacity: number,
+    minCapacity: number,
+    maxCapacity: number,
     isActive: boolean,
     isAvailable: boolean
     name: string,

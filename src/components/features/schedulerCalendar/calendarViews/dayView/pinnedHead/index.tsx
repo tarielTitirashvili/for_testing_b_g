@@ -10,7 +10,7 @@ type Props = {
 const PinnedHead = (props: Props) => {
   
   const { calendarEventsData } = props
-  console.log('calendarEventsData', calendarEventsData)
+
   return (
     <>
       {calendarEventsData?.map((item) => {

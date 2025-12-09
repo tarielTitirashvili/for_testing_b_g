@@ -42,7 +42,8 @@ const SpaceCard: FunctionComponent<ISpaceCardProps> = ({ space, handleRemove, ca
         const payload: IEditSpace = {
             serviceId: space.id,
             tableNumber: space.tableNumber,
-            capacity: space.capacity,
+            maxCapacity: space.maxCapacity,
+            minCapacity: space.minCapacity,
             isAvailable: !space.isAvailable,
             isActive: !space.isActive,
             locales: [
@@ -94,7 +95,7 @@ const SpaceCard: FunctionComponent<ISpaceCardProps> = ({ space, handleRemove, ca
                     className="flex gap-1 items-center justify-between p-0 w-full"
                 >
                     <div className="guests_count flex items-center gap-1">
-                        <Users2 size={18} /> { space.capacity } { t("space.card.guestCnt") }
+                        <Users2 size={18} /> { space.minCapacity}-{ space.maxCapacity } { t("space.card.guestCnt") }
                     </div>
                     <div className="block_unblock-switch">
                         <CategoryStatusSwitch

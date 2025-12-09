@@ -248,10 +248,12 @@
   "space.addSpace.modal.description": "მართე სივრცე მარტივად",
   "space.addSpace.modal.description.edit": "დაარედაქტირე სივრცე მარტივად",
   "space.addSpace.name": "სივრცის სახელი",
-  "space.addSpace.guestCount": "სტუმრების რაოდენობა",
+  "space.addSpace.minGuestCount": "სტუმრების მინიმალური რაოდენობა",
+  "space.addSpace.maxGuestCount": "სტუმრების მაქსიმალური რაოდენობა",
 
   "space.addSpace.required.name": "მაგიდის სახელი აუცილებელია",
-  "space.addSpace.required.guestCount": "სტუმრების რაოდენობა აუცილებელია",
+  "space.addSpace.required.minGuestCount": "სტუმრების მინიმალური რაოდენობა აუცილებელია",
+  "space.addSpace.required.maxGuestCount": "სტუმრების მაქსიმალური რაოდენობა აუცილებელია",
   "space.deleteModalt.title": "სივრცის წაშლა!",
   "space.deleteModalt.description": "დარწმუნებული ხართ რომ გსურთ წაშალოთ სივრცე '{{ space }}'?",
 
@@ -452,6 +454,7 @@
 
   "business.successMessage.createDishWasSuccessFull": "კერძი წარმატებით დაემატა",
   "common.errorMessage.logoutError":"სესიის ვადა ამოიწურა",
+  "common.loading.text":"იტვირთება...",
 
   "":""
 

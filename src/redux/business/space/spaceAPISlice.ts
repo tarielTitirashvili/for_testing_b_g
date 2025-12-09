@@ -6,7 +6,8 @@ export interface ISpaceResponse {
   categoryId: number
   categoryLocales: { name: string; languageId: number }[]
   tableNumber?: string
-  capacity?: number
+  minCapacity: number,
+  maxCapacity: number,
   isAvailable?: boolean
   isActive?: boolean
 }

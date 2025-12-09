@@ -37,9 +37,9 @@ export const getMonth = (month = dayjs().month()) => {
 }
 
 
-export const getHours = Array.from({ length: 96 }, (_, i) =>
-  dayjs().startOf('day').add(i * 15, 'minute')
-);
+export const getHours = Array.from({ length: 24 }, (_, i) =>
+  dayjs().startOf('day').add(i, 'hour')
+)
 
 export const transformToLocalDate = (date: Dayjs | string) => dayjs.utc(date).tz(dayjs.tz.guess()) as Dayjs
 
