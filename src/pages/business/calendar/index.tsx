@@ -90,7 +90,7 @@ const Calendar = () => {
       .format('YYYY-MM-DDTHH:mm:ssZ')
       .toString(),
     includeExternal: true,
-    includeInternal: false,
+    includeInternal: true,
     TableIds: null,
     staffIds: selectedStaffId ? selectedStaffId : null,
     tableCategoryIds: selectedTableCategoryId,
