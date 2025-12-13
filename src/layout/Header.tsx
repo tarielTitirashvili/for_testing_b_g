@@ -3,7 +3,10 @@ import { type FunctionComponent } from 'react'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 
 import { t } from 'i18next'
+
 import Profile from '@/components/shared/profile/Profile'
+import NotificationDropDown from '@/components/shared/notificationDropDown'
+
 interface IHeaderProps {
   basePathName: string | null
 }
@@ -26,7 +29,8 @@ const Header: FunctionComponent<IHeaderProps> = ({ basePathName }) => {
               }`
             )}
       </div>
-      <div className="profile relative max-w-[320px] w-full flex justify-end">
+      <div className="profile relative max-w-[320px] w-full flex justify-end items-center">
+        <NotificationDropDown />
         <Profile />
       </div>
     </header>

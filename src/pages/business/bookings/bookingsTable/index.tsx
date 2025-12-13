@@ -1,16 +1,22 @@
+import { useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
+
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 
 import { type BookingType } from '../constants'
 
-import { useTranslation } from 'react-i18next'
-
-import TableRows from './tableRows'
-import EmptyResponse from '@/components/shared/emptyResponse'
-import Loader from '@/components/shared/loader'
-import TableSkeletonRow from './tableSkeletonRow'
 import type { IConfirmBookingPayload } from '@/redux/business/booking/bookingAPISlice'
 
+import EmptyResponse from '@/components/shared/emptyResponse'
+import Loader from '@/components/shared/loader'
+
+import TableRows from './tableRows'
+import TableSkeletonRow from './tableSkeletonRow'
+
 type Props = {
+  setDataCount: React.Dispatch<React.SetStateAction<number>>
+  ordersScrollRef: React.RefObject<boolean>
+  totalCount: number
   bookings: BookingType[]
   businessType: 1 | 2 | null
   bookingsLoadingError: boolean
@@ -20,9 +26,11 @@ type Props = {
 }
 
 const BookingsTable = (props: Props) => {
-  const { bookings, businessType, bookingsLoadingError, loadingBookings, confirmationMutation, cancelBookingMutation } = props
+  const { setDataCount, ordersScrollRef, totalCount, bookings, businessType, bookingsLoadingError, loadingBookings, confirmationMutation, cancelBookingMutation } = props
   const { t } = useTranslation()
 
+  const loaderRef = useRef<HTMLDivElement | null>(null)
+  
   const tableHeadRenderer = (children: React.ReactNode) => (
     <TableHead className="text-[12px] 2xl:text-base text-[#6C6C6C]">{children}</TableHead>
   )
@@ -34,6 +42,34 @@ const BookingsTable = (props: Props) => {
   if(bookings.length === 0 && !loadingBookings){
     return <EmptyResponse />
   }
+
+  console.log(bookings)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !loadingBookings) {
+
+        if (bookings.length >= totalCount) {
+          observer.disconnect()
+          return
+        }
+
+        if (!ordersScrollRef.current) {
+          ordersScrollRef.current = true
+          setDataCount((prev) => prev + 10)
+        }
+      }
+    })
+
+    if (loaderRef.current) observer.observe(loaderRef.current)
+
+    return () => observer.disconnect()
+
+  }, [loadingBookings, bookings.length, totalCount, ordersScrollRef])
+
+  useEffect(() => {
+    ordersScrollRef.current = false
+  }, [bookings])
 
   return (
     <Loader loading={loadingBookings} >
@@ -92,8 +128,14 @@ const BookingsTable = (props: Props) => {
               cancelBookingMutation={cancelBookingMutation}
             />
           })}
+          
+
         </TableBody>
       </Table>
+      <div ref={loaderRef}></div>
+      {bookings.length > 0 && bookings.length !== totalCount && (
+        <Loader />
+      )}
     </Loader>
   )
 }

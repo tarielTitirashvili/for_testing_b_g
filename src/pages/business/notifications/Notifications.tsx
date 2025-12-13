@@ -21,15 +21,15 @@ const Notifications: FunctionComponent = () => {
 
     const [tab, setTab] = useState<string>('all')
 
-    const {data = []} = useGetNotificationsQuery(undefined, {
+    const {data: notifications = []} = useGetNotificationsQuery(undefined, {
         refetchOnMountOrArgChange: false,
         refetchOnReconnect: false,
     })
 
     const filterNotification = (notificationType: string) => {
-        if (notificationType == 'all') return data
+        if (notificationType == 'all') return notifications
 
-        return data.filter(notification => notification.typeName === notificationType)
+        return notifications.filter(notification => notification.typeName === notificationType)
     }
 
     const handleTab = (value: string) => {

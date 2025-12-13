@@ -1,72 +1,60 @@
 import { useState, type FunctionComponent } from "react";
-import type { UseFormSetValue } from "react-hook-form";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 
 import { ChevronDown } from "lucide-react";
+import { useTranslation } from "react-i18next";
+
 import TimePickInput from "@/components/shared/inputs/TimePickInput";
 import TimeSlider from "@/components/shared/sliders/TimeSlider";
 import PrimaryButton from "@/components/shared/buttons/PrimaryButton";
 import SecondaryButton from "@/components/shared/buttons/SecondaryButton";
-import { toast } from "sonner";
-import { useTranslation } from "react-i18next";
 
-interface IBusinessFormData {
-    businessName: string
-    businessDescription: string
-    startTime: string
-    endTime: string
-    businessPhone: string
-    businessMail: string
-    businessSite: string
-    businessTikTok: string
-    businessInstagram: string
-    businessFacebook: string
-    businessAddress: string
-}
 
 const timeSlots = Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, "0")}:00`);
 
 interface TimePickerComponentProps {
-    setValue: UseFormSetValue<IBusinessFormData>;
+    onChange: (val: string) => void
+    error: string
 }
 
-const TimePickerComponent: FunctionComponent<TimePickerComponentProps> = ({ setValue }) => {
+const TimePickerComponent: FunctionComponent<TimePickerComponentProps> = ({ onChange, error }) => {
 
     const { t } = useTranslation()
 
-    const [dateInputExpand, setDateInputExpand] = useState<null | "startTime" | "endTime">(null);
+    const [dateInputExpand, setDateInputExpand] = useState<null | "startTime" | "endTime">('startTime');
+    const [modalOpen, setModalOpen] = useState<boolean>(false)
+
     const [startTime, setStartTime] = useState<string>(timeSlots[6]);
-    const [endTime, setEndTime] = useState<string>(timeSlots[6]);
+    // const [endTime, setEndTime] = useState<string>(timeSlots[6]);
 
     const handleDateInputExpand = (type: "startTime" | "endTime"): void => {
         setDateInputExpand((prev) => (prev === type ? null : type));
     };
 
-    const handleSave = (): void => {
-        setValue("startTime", startTime);
-        setValue("endTime", endTime);
-        toast.success("Time Was Saved Successfully", {
-            description: `Time Set From ${startTime} To ${endTime}`,
-        })
-    };
+    const handleSave = () => {
+        setModalOpen(false)
+        onChange(startTime)
+    }
 
     return (
-        <Dialog>
-
-            <DialogTrigger>
-                <div className="time_pick_inputs flex gap-3">
+        <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+            <DialogTrigger className="flex flex-col justify-start items-start">
+                <div className="time_pick_inputs flex flex-1 w-full gap-3">
                     <TimePickInput
                         label={t("bookings.inputLabel.startTime")}
                         time={ startTime }
+                        error={error}
                     />
-                    <TimePickInput
+                    {/* <TimePickInput
                         label={t("bookings.inputLabel.endTime")}
                         time={ endTime }
-                    />
+                        error={error}
+                    /> */}
                 </div>
+                { error && <span className="text-xs text-red-500 font-medium">{ error }</span>}
             </DialogTrigger>
-            <DialogContent showCloseButton={false} className="max-w-[320px] w-full">
+            <DialogContent showCloseButton={false} className="timepicker-dialog-content max-w-[320px] w-full">
                 <DialogHeader>
                     <DialogTitle>
                         { t("bookings.timePicker.title") }
@@ -94,7 +82,7 @@ const TimePickerComponent: FunctionComponent<TimePickerComponentProps> = ({ setV
                             />
                         </div>
                     </div>
-                    <div className={`time_pick-block flex flex-col items-center gap-2.5 overflow-hidden cursor-pointer ${dateInputExpand === 'endTime' ? 'time_pick-block-expanded' : 'h-[45px]'}`}>
+                    {/* <div className={`time_pick-block flex flex-col items-center gap-2.5 overflow-hidden cursor-pointer ${dateInputExpand === 'endTime' ? 'time_pick-block-expanded' : 'h-[45px]'}`}>
                         <div
                             className="time_pick-input flex items-center w-full border-2 border-[#EBEBEB] p-2 rounded-md"
                             onClick={() => handleDateInputExpand('endTime')}
@@ -113,10 +101,10 @@ const TimePickerComponent: FunctionComponent<TimePickerComponentProps> = ({ setV
                                 timeSlots={timeSlots}
                             />
                         </div>
-                    </div>
+                    </div> */}
                     <div className="time_pick-buttons flex flex-col gap-3">
                         <div className="time_pick-button font-bold">
-                            <PrimaryButton handleClick={handleSave} className="font-semibold">
+                            <PrimaryButton className="font-semibold" handleClick={handleSave}>
                                 { t("bookings.actionButtons.save") }
                             </PrimaryButton>
                         </div>

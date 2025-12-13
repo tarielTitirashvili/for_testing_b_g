@@ -32,6 +32,7 @@
 
   "bookings.table.date&time":"თარიღი & დრო",
   "bookings.table.date":"თარიღი",
+  "bookings.table.datePick":"თარიღის არჩევა",
   "bookings.table.guest":"სტუმარი",
   "bookings.table.guestCount": "რაოდენობა",
   "bookings.table.service":"სერვისი",
@@ -97,6 +98,9 @@
   "bookings.inputLabel.startTime": "გახსნის დრო",
   "bookings.inputLabel.endTime": "დახურვის დრო",
   "bookings.inputLabel.tanCode": "TAN კოდი",
+  "bookings.inputLabel.customerName": "მომხმარებლის სახელი",
+  "bookings.inputLabel.customerCount": "მომხმარებლის რაოდენობა",
+  "bookings.inputLabel.specialist": "სპეციალისტი",
 
   "bookings.formValidation.required.email" : "ელ-ფოსტა აუცილებელია",
   "bookings.formValidation.email" : "არასწორი ელ-ფოსტა",
@@ -108,7 +112,7 @@
   "bookings.formValidation.passwordNotMatch" : "პაროლი არ ემთხვევა",
   "bookings.formValidation.passwordsNotMatch" : "პაროლები არ ემთხვევა",
   "bookings.formValidation.required.mobileNumber" : "მობილური ნომერუ აუცილებელია",
-  "bookings.formValidation.mobileNumber" : "არასწორი მობულური ნომერუ",
+  "bookings.formValidation.mobileNumber" : "მობულური ნომერი არა ვალიდურია",
   "bookings.formValidation.required.ownerFullName" : "მფლობელის სრული სახელი აუცილებელია",
   "bookings.formValidation.required.staffFullName" : "სახელი და გვარი აუცილებელია",
   "bookings.formValidation.required.firstName" : "სახელი აუცილებელია",
@@ -122,6 +126,12 @@
   "bookings.formValidation.required.tanCode": "TAN კოდი აუცილებელია",
   "bookings.formValidation.passwordRequirements": "პაროლი უნდა შედგებოდეს: მინიმუმ 8 სიმბოლოსგან; მინიმით ერთს მცირე ასოსგან (a–z), ერთს დიდი ასოსგან (A–Z), ერთ ციფრისგან (0–9) და ერთ სპეციალური სიმბოლოსგან (მაგ. !@#$%^&*)",
   "bookings.formValidation.invalidLoginOrPassword": "არასწორი ელ-ფოსტა ან პაროლი",
+  "bookings.formValidation.invalidCustomerName": "სახელი არა ვალიდურია",
+  "bookings.formValidation.required.customerCount": "მომხმარებლის რაოდენობა აუცილებელია",
+  "bookings.formValidation.required.spaceCateogry": "სივრცე აუცილებელია",
+  "bookings.formValidation.required.service": "სერვისი აუცილებელია",
+  "bookings.formValidation.required.specialist": "სპეციალისტი აუცილებელია",
+  "bookings.formValidation.required.dateAndTime": "დრო და თარიღი აუცილებელია",
 
   "bookings.link.createAccQuestion": "არ გაქ ანგარიში?",
   "bookings.link.createAcc": "შექმენი ანგარიში",
@@ -165,6 +175,10 @@
   "sidebar.link.team": "გუნდი",
   "sidebar.link.reviews": "მიმოხილვები",
   "sidebar.link.notifications": "შეტყობინებები",
+  "sidebar.link.newNotifications":"ახალი შეტყობინება",
+  "sidebar.link.newNotification.bookingId":"ჯავშნის აიდი:",
+  "sidebar.link.newNotification.noNewNotifications":"თქვენ არ გაქვთ ახალი შეტყობინებები",
+  "sidebar.link.newNotification.allRead":"ყველას წაკითხვა",
   "sidebar.link.subscription": "გამოწერა",
   "sidebar.link.settings": "პარამეტრები",
   "sidebar.link.logout": "გასვლა",
@@ -415,6 +429,8 @@
   "admin.language.addLanguage.input.languageAbbreviation": "ენის აბრევიატურა",
   "admin.language.addLanguage.input.languageCode": "ენის კოდი",
   "admin.language.addLanguage.input.isRequired": "აუცილებელია",
+  "admin.datePicker.date": "თარიღი",
+  "admin.datePicker.selectDate": "",
 
 
   "business.texts.categoryNotFount": "კატეგორია არ მოიძებნა",
@@ -422,6 +438,7 @@
   "business.texts.noDataWasFound": "მონაცემები არ მოიძებნა",
   "business.texts.noBookingWasFound": "ჯავშანი არ მოიძებნა",
   "business.texts.activateUser": "ბიზნესის აქტივაცია",
+  "business.texts.order.success": "ჯავშანი წარმატებით დაემატა: ID",
 
   "business.buttons.addNewBooking": "ჯავშნის დამატება",
   "business.labels.guestName": "სტუმრის სახელი",
@@ -443,6 +460,8 @@
   "businessCategory.add.categoryType.required": "კატეგორიის ტიპი აუცილებელია",
   "businessCategory.modal.deleteCategory.title": "ბიზნეს კატეგორიის წაშლა",
   "businessCategory.modal.deleteCategory.text": "დარწმუნებული ხართ წაშალოთ ბიზნეს კატეგორია {{ businessCategory }}?",
+
+  "business.addOrderModal.title": "ჯავშნის დამატება",
 
   "business.successMessage.saveWasSuccessFull": "მონაცემები წარმატებით განახლდა",
   "business.successMessage.fileUploadWasSuccessful": "ფაილი წარმატებით აიტვირთა",

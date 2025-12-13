@@ -1,4 +1,4 @@
-import { useState, type FunctionComponent } from 'react'
+import { useEffect, useRef, useState, type FunctionComponent } from 'react'
 import { BusinessProfilesSelector, selectedBusinessProfileSelector } from '@/redux/auth/authSelectors'
 import { useSelector } from 'react-redux'
 
@@ -34,21 +34,32 @@ export interface IBusiness {
 
 const Profile: FunctionComponent = () => {
   const [open, setOpen] = useState<boolean>(false)
+  const wrapperRef = useRef<HTMLDivElement>(null)
 
   const selectedBusinessProfile = useSelector(selectedBusinessProfileSelector)
 
   const businesses = useSelector(BusinessProfilesSelector)
   const role = useSelector((state: RootState) => state.auth.role)
 
+  useEffect(() => {
+    const handelOutslideClick = (e: MouseEvent) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) setOpen(false)
+    }
+
+    document.addEventListener('mousedown', handelOutslideClick)
+
+    return () => document.removeEventListener('mousedown', handelOutslideClick)
+  }, [])
+
   return (
-    <div>
+    <div ref={wrapperRef}>
       <Loader loading={businesses?.length === 0 && role !== USER_ROLES.ADMINISTRATOR}>
         <BusinessAvatar
           business={selectedBusinessProfile}
           handleProfileList={() => setOpen((prev) => !prev)}
         />
         {open && (
-          <div className="list absolute top-[110%] right-0 min-w-[300px] z-99999">
+          <div className="list absolute top-[110%] right-0 min-w-[320px] z-999999999999">
             <ProfileList businesses={businesses || []} />
           </div>
         )}

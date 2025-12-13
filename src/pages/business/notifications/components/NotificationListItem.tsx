@@ -18,10 +18,10 @@ const NotificationListItem: FunctionComponent <INotificationListItemProps>= ({ n
             <div className="item_content-group flex items-start gap-3">
                 <div className="item_content flex flex-col gap-2">
                     <div className="content_title font-medium">
-                        ახალი შეტყობინება
+                        {t('sidebar.link.newNotifications')}
                     </div>
                     <div className="content_text font-normal text-sm text-[#6C6C6C]">
-                        { notification.message }, ჯავშნის აიდი: { notification.orderId }
+                        { notification.message }, {t('sidebar.link.newNotification.bookingId')} { notification.orderId }
                     </div>
                     <div className="content_date font-medium text-xs flex gap-1 text-[#6C6C6C]">
                         <Clock size={15} /> { new Date().toLocaleDateString() }

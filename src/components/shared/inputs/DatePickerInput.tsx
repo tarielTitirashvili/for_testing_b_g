@@ -21,14 +21,14 @@ const DatePickerInput = (props: TProps) => {
         label
       ) : (
         <div
-          className={`date_picker_input-label text-left text-lg font-medium`}
+          className={`date_picker_input-label text-left text-sm font-medium ${error && 'text-red-500'}`}
         >
-          {t('admin.datePicker.date')}
+          {t('bookings.table.date')}
         </div>
       )}
 
       <div
-        className={`date_picker_input relative max-w-[280px] w-full h-[48px] flex items-center ${inputContainerClassName}`}
+        className={`date_picker_input relative w-full h-[48px] flex items-center ${inputContainerClassName}`}
       >
         <div className="date_picker_input-icon absolute left-[10px] top-1/2 -translate-y-1/2">
           <Calendar className="h-6 w-6" />
@@ -36,10 +36,10 @@ const DatePickerInput = (props: TProps) => {
         <div className="date_picker_input-body w-full">
           <Input
             className="date_picker_input-placeholder text-lg pl-10 border-2 rounded-md w-full py-2 flex items-center cursor-pointer"
-            placeholder={t('admin.datePicker.selectDate')}
+            placeholder={t("bookings.table.datePick")}
             readOnly
             error={error}
-            value={typeof date === 'string' ? date : date?.format('DD/MM/YYYY')}
+            value={typeof date === 'string' ? date?.toString().split('-').reverse().join(".") : date?.format('DD.MM.YYYY')}
           />
         </div>
         <div className="date_picker_input-dropdown absolute right-[10px] top-1/2 -translate-y-1/2">

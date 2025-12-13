@@ -1,7 +1,7 @@
 import { useEffect, useState, type FunctionComponent } from "react"
 
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { useForm } from "react-hook-form"
+import { useForm, type FieldErrors } from "react-hook-form"
 
 import { spaceApiSlice, useCreateSpaceMutation, useEditSpaceMutation, useGetSpaceByIdQuery, type ISpaceResponse } from "@/redux/business/space/spaceAPISlice"
 
@@ -28,12 +28,22 @@ export interface IAddSpaceFormData {
         languageId: number,
         description: string
     }[]
-    
 }
 
-export interface IEditSpace extends Omit<IAddSpaceFormData, "tableCategoryId"> {
-    serviceId: number | undefined
+export interface IEditSpaceFormData {
+    serviceId: number,
+    tableNumber: string,
+    minCapacity: number,
+    maxCapacity: number,
+    isAvailable: boolean,
+    isActive: boolean,
+    locales: {
+        name: string,
+        languageId: number,
+        description: string
+    }[]
 }
+
 
 interface ICategory {
     isSystem: boolean,
@@ -41,7 +51,7 @@ interface ICategory {
     name: string
 }
 
-interface IAddSpace {
+interface IAddSpaceProps {
     categories: ICategory[]
     space?: ISpace
     triggerText?: string
@@ -50,9 +60,17 @@ interface IAddSpace {
     spaceId?: number
 }
 
-const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categoryId, spaceId, icon }) => {
+const AddSpace: FunctionComponent<IAddSpaceProps> = ({ categories, triggerText, categoryId, spaceId, icon }) => {
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<IAddSpaceFormData>()
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<IAddSpaceFormData | IEditSpaceFormData>({
+        defaultValues: {
+            locales: [
+                {
+                    languageId: 1
+                }
+            ]
+        }
+    })
 
     const [modalOpen, setModalOpen] = useState<boolean>(false)
 
@@ -65,19 +83,19 @@ const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categ
     const [editSpaceService, {isSuccess: isSpaceEditSuccess, isLoading: isSpaceEditLoading}] = useEditSpaceMutation()
     const [createdSpaceService, {isSuccess: isSpaceCreationSuccess, isLoading: isSpaceCreationLoading}] = useCreateSpaceMutation()
 
-    const handleSpaceServiceEdit = (data: IAddSpaceFormData) => {
-        const payload: IEditSpace = {
-            serviceId: spaceId,
+    const handleSpaceServiceEdit = (data: IEditSpaceFormData) => {
+        const payload: IEditSpaceFormData = {
+            serviceId: spaceId!,
             tableNumber: data.tableNumber,
             minCapacity: data.minCapacity,
             maxCapacity: data.maxCapacity,
             isActive: data.isActive,
             isAvailable: data.isAvailable,
-            locales: [{
-                name: data.locales[0].name,
-                description: data.locales[0].description,
-                languageId: data.locales[0].languageId
-            }]
+            locales: data.locales.map(locale => ({
+                languageId: locale.languageId,
+                name: locale.name,
+                description: locale.description
+            }))
 
         }
 
@@ -93,21 +111,21 @@ const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categ
             maxCapacity: data.maxCapacity,
             isActive: data.isActive || true,
             isAvailable: data.isAvailable || true,
-            locales: [{
-                name: data.locales[0].name,
-                description: 'desc',
-                languageId: 1
-            }]
+            locales: data.locales.map(locale => ({
+                languageId: locale.languageId,
+                name: locale.name,
+                description: locale.description
+            }))
         }
 
         createdSpaceService(payload)
     }
 
-    const handleSpace = (data: IAddSpaceFormData) => {
+    const handleSpace = (data: IAddSpaceFormData | IEditSpaceFormData) => {
         if (spaceId) {
-            handleSpaceServiceEdit(data)
+            handleSpaceServiceEdit(data as IEditSpaceFormData)
         } else {
-            handleSpaceServiceCreate(data)
+            handleSpaceServiceCreate(data as IAddSpaceFormData)
         }
 
         reset()
@@ -155,17 +173,23 @@ const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categ
                         label={t('space.addSpace.name')}
                         {...register('locales.0.name', { required: t('space.addSpace.required.name') })}
                         error={errors.locales?.[0]?.name?.message}
-                        />
+                    />
                     <TextInput
-                        type="number"
-                        label={t('space.addSpace.minGuestCount')}
-                        {...register('minCapacity', { required: t('space.addSpace.required.minGuestCount'), valueAsNumber: true  })}
-                        error={errors.minCapacity?.message}
+                        label={t('space.addSpace.description')}
+                        {...register('locales.0.description', { required: t('space.addSpace.required.name') })}
+                        error={errors.locales?.[0]?.description?.message}
                     />
                     <TextInput
                         type="number"
+                        label={t('space.addSpace.minGuestCount')}
+                        {...register('minCapacity', { required: t('space.addSpace.required.minGuestCount'), valueAsNumber: true })}
+                        error={errors.minCapacity?.message}
+                    />
+
+                    <TextInput
+                        type="number"
                         label={t('space.addSpace.maxGuestCount')}
-                        {...register('maxCapacity', { required: t('space.addSpace.required.maxGuestCount'), valueAsNumber: true  })}
+                        {...register('maxCapacity', { required: t('space.addSpace.required.maxGuestCount'), valueAsNumber: true })}
                         error={errors.maxCapacity?.message}
                     />
                     <SelectDropDown
@@ -173,7 +197,7 @@ const AddSpace: FunctionComponent<IAddSpace> = ({ categories, triggerText, categ
                         sentId
                         options={categories ?? []}
                         {...register('tableCategoryId', { required: t('bookings.button.required.category') })}
-                        error={errors.tableCategoryId?.message}
+                        error={(errors as FieldErrors & { tableCategoryId?: any }).tableCategoryId?.message}
                     />
                     <DialogFooter className="flex">
                         <DialogClose asChild className="flex-1">

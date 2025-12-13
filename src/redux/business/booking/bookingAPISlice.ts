@@ -1,3 +1,4 @@
+import type { IAddBooking } from "@/components/features/addBookingModal";
 import { apiSlice } from "@/redux/APISlice";
 
 export interface OrdersResponse {
@@ -8,16 +9,23 @@ export interface OrdersResponse {
     offset: number;
 }
 
+interface IGetAllOrdersParams {
+    page: number,
+    offset: number
+}
+
 export interface OrderItem {
     id: number;
     startDate: string;
-    client: Client;
-    services: IServiceItem[]; 
-    staff: IStaff;
+    client: IClient;
+    services: IServiceItem[];
+    tableCategory: IServiceItem
+    table: IServiceItem | null
+    staff: IStaff | null;
     durationMinutes: number;
     price: number | null;
     statusId: IStatus;
-    tableCategoryId: number | null;
+    // tableCategoryId: number | null;
     guestCount: number | null;
     endDate: string;
     reminder: string | null;
@@ -26,7 +34,7 @@ export interface OrderItem {
     isExternal: boolean;
 }
 
-interface Client {
+interface IClient {
     id: string;
     firstName: string | null;
     lastName: string | null;
@@ -37,8 +45,8 @@ interface Client {
 interface IServiceItem {
     id: number;
     name: string;
-    durationMinutes: number;
-    price: number;
+    // durationMinutes: number;
+    // price: number;
 }
 
 export interface IStaff {
@@ -65,9 +73,9 @@ export interface IConfirmBookingPayload {
 export const bookingApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
 
-        getAllOrders: builder.query<OrdersResponse, void>({
-            query: () => ({
-                url: "/business/orders?offset=100",
+        getAllOrders: builder.query<OrdersResponse, IGetAllOrdersParams>({
+            query: ({ page = 1, offset = 10 }) => ({
+                url: `/business/orders?page=${page}&offset=${offset}`,
                 method: "GET"
             }),
             providesTags: ['Bookings']
@@ -80,6 +88,7 @@ export const bookingApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Bookings'],
         }),
+
         cancelBooking: builder.mutation<void, IConfirmBookingPayload>({
             query: (payload) => ({
                 url: `/business/orders/${payload.orderId}/cancel`,
@@ -87,7 +96,16 @@ export const bookingApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Bookings'],
         }),
+
+        createExternalBooking: builder.mutation<void, IAddBooking>({
+            query: (data) => ({
+                url: "/business/order/create-external",
+                method: "POST",
+                data
+            }),
+            // invalidatesTags: ['Bookings']
+        })
     })
 })
 
-export const { useGetAllOrdersQuery, useConfirmBookingMutation, useCancelBookingMutation } = bookingApiSlice
+export const { useGetAllOrdersQuery, useConfirmBookingMutation, useCancelBookingMutation, useCreateExternalBookingMutation } = bookingApiSlice

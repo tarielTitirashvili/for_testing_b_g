@@ -1,4 +1,4 @@
-import type { IAddSpaceFormData, IEditSpace } from "@/pages/business/spaces/components/AddSpace";
+import type { IAddSpaceFormData, IEditSpaceFormData, } from "@/pages/business/spaces/components/AddSpace";
 import type { ISpace } from "@/pages/business/spaces/Spaces";
 import { apiSlice } from "@/redux/APISlice";
 
@@ -29,7 +29,7 @@ export const spaceApiSlice = apiSlice.injectEndpoints({
             })
         }),
 
-        editSpace: builder.mutation<void, IEditSpace>({
+        editSpace: builder.mutation<void, IEditSpaceFormData>({
             query: (data) => ({
                 url: '/tablecategoryservices',
                 method: 'PUT',
@@ -57,7 +57,7 @@ export const spaceApiSlice = apiSlice.injectEndpoints({
             // //! call this invalidation inside component after success to prevent rerenders aff parent components and show success message
         }),
         
-        switchSpaceStatus: builder.mutation<void, IEditSpace>({
+        switchSpaceStatus: builder.mutation<void, IEditSpaceFormData>({
             query: (data) => ({
                 url: "/tablecategoryservices",
                 method: "PUT",

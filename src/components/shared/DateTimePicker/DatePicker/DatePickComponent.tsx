@@ -1,6 +1,6 @@
 import { useState, type FunctionComponent } from "react";
 
-import { Dialog, DialogContent,DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from "@/components/ui/dialog";
+import { Dialog, DialogContent,DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose, DialogDescription } from "@/components/ui/dialog";
 import { ChevronDown } from "lucide-react";
 
 import DatePickerScroll from "../../sliders/DatePickerScroll";
@@ -8,26 +8,47 @@ import DatePickerInput from "../../inputs/DatePickerInput";
 import PrimaryButton from '../../buttons/PrimaryButton'
 import SecondaryButton from '../../buttons/SecondaryButton'
 
-const DatePickComponent: FunctionComponent = () => {
+import dayjs from "dayjs";
+
+interface IDatePickComponentProps {
+    value?: string
+    onChange: (val: string) => void
+    onSave: () => void
+    error: string
+}
+
+const DatePickComponent: FunctionComponent<IDatePickComponentProps> = ({ value, onChange, onSave, error }) => {
 
     const [dateInputExpand, setDateInputExpand] = useState<null | 'startTime' | 'endTime'>(null)
-    
+    const [modalOpen, setModalOpen] = useState<boolean>(false)
+
     const handleDateInputExpand = (type: 'startTime' | 'endTime'): void => {
         setDateInputExpand(prev => prev === type ? null : type)
     }
 
+    const handleSave = () => {
+        onSave()
+        setModalOpen(false)
+    }
+
     return (
-        <Dialog>
-            <DialogTrigger>
+        <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+            <DialogTrigger className="w-full">
                 <div className="text-left">
-                    <DatePickerInput />
+                    <DatePickerInput
+                        date={value}
+                        error={error}
+                    />
+                    { error && <span className="text-xs text-red-500 font-medium">{ error }</span>}
+
                 </div>
             </DialogTrigger>
-            <DialogContent showCloseButton={false} className="max-w-[320px] w-full">
+            <DialogContent showCloseButton={false} className="datepicker-dialog-content max-w-[320px] w-full">
                 <DialogHeader>
                     <DialogTitle className="text-lg font-medium">
                         Pick a Date
                     </DialogTitle>
+                    <DialogDescription className="hidden" />
                 </DialogHeader>
                 <div className={`date_pick-block flex flex-col items-center gap-2.5 overflow-hidden cursor-pointer ${dateInputExpand === 'startTime' ? 'date_pick-block-expanded' : 'h-[45px]'}`}>
                     <div
@@ -42,10 +63,13 @@ const DatePickComponent: FunctionComponent = () => {
                         </div>
                     </div>
                     <div className="date_pick-component w-full">
-                        <DatePickerScroll />
+                        <DatePickerScroll
+                            date={value ? dayjs(value) : undefined}
+                            onChange={(date) => onChange(date.format('YYYY-MM-DD'))}
+                        />
                     </div>
                 </div>
-                <div className={`date_pick-block flex flex-col items-center gap-2.5 overflow-hidden cursor-pointer ${dateInputExpand === 'endTime' ? 'date_pick-block-expanded' : 'h-[45px]'}`}>
+                {/* <div className={`date_pick-block flex flex-col items-center gap-2.5 overflow-hidden cursor-pointer ${dateInputExpand === 'endTime' ? 'date_pick-block-expanded' : 'h-[45px]'}`}>
                     <div
                         className="date_pick-input flex items-center w-full border-2 border-[#EBEBEB] p-2 rounded-md"
                         onClick={() => handleDateInputExpand('endTime')}
@@ -60,13 +84,13 @@ const DatePickComponent: FunctionComponent = () => {
                     <div className="date_pick-component w-full">
                         <DatePickerScroll />
                     </div>
-                </div>
+                </div> */}
                 <DialogFooter>
                     <div className="date_pick-buttons flex flex-col gap-2.5 w-full">
                         <div className="date_pick-button">
-                            <PrimaryButton children='Save' />
+                            <PrimaryButton handleClick={handleSave} children='Save' />
                         </div>
-                        <DialogClose>
+                        <DialogClose asChild>
                             <div className="date_pick-button">
                                 <SecondaryButton children="Cancel" />
                             </div>

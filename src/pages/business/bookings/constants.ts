@@ -36,7 +36,7 @@ export type BookingType = {
   id: number
   dateTime: string
   customer: string
-  phone: string
+  phone: string | null
   service?: string
   teamMember?: string
   duration?: string

@@ -45,7 +45,7 @@ export const SingleDatePickComponent = (props: TProps) => {
       >
         <div className="text-left w-full">
           <DatePickerInput
-            label={' '}
+            label={''}
             date={dayjs(date).format('DD/MM/YYYY')}
             error={error}
             inputContainerClassName={inputContainerClassName}
@@ -61,7 +61,7 @@ export const SingleDatePickComponent = (props: TProps) => {
           )}
         </div>
       </DialogTrigger>
-      <DialogContent showCloseButton={false} className="max-w-[320px] w-full">
+      <DialogContent showCloseButton={false} className="datepicker-dialog-content max-w-[320px] w-full">
         <DialogHeader>
           <DialogTitle className="text-lg font-medium">
             {title ? t('admin.datePicker.selectDate') : title}

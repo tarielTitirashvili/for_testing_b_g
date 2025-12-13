@@ -12,7 +12,7 @@ import { useSwitchSpaceStatusMutation } from "@/redux/business/space/spaceAPISli
 
 import type { ISpace } from "../Spaces"
 
-import AddSpace, { type IEditSpace } from "./AddSpace"
+import AddSpace, { type IEditSpaceFormData } from "./AddSpace"
 
 import CustomDropdown from "@/components/shared/buttons/CustomDropdown"
 import CategoryStatusSwitch from "@/components/shared/customSwitch/CategoryStatusSwitch"
@@ -39,11 +39,11 @@ const SpaceCard: FunctionComponent<ISpaceCardProps> = ({ space, handleRemove, ca
 
     const handleChange = () => {
 
-        const payload: IEditSpace = {
+        const payload: IEditSpaceFormData = {
             serviceId: space.id,
             tableNumber: space.tableNumber,
-            maxCapacity: space.maxCapacity,
             minCapacity: space.minCapacity,
+            maxCapacity: space.maxCapacity,
             isAvailable: !space.isAvailable,
             isActive: !space.isActive,
             locales: [
@@ -60,7 +60,7 @@ const SpaceCard: FunctionComponent<ISpaceCardProps> = ({ space, handleRemove, ca
     // -----------
 
     return (
-        <Card className={`max-w-[360px] p-3 rounded-sm flex flex-col gap-3 shadow-none transition-colors`}>
+        <Card className={`max-w-[360px] p-3 rounded-sm flex flex-col gap-3 shadow-none transition-colors ${space.isActive || space.isAvailable ? "" : "bg-[#FDE9E9]"}`}>
             <CardHeader className="flex justify-between p-0">
                 <div className="category_name-desc">
                     <CardTitle className="font-medium">{ <>{String(space.name,)}</> || 'name' }</CardTitle>
@@ -95,10 +95,11 @@ const SpaceCard: FunctionComponent<ISpaceCardProps> = ({ space, handleRemove, ca
                     className="flex gap-1 items-center justify-between p-0 w-full"
                 >
                     <div className="guests_count flex items-center gap-1">
-                        <Users2 size={18} /> { space.minCapacity}-{ space.maxCapacity } { t("space.card.guestCnt") }
+                        <Users2 size={18} /> {space.minCapacity} - {space.maxCapacity} {t("space.card.guestCnt")}
                     </div>
                     <div className="block_unblock-switch">
                         <CategoryStatusSwitch
+                            className="bg-red-600 data-[state=checked]:bg-[#D61111]"
                             checked={!space.isActive}
                             onChecked={handleChange}
                         />
