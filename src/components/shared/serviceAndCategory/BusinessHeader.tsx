@@ -15,7 +15,7 @@ import PrimaryPressable from "../buttons/PrimaryPressable"
 
 interface ICategory {
     isSystem: boolean
-    id: string
+    id: string | number
     name: string
 }
 
@@ -33,7 +33,7 @@ interface IBusinessHeader {
     serviceCategories: ICategory[]
     removeCategory: (id: number) => void
     EditComponent?: React.ComponentType<EditComponentProps>
-    AddItemComponent?: React.ComponentType<IAddItemProps>
+    AddItemComponent: React.ComponentType<IAddItemProps>
     AddCategoryComponent?: React.ComponentType<{ triggerText?: string }>
     isSuccess: boolean
     isLoading: boolean

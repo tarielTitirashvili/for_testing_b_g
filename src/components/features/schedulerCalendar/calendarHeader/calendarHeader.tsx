@@ -4,15 +4,19 @@ import SchedulerCalendarHeaderLeftSide from './leftSide'
 type Props = {
   calendarLoading: boolean
   selectedDate: Dayjs
-  setSelectedDate: React.Dispatch<React.SetStateAction<Dayjs>>
+  handleSetSelectedDate: (date: Dayjs) => void
 }
 
-const CalendarHeader = (props:Props) => {
-  const {calendarLoading, selectedDate, setSelectedDate} = props
+const CalendarHeader = (props: Props) => {
+  const { calendarLoading, selectedDate, handleSetSelectedDate } = props
 
   return (
-    <div className='flex align-middle justify-between w-full px-3 py-1.5'>
-      <SchedulerCalendarHeaderLeftSide calendarLoading={calendarLoading} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
+    <div className="flex align-middle justify-between w-full px-3 py-1.5">
+      <SchedulerCalendarHeaderLeftSide
+        calendarLoading={calendarLoading}
+        selectedDate={selectedDate}
+        handleSetSelectedDate={handleSetSelectedDate}
+      />
     </div>
   )
 }

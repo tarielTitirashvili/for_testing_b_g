@@ -17,7 +17,7 @@ interface Client {
   lastName: string
 }
 
-interface  IPagination {
+interface IPagination {
   offset: number
   page: number
   pageCount: number
@@ -43,11 +43,12 @@ type TGetCAlendarBookingsParams = {
   end: string
   includeExternal: boolean
   includeInternal: boolean
-  staffIds: string[]
-  tableCategoryIds: number[]
+  staffIds: string | null
+  tableCategoryIds: number | null
   statusIds: number[]
   page: number
   offset: number
+  TableIds: number | null
 }
 export interface ITableInfo {
   id: number
@@ -55,6 +56,7 @@ export interface ITableInfo {
   category: {
     id: number
     name: string
+    tableCategoryTypeId: 1 | 2
   }
 }
 export interface IOrder {

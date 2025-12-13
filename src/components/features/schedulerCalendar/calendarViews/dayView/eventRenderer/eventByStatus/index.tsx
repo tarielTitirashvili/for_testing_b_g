@@ -7,6 +7,7 @@ import type {
 import usersForCalendar from '@/../public/assets/images/usersForCalendar.svg'
 import PrimaryButton from '@/components/shared/buttons/PrimaryButton'
 import gegmioLogo from '/assets/images/gegmio.svg'
+import { useTranslation } from 'react-i18next'
 
 type Props = {
   event: IOrder
@@ -18,27 +19,28 @@ type Props = {
 const EventByStatus = (props: Props) => {
   const { event, getPositionOffEvent } = props
 
-const containerRef = useRef<HTMLDivElement | null>(null);
-const [isButtonVisible, setIsButtonVisible] = useState(true);
+  const { t } = useTranslation()
+  const containerRef = useRef<HTMLDivElement | null>(null)
+  const [isButtonVisible, setIsButtonVisible] = useState(true)
 
-useEffect(() => {
-  if (!containerRef.current) return;
+  useEffect(() => {
+    if (!containerRef.current) return
 
-  const resizeObserver = new ResizeObserver(() => {
-    const containerWidth = containerRef.current!.clientWidth;
-    const minNeededForButton = 40; // px (your chosen threshold)
+    const resizeObserver = new ResizeObserver(() => {
+      const containerWidth = containerRef.current!.clientWidth
+      const minNeededForButton = 40 // px (your chosen threshold)
 
-    if (containerWidth < minNeededForButton + 32 /* gegmio logo size */) {
-      setIsButtonVisible(false);
-    } else {
-      setIsButtonVisible(true);
-    }
-  });
+      if (containerWidth < minNeededForButton + 32 /* gegmio logo size */) {
+        setIsButtonVisible(false)
+      } else {
+        setIsButtonVisible(true)
+      }
+    })
 
-  resizeObserver.observe(containerRef.current);
+    resizeObserver.observe(containerRef.current)
 
-  return () => resizeObserver.disconnect();
-}, []);
+    return () => resizeObserver.disconnect()
+  }, [])
 
   const backgroundColor = (id: number) => {
     switch (id) {
@@ -108,16 +110,14 @@ useEffect(() => {
           <p className="text-base leading-[20px] overflow-hidden whitespace-nowrap text-ellipsis">
             {event?.client.firstName} {event.client.lastName}
           </p>
-          {event.services && event.services.length > 0 ? (
-            <div className="flex gap-1.5">
-              <img src={usersForCalendar} alt="Users" />
-              <p className="text-sm leading-[18px] overflow-hidden whitespace-nowrap text-ellipsis">
-                {event.services?.map((service) => service.name).join(', ')}{' '}
-              </p>
-            </div>
-          ) : (
-            ''
-          )}
+          <div className="flex gap-1.5">
+            <img src={usersForCalendar} alt="Users" />
+            <p className="text-sm leading-[18px] overflow-hidden whitespace-nowrap text-ellipsis">
+              {event.services?.length
+                ? event.services?.map((service) => service.name).join(', ')
+                : `${event.guestCount} ${t('space.card.guestCnt')}`}
+            </p>
+          </div>
         </div>
         <div className="flex items-center gap-2 w-full" ref={containerRef}>
           <PrimaryButton

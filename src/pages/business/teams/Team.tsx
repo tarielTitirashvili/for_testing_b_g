@@ -4,6 +4,7 @@ import StaffCard from "./staff/StaffCard"
 import EmptyResponse from '@/components/shared/emptyResponse'
 import { useTranslation } from 'react-i18next'
 import type { IService } from '@/redux/business/service/serviceAPISlice'
+import type { TFile } from '../businessProfile/BusinessProfile'
 
 export interface IStaffCard {
     id: string
@@ -15,6 +16,7 @@ export interface IStaffCard {
         id: string
         name: string
     }
+    file: TFile | null
     services: IService[]
 }
 

@@ -44,7 +44,7 @@ export interface IServiceEdit extends Omit<IAddSalonServiceFormData, 'categoryId
 }
 
 interface ICategory {
-  id: string
+  id: string | number
   name: string
 }
 

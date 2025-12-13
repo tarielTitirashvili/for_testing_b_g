@@ -7,16 +7,16 @@ type Props = {
     isFarFromToday: boolean
     isBeforeToday: boolean
   }
-  setSelectedDate: React.Dispatch<React.SetStateAction<dayjs.Dayjs>>
+  handleSetSelectedDate: (date: dayjs.Dayjs)=>void
   isSelectedDate: boolean
 }
 
 const DayRenderer = (props: Props) => {
-  const {day, setSelectedDate, isSelectedDate} = props
+  const {day, handleSetSelectedDate, isSelectedDate} = props
 
   const handleClickDay = () => {
     if(day.isFarFromToday) return
-    setSelectedDate(day.date)
+    handleSetSelectedDate(day.date)
   }
 
   return (

@@ -37,7 +37,7 @@ export interface IEditSpace extends Omit<IAddSpaceFormData, "tableCategoryId"> {
 
 interface ICategory {
     isSystem: boolean,
-    id: string
+    id: string | number
     name: string
 }
 

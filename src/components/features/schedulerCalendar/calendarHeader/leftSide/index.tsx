@@ -16,11 +16,11 @@ import DayRenderer from './dayRenderer'
 type Props = {
   calendarLoading: boolean
   selectedDate: Dayjs
-  setSelectedDate: React.Dispatch<React.SetStateAction<Dayjs>>
+  handleSetSelectedDate: (date: Dayjs)=>void
 }
 
 const SchedulerCalendarHeaderLeftSide = (props: Props) => {
-  const { calendarLoading, selectedDate, setSelectedDate } = props
+  const { calendarLoading, selectedDate, handleSetSelectedDate } = props
 
   const selectedMonthIndex = useSelector(
     (state: RootState) => state.schedulerCalendar.selectedMonthIndex
@@ -53,11 +53,11 @@ const SchedulerCalendarHeaderLeftSide = (props: Props) => {
       switch (period) {
         case 'month': // month
           dispatch(setSelectedMonthIndexBy(-1))
-          setSelectedDate(selectedDate.subtract(1, 'month'))
+          handleSetSelectedDate(selectedDate.subtract(1, 'month'))
           break
         case 'week': // week
           checkMonth(selectedDate.subtract(1, 'week'), 'decrees')
-          setSelectedDate(selectedDate.subtract(1, 'week'))
+          handleSetSelectedDate(selectedDate.subtract(1, 'week'))
           break
         default:
           break
@@ -70,11 +70,11 @@ const SchedulerCalendarHeaderLeftSide = (props: Props) => {
       switch (period) {
         case 'month': // month
           dispatch(setSelectedMonthIndexBy(1))
-          setSelectedDate(selectedDate.add(1, 'month'))
+          handleSetSelectedDate(selectedDate.add(1, 'month'))
           break
         case 'week': // week
           checkMonth(selectedDate.add(1, 'week'), 'increase')
-          setSelectedDate(selectedDate.add(1, 'week'))
+          handleSetSelectedDate(selectedDate.add(1, 'week'))
           break
         default:
           break
@@ -107,7 +107,7 @@ const SchedulerCalendarHeaderLeftSide = (props: Props) => {
               <DayRenderer
                 key={day.date.format('YYYY-MM-DD')}
                 day={day}
-                setSelectedDate={setSelectedDate}
+                handleSetSelectedDate={handleSetSelectedDate}
                 isSelectedDate={
                   selectedDate.format('YYYY-MM-DD') ===
                   day.date.format('YYYY-MM-DD')

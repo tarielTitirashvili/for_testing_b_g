@@ -15,7 +15,7 @@ import Loader from "../loader"
 
 interface ICategory {
     isSystem: boolean
-    id: string
+    id: string | number
     name: string
 }   
 

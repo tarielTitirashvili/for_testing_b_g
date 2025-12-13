@@ -11,7 +11,7 @@ import DeleteConfirmationModal from "../modal/DeleteConfirmationModal"
 
 interface IEntity {
     isSystem?: boolean
-    id: string,
+    id: string | number,
     name: string
 }
 
@@ -53,7 +53,7 @@ const EntityList: FunctionComponent<IEntityListProps> = ({ entities, title, desc
                                     { entity.name }
                                 </div>
                                 <div className="action_btns flex items-center gap-2">
-                                    {EditComponent && <EditComponent icon categoryId={entity.id} />}
+                                    {EditComponent && <EditComponent icon categoryId={String(entity.id)} />}
                                     <DeleteConfirmationModal
                                         itemId={+entity.id}
                                         handleDeleteItem={removeItem!}

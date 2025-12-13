@@ -4,18 +4,25 @@ import dayjs from 'dayjs'
 import { useSelector } from 'react-redux'
 import { CALENDAR_VIEW_OPTIONS, transformToLocalDate } from '../../../constants'
 import { useRef } from 'react'
-import type { IOrder, ITableInfo } from '@/redux/business/schedulerCalendar/schedulerCalendarAPISlice'
+import type {
+  IOrder,
+  ITableInfo,
+} from '@/redux/business/schedulerCalendar/schedulerCalendarAPISlice'
 import type { IStaff } from '@/redux/business/booking/bookingAPISlice'
 import EventByStatus from './eventByStatus'
+import AddNewBookingHover from './addNewBookingHover'
 
 type EventRendererProps = {
   date: dayjs.Dayjs
   events: IOrder[]
   staff: IStaff | null
+  hourglass: dayjs.Dayjs
+  handleClick: (hourglass: dayjs.Dayjs) => void
   table?: ITableInfo | null
 }
-export function EventRenderer({ date, events, staff, table }: EventRendererProps) {
-  const hasEventOnTwoDaysRef = useRef<boolean>(false)
+export function EventRenderer(props: EventRendererProps) {
+  const { date, events, staff, table, hourglass, handleClick } = props
+  const endDateIsHere = useRef<boolean>(false)
   //! for monthView only
 
   const selectedView = useSelector(
@@ -27,6 +34,7 @@ export function EventRenderer({ date, events, staff, table }: EventRendererProps
     //   .format('DD-MM-YY HH:mm')
     //   .split(' ')
     const startDate = transformToLocalDate(event.startDate)
+    const endDate = transformToLocalDate(event.endDate)
     // const formattedDate = date.format('DD-MM-YY')
     // if (selectedView === CALENDAR_VIEW_OPTIONS[2].value) {
     //   // monthView
@@ -48,14 +56,17 @@ export function EventRenderer({ date, events, staff, table }: EventRendererProps
     //   hasEventOnTwoDaysRef.current = true
     //   return true
     // } else {
-      return startDate.format('DD-MM-YY HH') === date.format('DD-MM-YY HH')
+    if (endDate.format('DD-MM-YY HH') === date.format('DD-MM-YY HH')) {
+      endDateIsHere.current = true
+    }
+    return startDate.format('DD-MM-YY HH') === date.format('DD-MM-YY HH')
 
-      // const start = date.subtract(1, 'second')
-      // const end = start.add(15, 'minute')
-      // const isAfterCheck = startDate.isAfter(start)
-      // const isBeforeCheck = startDate.isBefore(end)
-      // return isAfterCheck && isBeforeCheck
-      // return event.date.format('DD-MM-YY HH') === date.format('DD-MM-YY HH')
+    // const start = date.subtract(1, 'second')
+    // const end = start.add(15, 'minute')
+    // const isAfterCheck = startDate.isAfter(start)
+    // const isBeforeCheck = startDate.isBefore(end)
+    // return isAfterCheck && isBeforeCheck
+    // return event.date.format('DD-MM-YY HH') === date.format('DD-MM-YY HH')
     // }
     // }
   })
@@ -74,15 +85,14 @@ export function EventRenderer({ date, events, staff, table }: EventRendererProps
     } else return endDate.diff(startDate, 'minute')
   }
   const calculateStartPoint = (event: IOrder) => {
-    if (hasEventOnTwoDaysRef.current) {
-      return 0
-    } else {
-      return (
-        ((transformToLocalDate(event.startDate).minute() - date.minute()) /
-          60) *
-        100
-      )
-    }
+    // if (hasEventOnTwoDaysRef.current) {
+    //   return 0
+    // } else {
+    return (
+      ((transformToLocalDate(event.startDate).minute() - date.minute()) / 60) *
+      100
+    )
+    // }
   }
 
   const getPositionOffEvent = (event: IOrder) => {
@@ -99,11 +109,19 @@ export function EventRenderer({ date, events, staff, table }: EventRendererProps
   }
 
   //! no bookings
-  if (filteredEvents.length < 1) return <></>
 
   return (
-    <>
-      {filteredEvents?.map(event => {
+    <div
+      className="h-25 w-52 border-b-1 border-r-2 border-[#EBEBEB] pointer flex items-center justify-center relative group"
+      onClick={() => {
+        handleClick(hourglass)
+        console.log('Hourglass', hourglass.format('HH:mm'))
+      }}
+    >
+      {(filteredEvents.length < 1 || !endDateIsHere.current) && (
+        <AddNewBookingHover />
+      )}
+      {filteredEvents?.map((event) => {
         return (
           <EventByStatus
             key={event.id}
@@ -114,6 +132,6 @@ export function EventRenderer({ date, events, staff, table }: EventRendererProps
           />
         )
       })}
-    </>
+    </div>
   )
 }

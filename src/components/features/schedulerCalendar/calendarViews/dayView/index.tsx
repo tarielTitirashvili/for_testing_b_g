@@ -27,7 +27,7 @@ const DayView = (props: Props) => {
     page,
     setPage,
     calendarLoading,
-    infiniteScrollPageChangeRef
+    infiniteScrollPageChangeRef,
   } = props
   const { t } = useTranslation()
 
@@ -36,9 +36,14 @@ const DayView = (props: Props) => {
   const pageCounterRef = useRef(page)
 
   const selectedDateIsToday = selectedDate.isSame(dayjs(), 'day')
-  useEffect(()=>{
+  useEffect(() => {
     pageCounterRef.current = page
-  },[page])
+    if(page === 1){
+      if (scrollRef.current) {
+        scrollRef.current.scrollTop = 0
+      }
+    }
+  }, [page])
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -46,8 +51,9 @@ const DayView = (props: Props) => {
         if (
           (calendarEvents.staff?.pageCount ||
             calendarEvents.tables?.pageCount ||
-            0) > pageCounterRef.current && !calendarLoading
-        ){
+            0) > pageCounterRef.current &&
+          !calendarLoading
+        ) {
           infiniteScrollPageChangeRef.current = true
           setPage((p) => p + 1) // load next chunk
         }
@@ -74,7 +80,7 @@ const DayView = (props: Props) => {
     )
   }
   const maxHeightPx = window.innerHeight * 0.7
-  const responseHeightPx = (calendarEventsData?.length || 0) * 100 + 10
+  const responseHeightPx = (calendarEventsData?.length || 0) * 100 + 42
   const calculatedHeight =
     maxHeightPx > responseHeightPx ? `h-[${responseHeightPx}px]` : 'h-[70vh]'
   return (
@@ -102,7 +108,7 @@ const DayView = (props: Props) => {
               return (
                 <div
                   key={index}
-                  className="w-52 h-10 flex items-end bg-[#fff] border-y-2 border-[#EBEBEB]"
+                  className="w-52 h-10 flex items-center bg-[#fff] border-y-2 border-[#EBEBEB]"
                 >
                   <div className="origin-bottom-left translate-x-[-50%] text-xs">
                     {hour.format('HH:mm')}
@@ -113,28 +119,26 @@ const DayView = (props: Props) => {
           </div>
           {calendarEventsData?.map((item, index) => {
             return (
-              <React.Fragment key={`${index} ${'staff' in item ? item.staff.id : null} ${'table' in item ? item.table.name : null}`}>
+              <React.Fragment
+                key={`${index} ${'staff' in item ? item.staff.id : null} ${
+                  'table' in item ? item.table.name : null
+                }`}
+              >
                 <div className="flex">
-                  {getHours.map((Hourglass) => {
+                  {getHours.map((hourglass) => {
                     return (
-                      <div
-                        key={Hourglass.toString()}
-                        className="h-25 w-52 border-b-1 border-r-2 border-[#EBEBEB] pointer flex relative items-center justify-center"
-                        onClick={() => {
-                          handleClick(Hourglass)
-                          console.log('Hourglass', Hourglass.format('HH:mm'))
-                        }}
-                      >
-                        <EventRenderer
-                          events={item.orders}
-                          staff={'staff' in item ? item.staff : null}
-                          table={'table' in item ? item.table : null}
-                          date={selectedDate
-                            .hour(Hourglass.hour())
-                            .minute(Hourglass.minute())
-                            .second(Hourglass.second())}
-                        />
-                      </div>
+                      <EventRenderer
+                        key={hourglass.toString()}
+                        events={item.orders}
+                        staff={'staff' in item ? item.staff : null}
+                        table={'table' in item ? item.table : null}
+                        hourglass={hourglass}
+                        handleClick={handleClick}
+                        date={selectedDate
+                          .hour(hourglass.hour())
+                          .minute(hourglass.minute())
+                          .second(hourglass.second())}
+                      />
                     )
                   })}
                 </div>

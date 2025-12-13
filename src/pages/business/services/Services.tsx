@@ -42,7 +42,7 @@ export type TService = IServiceWithFiles | IServiceWithFile
 
 export interface ICategory {
     isSystem: boolean
-    id: string
+    id: string | number
     name: string
 }
 

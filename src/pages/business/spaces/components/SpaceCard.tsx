@@ -20,7 +20,7 @@ import DeleteConfirmationModal from "@/components/shared/modal/DeleteConfirmatio
 
 interface ICategory {
     isSystem: boolean
-    id: string
+    id: string | number
     name: string
 }
 

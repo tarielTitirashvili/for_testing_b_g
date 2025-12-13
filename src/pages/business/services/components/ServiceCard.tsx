@@ -15,7 +15,7 @@ import CustomDropdown from "@/components/shared/buttons/CustomDropdown";
 
 interface ICategory {
     isSystem: boolean
-    id: string
+    id: string | number
     name: string
 }
 

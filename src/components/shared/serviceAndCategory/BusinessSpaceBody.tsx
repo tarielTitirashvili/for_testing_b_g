@@ -13,7 +13,7 @@ import EmptyResponse from '../emptyResponse'
 
 interface ICategory {
     isSystem: boolean
-    id: string
+    id: string | number
     name: string
 }
 
