@@ -1,257 +1,380 @@
-import { useEffect, useRef, useState, type FunctionComponent } from "react"
-import { Controller, useForm } from "react-hook-form"
+import { useEffect, useState, type FunctionComponent } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 
-import { useCreateExternalBookingMutation } from "@/redux/business/booking/bookingAPISlice"
-import { useGetTableCategoryQuery } from "@/redux/business/category/categoryAPISlice"
-import { useGetAllServiceNamesQuery } from "@/redux/business/service/serviceAPISlice"
-import { useGetStaffQuery } from "@/redux/business/staff/staffAPISlice"
+import {
+  useCancelBookingMutation,
+  useConfirmBookingMutation,
+  useCreateExternalBookingMutation,
+} from '@/redux/business/booking/bookingAPISlice'
+import { useGetTableCategoryQuery } from '@/redux/business/category/categoryAPISlice'
+import { useGetAllServiceNamesQuery } from '@/redux/business/service/serviceAPISlice'
+import { useGetStaffQuery } from '@/redux/business/staff/staffAPISlice'
 
-import { X } from "lucide-react"
+import { t } from 'i18next'
 
-import { t } from "i18next"
+import { apiSlice } from '@/redux/APISlice'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { apiSlice } from "@/redux/APISlice"
-import { useDispatch } from "react-redux"
+import { SingleDatePickComponent } from '@/components/shared/DateTimePicker/SingleDetePicker'
 
-import { SingleDatePickComponent } from "@/components/shared/DateTimePicker/SingleDetePicker"
+import PrimaryButton from '@/components/shared/buttons/PrimaryButton'
+import SecondaryButton from '@/components/shared/buttons/SecondaryButton'
 
-import PrimaryButton from "@/components/shared/buttons/PrimaryButton"
-import SecondaryButton from "@/components/shared/buttons/SecondaryButton"
+import TimePickerComponent from '@/components/shared/DateTimePicker/TimePicker/TimePickerComponent'
+import PhoneInput from '@/components/shared/inputs/PhoneInput'
+import TextInput from '@/components/shared/inputs/TextInput'
+import SelectDropDown from '@/components/shared/inputs/SelectDropDown'
 
-import TimePickerComponent from "@/components/shared/DateTimePicker/TimePicker/TimePickerComponent"
-import PhoneInput from "@/components/shared/inputs/PhoneInput"
-import TextInput from "@/components/shared/inputs/TextInput"
-import SelectDropDown from "@/components/shared/inputs/SelectDropDown"
-
-import createToast from "@/lib/createToast"
-
-import dayjs from "dayjs"
+import createToast from '@/lib/createToast'
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
+import dayjs from 'dayjs'
+import type { TClickedBooking } from '@/pages/business/calendar'
+import DropdownSelect from '@/components/shared/inputs/dropdownSelect'
+import { Check, User, X } from 'lucide-react'
+import {
+  STATUS_BOOKING_EVENTS,
+  transformToLocalDate,
+} from '../schedulerCalendar/constants'
+import { selectedBusinessProfileSelector } from '@/redux/auth/authSelectors'
 
 interface IClient {
-    firstName: string | null
-    lastName: string | null
-    phoneNumber: string | null
-    email: string | null
+  firstName: string | null
+  lastName: string | null
+  phoneNumber: string | null
+  email: string | null
 }
 
 export interface IAddBooking {
-    startDate: dayjs.Dayjs,
-    note: string,
-    client: IClient | null
-    staffId: string | null
-    serviceIds: number[] | null
-    tableCategoryId: number | null
-    guestCount: number | null
+  startDate: dayjs.Dayjs
+  note: string
+  client: IClient | null
+  staffId: string | undefined
+  serviceIds: number | undefined
+  tableCategoryId: number | null
+  guestCount: number | null
 }
 
 interface IAddBookingModalProps {
-    businessType: 1 | 2 | undefined
-    isOpen: boolean,
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  businessType: 1 | 2 | undefined
+  isOpen: boolean
+  setIsOpen: (isOpenStatus: boolean) => void
+  addBookingDateFromCalendar?: React.RefObject<dayjs.Dayjs | null>
+  clickedBooking?: TClickedBooking | null
 }
 
-const AddBookingModal: FunctionComponent<IAddBookingModalProps> = ({ isOpen, setIsOpen, businessType }) => {
+const AddBookingModal: FunctionComponent<IAddBookingModalProps> = ({
+  isOpen,
+  setIsOpen,
+  businessType,
+  addBookingDateFromCalendar = null,
+  clickedBooking,
+}) => {
+  const defaultSelectedServiceId = clickedBooking?.event?.services?.length
+    ? clickedBooking?.event?.services[0].id
+    : undefined
 
-    const { handleSubmit, register, control, formState: { errors }, reset } = useForm<IAddBooking>({
-        defaultValues: {
-            note: '',
-            client: null,
-            serviceIds: null,
-            guestCount: null,
-            tableCategoryId: null,
-        }
-    })
+  const {
+    handleSubmit,
+    register,
+    control,
+    formState: { errors },
+    reset,
+    setValue,
+    getValues,
+  } = useForm<IAddBooking>({
+    defaultValues: {
+      note: clickedBooking?.event?.notes ? clickedBooking?.event.notes : '',
+      client: clickedBooking?.event?.client
+        ? clickedBooking?.event.client
+        : null,
+      serviceIds: defaultSelectedServiceId,
+      staffId: clickedBooking?.staff?.id || undefined,
+      tableCategoryId: clickedBooking?.event?.tableCategoryId
+        ? clickedBooking?.event?.tableCategoryId
+        : null,
+      guestCount: clickedBooking?.event?.guestCount
+        ? clickedBooking?.event?.guestCount
+        : null,
+    },
+  })
 
-    const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs>(dayjs()) 
+  const selectedBusinessProfile = useSelector(selectedBusinessProfileSelector)
+  const isBarber = selectedBusinessProfile?.businessCategory.id === 2 // 2 === barber && 1 === restaurant
 
-    const { data: services = [] } = useGetAllServiceNamesQuery()
-    const [selectedService, setSelectedService] = useState<number>(0) 
+  const getDate = () => {
+    if (clickedBooking?.event?.startDate)
+      return transformToLocalDate(clickedBooking?.event?.startDate)
+    if (addBookingDateFromCalendar?.current)
+      return addBookingDateFromCalendar.current
+    return dayjs()
+  }
 
-    const dispatch = useDispatch()
+  const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs>(getDate)
 
-    const { data: staff = [] } = useGetStaffQuery(undefined, { skip: !selectedService })
-    const specificStaff = staff.filter(s => s.services.map(s => s.id).includes(selectedService))
+  const pendingStatusEvent =
+    clickedBooking?.event.status.id === STATUS_BOOKING_EVENTS.pending.id
 
-    const { data: spaces = [] } = useGetTableCategoryQuery()
+  const { data: services = [] } = useGetAllServiceNamesQuery(undefined, {
+    skip: !isBarber,
+  })
+  const [selectedService, setSelectedService] = useState<number>(
+    defaultSelectedServiceId ? defaultSelectedServiceId : 0
+  )
 
-    const [createBooking] = useCreateExternalBookingMutation()
-    
+  const dispatch = useDispatch()
 
-    const formattedStaff = specificStaff.map(s => ({
-        id: s.id,
-        name: `${s.firstName} ${s.lastName}`,
-    }))
+  const { data: staff = [] } = useGetStaffQuery(undefined, {
+    skip: !selectedService || !isBarber,
+  })
 
-    const handleBooking = async (data: IAddBooking) => {
-        const formatted: IAddBooking = {
-            ...data,
-            client: {
-                firstName: data.client?.firstName || null,
-                lastName: data.client?.firstName || null,
-                phoneNumber: data.client?.phoneNumber ? `+995${data.client.phoneNumber}`.trim() : null,
-                email: null,  
-            }
-        }
+  const specificStaff = staff.filter((s) =>
+    s.services.map((s) => s.id).includes(selectedService)
+  )
 
-        const result = await createBooking(formatted).unwrap()
-        createToast.success(`${t("business.texts.order.success")}${result}`)
-        dispatch(apiSlice.util.invalidateTags(['Bookings']))
-        reset()
-        setIsOpen(false) 
+  const { data: spaces = [] } = useGetTableCategoryQuery(undefined, {
+    skip: isBarber
+  })
+
+  const [
+    confirmationMutation,
+    { isLoading: isConfirmationLoading, isSuccess: isConfirmationSuccess },
+  ] = useConfirmBookingMutation()
+  const [
+    cancelBookingMutation,
+    { isLoading: isCancelLoading, isSuccess: isCancelBookingSuccess },
+  ] = useCancelBookingMutation()
+
+  const [createBooking] = useCreateExternalBookingMutation()
+
+  useEffect(() => {
+    setValue('startDate', selectedDate)
+  }, [])
+  useEffect(() => {
+    if (isConfirmationSuccess) {
+      createToast.success(
+        t('business.schedulerCalendar.confirmEvent.wasConfirmed')
+      )
+      setIsOpen(false)
+    }
+    if (isCancelBookingSuccess) {
+      createToast.success(
+        t('business.schedulerCalendar.cancelEvent.wasCanceled')
+      )
+      setIsOpen(false)
+    }
+  }, [isConfirmationSuccess, isCancelBookingSuccess])
+
+  const formattedStaff = specificStaff.map((s) => ({
+    id: s.id,
+    value: s.id,
+    label: `${s.firstName} ${s.lastName}`,
+    url: s.file?.url,
+  }))
+
+  const handleBooking = async (data: IAddBooking) => {
+    const formatted: IAddBooking = {
+      ...data,
+      client: {
+        firstName: data.client?.firstName || null,
+        lastName: data.client?.firstName || null,
+        phoneNumber: data.client?.phoneNumber
+          ? `+995${data.client.phoneNumber}`.trim()
+          : null,
+        email: null,
+      },
     }
 
-    const modalRef = useRef<HTMLDivElement>(null)
-    useEffect(() => {
-        const handleOutsideClick = (e: MouseEvent) => {
-            const target = e.target as HTMLElement
+    try {
+      const result = await createBooking(formatted).unwrap()
+      createToast.success(`${t('business.texts.order.success')}${result}`)
+      dispatch(apiSlice.util.invalidateTags(['Bookings']))
+      reset()
+      setIsOpen(false)
+    } catch {
+      return
+    }
+  }
 
-            if (target.closest('.datepicker-dialog-content')) return
-            
-            if (target.closest('.timepicker-dialog-content')) return
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogContent className="booking_modal bg-white max-w-[500px] w-full rounded-md py-8 px-6 flex flex-col gap-6">
+        <DialogTitle className="booking_modal-header flex justify-between items-center">
+          <span className="text-xl font-semibold">
+            {t('business.addOrderModal.title')}
+          </span>
+        </DialogTitle>
 
-            if (modalRef.current && modalRef.current.contains(target)) return
+        <form
+          className="booking_modal-body flex flex-col gap-6"
+          onSubmit={handleSubmit(handleBooking)}
+        >
+          <TextInput
+            label={t('bookings.inputLabel.customerName')}
+            placeholder="შეიყვანეთ მომხარებლის სახელი"
+            disabled={pendingStatusEvent}
+            {...register('client.firstName', {
+              pattern: {
+                value: /^[\p{L}\s'-]+$/u,
+                message: t('bookings.formValidation.invalidCustomerName'),
+              },
+            })}
+            error={errors.client?.firstName?.message}
+          />
+          <PhoneInput
+            label={t('bookings.inputLabel.mobileNumber')}
+            disabled={pendingStatusEvent}
+            placeholder="555 44..."
+            {...register('client.phoneNumber', {
+              pattern: {
+                value: /^(?:\s*\d\s*){9}$/,
+                message: t('bookings.formValidation.mobileNumber'),
+              },
+            })}
+            error={errors.client?.phoneNumber?.message}
+          />
+          {businessType === 1 ? (
+            <>
+              <TextInput
+                className="h-12!"
+                disabled={pendingStatusEvent}
+                label={t('bookings.inputLabel.customerCount')}
+                placeholder="შეიყვანეთ მომხმარებლის რაოდენობა"
+                {...register('guestCount', {
+                  required: `${t(
+                    'bookings.formValidation.required.customerCount'
+                  )}`,
+                  setValueAs: (v) => +v,
+                })}
+                error={errors.guestCount?.message}
+              />
 
-            setIsOpen(false)
-        }
-        
-        if (isOpen) document.addEventListener('mousedown', handleOutsideClick)
-        
-        return () => {
-            document.removeEventListener('mousedown', handleOutsideClick)
-        }
+              <SelectDropDown
+                className="h-12!"
+                label={t('sidebar.link.spaces')}
+                disabled={pendingStatusEvent}
+                sentId
+                options={spaces}
+                {...register('tableCategoryId', {
+                  required: `${t(
+                    'bookings.formValidation.required.spaceCateogry'
+                  )}`,
+                  setValueAs: (v) => +v,
+                })}
+                error={errors.tableCategoryId?.message}
+              />
+            </>
+          ) : (
+            <>
+              <SelectDropDown
+                className="h-12!"
+                label={t('bookings.table.service')}
+                options={services}
+                disabled={pendingStatusEvent}
+                value={getValues('serviceIds')}
+                sentId
+                {...register('serviceIds', {
+                  required: `${t('bookings.formValidation.required.service')}`,
+                  setValueAs: (v) => (v ? [+v] : null),
+                })}
+                error={errors.serviceIds?.message}
+                onChange={(e) => {
+                  setSelectedService(+e.target.value)
+                  setValue('serviceIds', +e.target.value)
+                  setValue('staffId', undefined)
+                }}
+              />
+              <DropdownSelect<string>
+                withPictures
+                className="bg-white min-w-[190px] text-[16px]! h-12!"
+                valueClassName={'text-[16px]'}
+                disabled={!selectedService || pendingStatusEvent}
+                options={formattedStaff ?? []}
+                value={getValues('staffId')}
+                defaultIcon={<User />}
+                placeholder={t('calendar.text.choseSpace')}
+                onChange={(id: string) => {
+                  setValue('staffId', id)
+                }}
+              />
+            </>
+          )}
+          <Controller
+            name="startDate"
+            control={control}
+            rules={{
+              required: `${t('bookings.formValidation.required.dateAndTime')}`,
+            }}
+            render={({ field, fieldState }) => (
+              <>
+                <SingleDatePickComponent
+                  date={selectedDate}
+                  disabled={pendingStatusEvent}
+                  onChange={(date) => {
+                    setSelectedDate(date)
+                    field.onChange(date)
+                  }}
+                  error={
+                    fieldState.error?.message ? fieldState.error?.message : ''
+                  }
+                />
 
-    }, [isOpen, setIsOpen])
+                <TimePickerComponent
+                  defaultValue={`${selectedDate.format('HH:mm')}`}
+                  disabled={pendingStatusEvent}
+                  onChange={(time) => {
+                    const [h, m] = time.split(':').map(Number)
+                    const merged = selectedDate.hour(h).minute(m).second(0)
+                    field.onChange(merged)
+                  }}
+                  error={
+                    fieldState.error?.message ? fieldState.error?.message : ''
+                  }
+                />
+              </>
+            )}
+          />
 
-    return (
-        <div className={`booking_modal-wrapper fixed inset-0 bg-black/60 flex justify-center items-center z-10 transition ${!isOpen && 'opacity-0 bg-clip-content z-[-90]'}`}>
-            <div ref={modalRef} className="booking_modal bg-white max-w-[500px] w-full rounded-md py-8 px-6 flex flex-col gap-6">
-                <div className="booking_modal-header flex justify-between items-center">
-                    <span className="text-xl font-semibold">
-                        {t("business.addOrderModal.title")}
-                    </span>
-                    <X onClick={() => setIsOpen(false)} size={17} className="cursor-pointer" />
-                </div>
-
-                <form
-                    className="booking_modal-body flex flex-col gap-6"
-                    onSubmit={handleSubmit(handleBooking)}
+          <div className="booking_modal-footer flex gap-3">
+            {pendingStatusEvent ? (
+              <>
+                <PrimaryButton
+                  type="submit"
+                  className="bg-[#E81C1C]"
+                  loading={isCancelLoading}
+                  handleClick={() => {
+                    cancelBookingMutation({ orderId: clickedBooking.event.id })
+                  }}
                 >
-                    <TextInput
-                        label={t("bookings.inputLabel.customerName")}
-                        placeholder="შეიყვანეთ მომხარებლის სახელი"
-                        {...register('client.firstName', {
-                            pattern: {
-                                value: /^[\p{L}\s'-]+$/u,
-                                message: t("bookings.formValidation.invalidCustomerName")
-                            }
-                        })}
-                        error={errors.client?.firstName?.message}
-                    />
-
-                    <PhoneInput
-                        label={t("bookings.inputLabel.mobileNumber")}
-                        placeholder="555 44..."
-                        {...register('client.phoneNumber', {
-                            pattern: {
-                                value: /^(?:\s*\d\s*){9}$/, 
-                                message: t("bookings.formValidation.mobileNumber")
-                            }
-                        })}
-                        error={errors.client?.phoneNumber?.message}
-                    />
-
-                    {businessType === 1 ? (
-                        <>
-                            <TextInput
-                                label={t("bookings.inputLabel.customerCount")}
-                                placeholder="შეიყვანეთ მომხმარებლის რაოდენობა"
-                                {...register('guestCount', {
-                                    required: `${t("bookings.formValidation.required.customerCount")}`,
-                                    setValueAs: v => +v
-                                })}
-                                error={errors.guestCount?.message}
-                            />
-
-                            <SelectDropDown
-                                label={t("sidebar.link.spaces")}
-                                sentId
-                                options={spaces}
-                                {...register('tableCategoryId', {
-                                    required: `${t("bookings.formValidation.required.spaceCateogry")}`,
-                                    setValueAs: v => +v
-                                })}
-                                error={errors.tableCategoryId?.message}
-                            />
-                        </>
-                    ) : (
-                        <>
-                            <SelectDropDown
-                                label={t("bookings.table.service")}
-                                options={services}
-                                sentId
-                                {...register('serviceIds', {
-                                    required: `${t("bookings.formValidation.required.service")}`,
-                                    setValueAs: v => v ? [+v] : null 
-                                })}
-                                error={errors.serviceIds?.message}
-                                onChange={(e) => setSelectedService(+e.target.value)}
-                            />
-
-                            <SelectDropDown
-                                label={t("bookings.inputLabel.specialist")}
-                                sentId
-                                disabled={!selectedService}
-                                className={`${!selectedService && 'opacity-50'}`}
-                                options={formattedStaff}
-                                {...register('staffId', {
-                                    required: `${t("bookings.formValidation.required.specialist")}`
-                                })}
-                                error={errors.staffId?.message}
-                            />
-                        </>
-                    )}
-
-                    <Controller
-                        name='startDate'
-                        control={control}
-                        rules={{
-                            required: `${t("bookings.formValidation.required.dateAndTime")}`,
-                        }}
-                        render={({ field, fieldState }) => (
-                            <>
-                                <SingleDatePickComponent
-                                    date={selectedDate}
-                                    onChange={(date) => {
-                                        setSelectedDate(date)
-                                        field.onChange(date)
-                                    }}
-                                    error={fieldState.error?.message ? fieldState.error?.message : ''}
-                                />
-
-                                <TimePickerComponent
-                                    onChange={(time) => {
-                                        const [h, m] = time.split(":").map(Number)
-                                        const merged = selectedDate.hour(h).minute(m).second(0)
-                                        field.onChange(merged)
-                                    }}
-                                    error={fieldState.error?.message ? fieldState.error?.message : ''}
-                                />
-                            </>
-                        )}
-                    />
-
-                    <div className="booking_modal-footer flex gap-3">
-                        <SecondaryButton onClick={() => setIsOpen(false)}>
-                            {t("bookings.actionButtons.cancel")}
-                        </SecondaryButton>
-                        <PrimaryButton type="submit">
-                            {t("bookings.actionButtons.save")}
-                        </PrimaryButton>
-                    </div>
-                </form>
-            </div>
-        </div>
-    )
+                  {t('business.schedulerCalendar.cancelEvent')}
+                  <X />
+                </PrimaryButton>
+                <PrimaryButton
+                  type="submit"
+                  className="bg-[#21C55D]"
+                  loading={isConfirmationLoading}
+                  handleClick={() => {
+                    confirmationMutation({ orderId: clickedBooking.event.id })
+                  }}
+                >
+                  {t('business.schedulerCalendar.confirmEvent')}
+                  <Check />
+                </PrimaryButton>
+              </>
+            ) : (
+              <>
+                <SecondaryButton onClick={() => setIsOpen(false)}>
+                  {t('bookings.actionButtons.cancel')}
+                </SecondaryButton>
+                <PrimaryButton type="submit">
+                  {t('bookings.actionButtons.save')}
+                </PrimaryButton>
+              </>
+            )}
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
+  )
 }
 
 export default AddBookingModal

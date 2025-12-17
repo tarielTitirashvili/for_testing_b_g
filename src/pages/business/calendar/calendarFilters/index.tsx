@@ -2,8 +2,14 @@ import { useTranslation } from 'react-i18next'
 import DropdownSelect, {
   type TDropdownSelectOption,
 } from '@/components/shared/inputs/dropdownSelect'
-import { User } from 'lucide-react'
+import { Plus, User } from 'lucide-react'
 import PrimaryButton from '@/components/shared/buttons/PrimaryButton'
+import AddBookingModal from '@/components/features/addBookingModal'
+import { selectedBusinessProfileSelector } from '@/redux/auth/authSelectors'
+import { useSelector } from 'react-redux'
+import type React from 'react'
+import type dayjs from 'dayjs'
+import type { TClickedBooking } from '..'
 
 type Props = {
   staffData: TDropdownSelectOption<string>[] | undefined
@@ -14,6 +20,10 @@ type Props = {
   handleSetSelectedStaffId: (id: string) => void
   isBarber: boolean
   handleClickToday: () => void
+  isAddBookingModalOpen: boolean
+  handleChangeIsOpen: (isOpenStatus: boolean) => void
+  addBookingDateFromCalendar: React.RefObject<dayjs.Dayjs | null>
+  clickedBookingRef: React.RefObject<TClickedBooking | null>
 }
 
 const CalendarFilters = (props: Props) => {
@@ -25,15 +35,20 @@ const CalendarFilters = (props: Props) => {
     tableCategoryIds,
     handleSetSelectedTableCategoryId,
     handleClickToday,
+    isAddBookingModalOpen,
+    handleChangeIsOpen,
+    addBookingDateFromCalendar,
+    clickedBookingRef
   } = props
   const { t } = useTranslation()
 
   const selectedStaffObj = staffData?.find(
     (staff) => staff.id === selectedStaffId
   )
+  const selectedBusinessProfile = useSelector(selectedBusinessProfileSelector)
 
   return (
-    <div className="flex py-3">
+    <div className="flex py-3 justify-between flex-wrap gap-2">
       <span className="flex pag-5 items-center">
         {isBarber && (
           <DropdownSelect
@@ -62,9 +77,29 @@ const CalendarFilters = (props: Props) => {
             }}
           />
         )}
-        <PrimaryButton handleClick={handleClickToday} className="ml-4 py-3! bg-white text-[#242424] font-normal font-[16px]">
+        <PrimaryButton
+          handleClick={handleClickToday}
+          className="ml-4 py-3! bg-white text-[#242424] font-normal font-[16px]"
+        >
           {t('calendar.text.today')}
         </PrimaryButton>
+      </span>
+      <span>
+        <div onClick={() => handleChangeIsOpen(true)}>
+          <PrimaryButton>
+            <Plus className="w-3.5" />
+            {t('business.buttons.addNewBooking')}
+          </PrimaryButton>
+        </div>
+        {isAddBookingModalOpen && (
+          <AddBookingModal
+            businessType={selectedBusinessProfile?.businessCategory.id}
+            isOpen={isAddBookingModalOpen}
+            setIsOpen={handleChangeIsOpen}
+            addBookingDateFromCalendar={addBookingDateFromCalendar}
+            clickedBooking={clickedBookingRef.current}
+          />
+        )}
       </span>
     </div>
   )

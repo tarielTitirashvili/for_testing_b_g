@@ -2,6 +2,7 @@ import type { Dayjs } from 'dayjs'
 import type dayjs from 'dayjs'
 import DayView from './dayView'
 import type { IRootCalendarResponse } from '@/redux/business/schedulerCalendar/schedulerCalendarAPISlice'
+import type { TClickedBooking } from '@/pages/business/calendar'
 
 type Props = {
   selectedDate: Dayjs
@@ -10,7 +11,10 @@ type Props = {
   setPage: React.Dispatch<React.SetStateAction<number>>
   calendarLoading: boolean
   infiniteScrollPageChangeRef: React.RefObject<boolean>
-}
+  addBookingDateFromCalendar: React.RefObject<dayjs.Dayjs | null>
+  handleChangeIsOpen: (isOpenStatus: boolean) => void
+  clickedBookingRef: React.RefObject<TClickedBooking | null>
+} 
 
 export type OnDayClick = (day: dayjs.Dayjs, hour?: dayjs.Dayjs) => void
 
@@ -22,11 +26,14 @@ const CalendarView = (props: Props) => {
     setPage,
     calendarLoading,
     infiniteScrollPageChangeRef,
+    addBookingDateFromCalendar,
+    handleChangeIsOpen,
+    clickedBookingRef
   } = props
 
-  const handleClick: OnDayClick = (day, hour) => {
-    console.log('day', day)
-    console.log('hour', hour)
+  const handleClick: OnDayClick = (day) => {
+    addBookingDateFromCalendar.current = day
+    handleChangeIsOpen(true)
   }
 
   return (
@@ -39,6 +46,8 @@ const CalendarView = (props: Props) => {
         page={page}
         calendarLoading={calendarLoading}
         infiniteScrollPageChangeRef={infiniteScrollPageChangeRef}
+        clickedBookingRef={clickedBookingRef}
+        handleChangeIsOpen={handleChangeIsOpen}
       />
     </div>
   )

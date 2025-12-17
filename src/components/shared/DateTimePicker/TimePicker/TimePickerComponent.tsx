@@ -11,21 +11,32 @@ import PrimaryButton from "@/components/shared/buttons/PrimaryButton";
 import SecondaryButton from "@/components/shared/buttons/SecondaryButton";
 
 
-const timeSlots = Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, "0")}:00`);
+const timeSlots = Array.from({ length: 96 }, (_, i) => {
+  const hours = Math.floor(i / 4);
+  const minutes = (i % 4) * 15;
 
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+});
 interface TimePickerComponentProps {
+    defaultValue?: string //! this should be a string based on timeSlots
     onChange: (val: string) => void
     error: string
+    disabled: boolean
 }
 
-const TimePickerComponent: FunctionComponent<TimePickerComponentProps> = ({ onChange, error }) => {
+const TimePickerComponent: FunctionComponent<TimePickerComponentProps> = ({ defaultValue, onChange, error, disabled }) => {
 
     const { t } = useTranslation()
 
     const [dateInputExpand, setDateInputExpand] = useState<null | "startTime" | "endTime">('startTime');
     const [modalOpen, setModalOpen] = useState<boolean>(false)
 
-    const [startTime, setStartTime] = useState<string>(timeSlots[6]);
+    const [startTime, setStartTime] = useState<string>(
+        defaultValue ? 
+            timeSlots.find(time => time === defaultValue) || timeSlots[6] 
+        :
+            timeSlots[6]
+    );
     // const [endTime, setEndTime] = useState<string>(timeSlots[6]);
 
     const handleDateInputExpand = (type: "startTime" | "endTime"): void => {
@@ -42,6 +53,7 @@ const TimePickerComponent: FunctionComponent<TimePickerComponentProps> = ({ onCh
             <DialogTrigger className="flex flex-col justify-start items-start">
                 <div className="time_pick_inputs flex flex-1 w-full gap-3">
                     <TimePickInput
+                        disabled={disabled}
                         label={t("bookings.inputLabel.startTime")}
                         time={ startTime }
                         error={error}

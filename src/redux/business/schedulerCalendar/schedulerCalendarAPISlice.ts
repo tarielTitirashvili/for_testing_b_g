@@ -84,45 +84,11 @@ export const schedulerCalendarAPISlice = apiSlice.injectEndpoints({
         method: 'GET',
         params,
       }),
-      // transformResponse: (response: IRootCalendarResponse) => {
-      //   const localDate = (date: Dayjs| string) => dayjs.utc(date).tz(dayjs.tz.guess())
-
-      //   let formattedStaff: StaffOrdersItem[] | [] = []
-      //   if(response.staff.length > 0){
-      //     formattedStaff = response.staff.map((staffItem) => {
-      //       const formattedOrders = staffItem.orders.map((order) => {
-      //         return {
-      //           ...order,
-      //           startDate: localDate(order.startDate as Dayjs),
-      //           endDate: localDate(order.endDate as Dayjs),
-      //         }
-      //       })
-      //       return {...staffItem, orders: formattedOrders}
-      //     })
-      //   }
-      //   return {...response, staff: formattedStaff}
-      // },
+      providesTags: ['calendarBookings']
     }),
-
-    // getBusinessRoles: builder.query<IRole[], void>({
-    //     query: () => ({
-    //         url: "/business/business-roles",
-    //         method: "GET"
-    //     })
-    // }),
-
-    // createStaff: builder.mutation<void, IAddStaffFormData>({
-    //     query: (data) => ({
-    //         url: "/business/register-staff",
-    //         method: "POST",
-    //         data: data
-    //     })
-    // })
   }),
 })
 
 export const {
   useGetCalendarBookingsQuery,
-  // useGetBusinessRolesQuery,
-  // useCreateStaffMutation
 } = schedulerCalendarAPISlice

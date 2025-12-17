@@ -8,6 +8,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { useTranslation } from 'react-i18next'
+import EmptyResponse from '../emptyResponse'
 
 export type TDropdownSelectOption<T> = {
   id: T
@@ -26,6 +27,7 @@ type TProps<T extends string | number = string> = {
   withPictures?: boolean
   defaultIcon?: React.ReactNode
   valueClassName?: string
+  disabled?: boolean
 }
 
 function DropdownSelect<T extends string | number = string>({
@@ -38,7 +40,9 @@ function DropdownSelect<T extends string | number = string>({
   withPictures = false,
   defaultIcon,
   valueClassName,
+  disabled
 }: TProps<T>) {
+
   const { t } = useTranslation()
   const normalizedValue =
     value === null || value === '' || value === undefined
@@ -49,6 +53,7 @@ function DropdownSelect<T extends string | number = string>({
     <Select
       value={normalizedValue}
       onValueChange={(val) => onChange?.(val as T)}
+      disabled={disabled}
     >
       <SelectTrigger className={`w-full min-w-[180px] ${className}`}>
         <SelectValue className={valueClassName ? valueClassName : ''} placeholder={placeholder} />
@@ -56,6 +61,11 @@ function DropdownSelect<T extends string | number = string>({
       <SelectContent>
         <SelectGroup>
           {label && <SelectLabel>{t(label)}</SelectLabel>}
+          {
+            options.length === 0 && <span>
+              <EmptyResponse iconClassName={'w-10! h-10!'} containerClassName={'h-40!'}/>
+            </span>
+          }
           {options.map((opt) => (
             <SelectItem
               key={String(opt.id)}

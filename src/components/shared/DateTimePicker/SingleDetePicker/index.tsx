@@ -20,16 +20,23 @@ type TProps = {
   inputContainerClassName?: string
   date: dayjs.Dayjs
   error?: string
-  onChange: (date: dayjs.Dayjs) => void
+  onChange: (date: dayjs.Dayjs) => void,
+  disabled?: boolean
 }
 
 export const SingleDatePickComponent = (props: TProps) => {
-  const { title, inputContainerClassName, error, date, onChange } = props
+  const { title, inputContainerClassName, error, date, onChange, disabled } = props
   const [localeDate, setLocaleDate] = useState<dayjs.Dayjs>(date)
   const [open, setOpen] = useState(false)
 
   const { t } = useTranslation()
   const close = () => setOpen(false)
+  
+  const OnOpenChange = (isOpen: boolean) =>{
+    if(!disabled){
+      setOpen(isOpen)
+    }
+  }
 
   const handleApplyNewDate = () => {
     onChange(localeDate)
@@ -37,14 +44,15 @@ export const SingleDatePickComponent = (props: TProps) => {
   }
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onOpenChange={OnOpenChange}>
       <DialogTrigger
         onClick={() => {
-          setOpen(true)
+          OnOpenChange(true)
         }}
       >
         <div className="text-left w-full">
           <DatePickerInput
+            disabled={disabled}
             label={''}
             date={dayjs(date).format('DD/MM/YYYY')}
             error={error}

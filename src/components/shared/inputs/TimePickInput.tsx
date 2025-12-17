@@ -6,9 +6,10 @@ interface ITimePickInput {
     label: string
     time: string
     error: string
+    disabled: boolean
 }
 
-const TimePickInput: FunctionComponent<ITimePickInput> = ({ label, time, error }) => {
+const TimePickInput: FunctionComponent<ITimePickInput> = ({ label, time, error, disabled }) => {
     return (
         <div className="date_picker_input-wrapper flex flex-col gap-2 flex-1">
             <div className={`date_picker_input-label text-left text-sm font-medium ${error && 'text-red-500'}`}>
@@ -23,6 +24,7 @@ const TimePickInput: FunctionComponent<ITimePickInput> = ({ label, time, error }
                         className={`date_picker_input-placeholder text-base pl-10.5 border-2 rounded-md w-full py-2 flex items-center cursor-pointer ${error && 'border-red-500'}`}
                         placeholder={ time }
                         readOnly
+                        disabled={disabled}
                     />
                 </div>
             </div>

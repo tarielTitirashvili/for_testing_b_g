@@ -8,16 +8,26 @@ import usersForCalendar from '@/../public/assets/images/usersForCalendar.svg'
 import PrimaryButton from '@/components/shared/buttons/PrimaryButton'
 import gegmioLogo from '/assets/images/gegmio.svg'
 import { useTranslation } from 'react-i18next'
+import { STATUS_BOOKING_EVENTS } from '@/components/features/schedulerCalendar/constants'
+import type { TClickedBooking } from '@/pages/business/calendar'
 
 type Props = {
   event: IOrder
   staff: IStaff | null
   table?: ITableInfo | null
   getPositionOffEvent(event: IOrder): React.CSSProperties
+  clickedBookingRef: React.RefObject<TClickedBooking | null>
+  handleChangeIsOpen: (isOpenStatus: boolean) => void
 }
 
 const EventByStatus = (props: Props) => {
-  const { event, getPositionOffEvent } = props
+  const {
+    event,
+    getPositionOffEvent,
+    clickedBookingRef,
+    handleChangeIsOpen,
+    staff,
+  } = props
 
   const { t } = useTranslation()
   const containerRef = useRef<HTMLDivElement | null>(null)
@@ -44,19 +54,19 @@ const EventByStatus = (props: Props) => {
 
   const backgroundColor = (id: number) => {
     switch (id) {
-      case 2: // pending
+      case STATUS_BOOKING_EVENTS.pending.id: // pending
         return '#FBF1D0'
-      case 3: // confirmed
+      case STATUS_BOOKING_EVENTS.confirmed.id: // confirmed
         return '#E5EFFF'
-      case 4: //completed
+      case STATUS_BOOKING_EVENTS.completed.id: //completed
         return '#E6F9ED'
-      case 5: // cancelled
+      case STATUS_BOOKING_EVENTS.cancelled.id: // cancelled
         return '#FDE9E9'
-      case 6: // cancelledBySystem
+      case STATUS_BOOKING_EVENTS.cancelledBySystem.id: // cancelledBySystem
         return '#FDE9E9'
-      case 7: // DontShowUp
+      case STATUS_BOOKING_EVENTS.doNotShowUp.id: // DontShowUp
         return '#F0E7FD'
-      case 8: // DontShowUpBySystem
+      case STATUS_BOOKING_EVENTS.doNotShowUpBySystem.id: // DontShowUpBySystem
         return '#F0E7FD'
       default:
         return '#D3D3D3'
@@ -64,19 +74,19 @@ const EventByStatus = (props: Props) => {
   }
   const lineColor = (id: number) => {
     switch (id) {
-      case 2: // pending
+      case STATUS_BOOKING_EVENTS.pending.id: // pending
         return '#EAB305'
-      case 3: // confirmed
+      case STATUS_BOOKING_EVENTS.confirmed.id: // confirmed
         return '#3B81F6'
-      case 4: //completed
+      case STATUS_BOOKING_EVENTS.completed.id: //completed
         return '#21C55D'
-      case 5: // cancelled
+      case STATUS_BOOKING_EVENTS.cancelled.id: // cancelled
         return '#E81C1C'
-      case 6: // cancelledBySystem
+      case STATUS_BOOKING_EVENTS.cancelledBySystem.id: // cancelledBySystem
         return '#E81C1C'
-      case 7: // DontShowUp
+      case STATUS_BOOKING_EVENTS.doNotShowUp.id: // DontShowUp
         return '#6011D0'
-      case 8: // DontShowUpBySystem
+      case STATUS_BOOKING_EVENTS.doNotShowUpBySystem.id: // DontShowUpBySystem
         return '#6011D0'
       default:
         return '#A9A9A9'
@@ -87,13 +97,20 @@ const EventByStatus = (props: Props) => {
     backgroundColor: backgroundColor(event.status.id),
     lineColor: lineColor(event.status.id),
   }
-
   return (
     <div
       key={event.id}
       onClick={(e) => {
         e.stopPropagation()
         // console.log(event)
+        // console.log(staff)
+        if(event.status.id === STATUS_BOOKING_EVENTS.pending.id){
+          handleChangeIsOpen(true)
+        }
+        clickedBookingRef.current = {
+          event: event,
+          staff: staff
+        }
         // openEventSummary(event);
       }}
       className={

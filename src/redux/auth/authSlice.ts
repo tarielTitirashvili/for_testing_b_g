@@ -65,7 +65,7 @@ const userSlice = createSlice({
             state.role = accessToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
             state.isOTP = action.payload.isOTP
 
-            console.log(new Date(accessToken['exp'] * 1000).toLocaleTimeString(), "dd")
+            // console.log(new Date(accessToken['exp'] * 1000).toLocaleTimeString(), "dd")
             
             state.isLoginProcess = action.payload.isLoginProcess !== undefined ? action.payload.isLoginProcess : false
             state.currentBusiness = accessToken.current_business
@@ -101,7 +101,7 @@ const userSlice = createSlice({
             state.currentBusiness = decoded.current_business
             state.isAuth = true
 
-            console.log(new Date(decoded['exp'] * 1000).toLocaleTimeString(), 'refreshh')
+            // console.log(new Date(decoded['exp'] * 1000).toLocaleTimeString(), 'refreshh')
 
 
             localStorage.setItem("accessToken", accessToken)

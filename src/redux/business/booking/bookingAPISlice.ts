@@ -86,7 +86,7 @@ export const bookingApiSlice = apiSlice.injectEndpoints({
                 url: `/business/orders/${payload.orderId}/confirm`,
                 method: "POST"
             }),
-            invalidatesTags: ['Bookings'],
+            invalidatesTags: ['Bookings', 'calendarBookings'],
         }),
 
         cancelBooking: builder.mutation<void, IConfirmBookingPayload>({
@@ -94,7 +94,7 @@ export const bookingApiSlice = apiSlice.injectEndpoints({
                 url: `/business/orders/${payload.orderId}/cancel`,
                 method: "POST"
             }),
-            invalidatesTags: ['Bookings'],
+            invalidatesTags: ['Bookings', 'calendarBookings'],
         }),
 
         createExternalBooking: builder.mutation<void, IAddBooking>({

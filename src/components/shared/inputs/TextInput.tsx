@@ -24,6 +24,7 @@ const TextInput: React.FunctionComponent<ITextInputProps> = ({ label, className,
                     className={cn(
                         "border-2 rounded-sm border-[#EBEBEB] w-full text-base p-1.5 text-[#6C6C6C]",
                         error && "border-red-500 focus:border-red-500",
+                        inputProps.disabled && 'cursor-not-allowed',
                         className
                     )}
                     {...inputProps}

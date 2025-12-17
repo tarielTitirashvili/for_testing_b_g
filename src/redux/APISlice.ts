@@ -18,12 +18,13 @@ export const apiSlice = createApi({
     'District',
     'adminUsers',
     'BusinessCategory',
-    "Language",
-    'Bookings'
+    'Language',
+    'Bookings',
+    'calendarBookings',
   ], // optional, for cache invalidation
   endpoints: () => ({}), // empty for now
-  keepUnusedDataFor: 0,        // 💡 don't keep cache after unsubscribing
+  keepUnusedDataFor: 0, // 💡 don't keep cache after unsubscribing
   refetchOnMountOrArgChange: true, // 💡 refetch every time hook mounts or args change
   // refetchOnFocus: true,        // optional: refetch when window gains focus
-  refetchOnReconnect: true,    // optional: refetch when back online
+  refetchOnReconnect: true, // optional: refetch when back online
 })

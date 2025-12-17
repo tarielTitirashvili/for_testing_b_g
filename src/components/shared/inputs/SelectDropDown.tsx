@@ -24,6 +24,7 @@ const SelectDropDown: FunctionComponent<ISelectDropDownProps> = ({ options, sent
                     className={cn(
                         "border-2 rounded-sm border-[#EBEBEB] w-full text-base p-2 text-[#6C6C6C] focus:outline-none focus:border-[#EF7800]",
                         error && "border-red-500 focus:border-red-500",
+                        props.disabled && "cursor-not-allowed",
                         className
                     )}
                     {...props}

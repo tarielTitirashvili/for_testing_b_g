@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import PinnedHead from './pinnedHead'
 import React, { useEffect, useRef } from 'react'
 import TimeTracker from './timeTracker'
+import type { TClickedBooking } from '@/pages/business/calendar'
 
 type Props = {
   selectedDate: Dayjs
@@ -17,6 +18,8 @@ type Props = {
   setPage: React.Dispatch<React.SetStateAction<number>>
   calendarLoading: boolean
   infiniteScrollPageChangeRef: React.RefObject<boolean>
+  clickedBookingRef: React.RefObject<TClickedBooking | null>
+  handleChangeIsOpen: (isOpenStatus: boolean) => void
 }
 
 const DayView = (props: Props) => {
@@ -28,6 +31,8 @@ const DayView = (props: Props) => {
     setPage,
     calendarLoading,
     infiniteScrollPageChangeRef,
+    clickedBookingRef,
+    handleChangeIsOpen
   } = props
   const { t } = useTranslation()
 
@@ -120,9 +125,9 @@ const DayView = (props: Props) => {
           {calendarEventsData?.map((item, index) => {
             return (
               <React.Fragment
-                key={`${index} ${'staff' in item ? item.staff.id : null} ${
-                  'table' in item ? item.table.name : null
-                }`}
+              key={`${index} ${'staff' in item ? item.staff.id : null} ${
+                'table' in item ? item.table.name : null
+              }`}
               >
                 <div className="flex">
                   {getHours.map((hourglass) => {
@@ -132,8 +137,9 @@ const DayView = (props: Props) => {
                         events={item.orders}
                         staff={'staff' in item ? item.staff : null}
                         table={'table' in item ? item.table : null}
-                        hourglass={hourglass}
                         handleClick={handleClick}
+                        clickedBookingRef={clickedBookingRef}
+                        handleChangeIsOpen={handleChangeIsOpen}
                         date={selectedDate
                           .hour(hourglass.hour())
                           .minute(hourglass.minute())

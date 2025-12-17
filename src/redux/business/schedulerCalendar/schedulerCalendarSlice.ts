@@ -4,12 +4,10 @@ import dayjs from 'dayjs'
 
 interface SchedulerCalendarState {
   selectedView: string
-  selectedMonthIndex: number
 }
 
 const initialState : SchedulerCalendarState = {
   selectedView: CALENDAR_VIEW_OPTIONS[1].value, //'month'
-  selectedMonthIndex: dayjs().month()
 }
 
 export type calendarEventType = {
@@ -26,21 +24,9 @@ const schedulerCalendarSlice = createSlice({
     setSelectedView: (state, action: PayloadAction<string>) => {
       state.selectedView = action.payload
     },
-    setSelectedMonthIndexBy: (state, action: PayloadAction<number>) =>{
-      if(state.selectedMonthIndex + action.payload >11){
-        state.selectedMonthIndex = 0
-      }else if (state.selectedMonthIndex + action.payload < 0){
-        state.selectedMonthIndex = 11
-      }else{
-        state.selectedMonthIndex = state.selectedMonthIndex + action.payload
-      }
-    },
-    setSelectedMonthIndex: (state, action: PayloadAction<number>) =>{
-      state.selectedMonthIndex = action.payload
-    }
   }
 })
-
-export const { setSelectedView, setSelectedMonthIndexBy, setSelectedMonthIndex } = schedulerCalendarSlice.actions
+// currently this is constant but i will left it here in case if something new will add in calendar
+export const { setSelectedView } = schedulerCalendarSlice.actions
 
 export default schedulerCalendarSlice.reducer

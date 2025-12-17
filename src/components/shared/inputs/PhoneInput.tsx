@@ -34,6 +34,7 @@ const PhoneInput: React.FunctionComponent<IPhoneInputProps> = ({ label, error, c
                     className={cn(
                         "border-2 rounded-sm border-[#EBEBEB] w-full text-base ps-12 py-1.5 text-[#4F4F53]",
                         error && "border-red-500",
+                        inputProps.disabled && 'cursor-not-allowed',
                         className
                     )}
                     {...inputProps}

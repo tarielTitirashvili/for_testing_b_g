@@ -1,13 +1,5 @@
-import type { RootState } from '@/redux/store'
-
 import { getWeekDays } from '../../constants'
-import { useDispatch, useSelector } from 'react-redux'
-import {
-  setSelectedMonthIndex,
-  setSelectedMonthIndexBy,
-  // setSelectedView,
-} from '@/redux/business/schedulerCalendar/schedulerCalendarSlice'
-import dayjs, { Dayjs } from 'dayjs'
+import { Dayjs } from 'dayjs'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 // import { useTranslation } from 'react-i18next'
 // import PrimaryButton from '@/components/shared/buttons/PrimaryButton'
@@ -22,41 +14,16 @@ type Props = {
 const SchedulerCalendarHeaderLeftSide = (props: Props) => {
   const { calendarLoading, selectedDate, handleSetSelectedDate } = props
 
-  const selectedMonthIndex = useSelector(
-    (state: RootState) => state.schedulerCalendar.selectedMonthIndex
-  )
-  const dispatch = useDispatch()
   const weekDays = getWeekDays(selectedDate)
-
-  const checkMonth = (
-    date: dayjs.Dayjs,
-    direction?: 'increase' | 'decrees'
-  ) => {
-    if (date.month() !== selectedMonthIndex) {
-      // when direction not provided we use today or something like it which might differentiate more then 1 months
-      switch (direction) {
-        case 'increase':
-          dispatch(setSelectedMonthIndexBy(1))
-          break
-        case 'decrees':
-          dispatch(setSelectedMonthIndexBy(-1))
-          break
-        default:
-          dispatch(setSelectedMonthIndex(date.month()))
-          break
-      }
-    }
-  }
 
   const leftClick = (period: 'week' | 'month') => {
     if (!calendarLoading) {
       switch (period) {
         case 'month': // month
-          dispatch(setSelectedMonthIndexBy(-1))
-          handleSetSelectedDate(selectedDate.subtract(1, 'month'))
+          selectedDate.subtract(1, 'month')
           break
         case 'week': // week
-          checkMonth(selectedDate.subtract(1, 'week'), 'decrees')
+          selectedDate.subtract(1, 'week')
           handleSetSelectedDate(selectedDate.subtract(1, 'week'))
           break
         default:
@@ -69,11 +36,10 @@ const SchedulerCalendarHeaderLeftSide = (props: Props) => {
     if (!calendarLoading) {
       switch (period) {
         case 'month': // month
-          dispatch(setSelectedMonthIndexBy(1))
           handleSetSelectedDate(selectedDate.add(1, 'month'))
           break
         case 'week': // week
-          checkMonth(selectedDate.add(1, 'week'), 'increase')
+          selectedDate.add(1, 'week')
           handleSetSelectedDate(selectedDate.add(1, 'week'))
           break
         default:
@@ -91,7 +57,7 @@ const SchedulerCalendarHeaderLeftSide = (props: Props) => {
           <ChevronLeft />
         </div>
         <span className="flex items-center whitespace-nowrap">
-          {dayjs().month(selectedMonthIndex).format('MMMM YYYY')}
+          {selectedDate.format('MMMM YYYY')}
         </span>
         <div onClick={() => rightClick('month')} className={buttonClassName}>
           <ChevronRight />

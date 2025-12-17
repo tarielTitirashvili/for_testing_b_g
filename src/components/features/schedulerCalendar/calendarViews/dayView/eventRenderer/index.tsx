@@ -11,17 +11,27 @@ import type {
 import type { IStaff } from '@/redux/business/booking/bookingAPISlice'
 import EventByStatus from './eventByStatus'
 import AddNewBookingHover from './addNewBookingHover'
+import type { TClickedBooking } from '@/pages/business/calendar'
 
 type EventRendererProps = {
   date: dayjs.Dayjs
   events: IOrder[]
   staff: IStaff | null
-  hourglass: dayjs.Dayjs
   handleClick: (hourglass: dayjs.Dayjs) => void
   table?: ITableInfo | null
+  clickedBookingRef: React.RefObject<TClickedBooking | null>
+  handleChangeIsOpen: (isOpenStatus: boolean) => void
 }
 export function EventRenderer(props: EventRendererProps) {
-  const { date, events, staff, table, hourglass, handleClick } = props
+  const {
+    date,
+    events,
+    staff,
+    table,
+    handleClick,
+    clickedBookingRef,
+    handleChangeIsOpen
+  } = props
   const endDateIsHere = useRef<boolean>(false)
   //! for monthView only
 
@@ -114,8 +124,7 @@ export function EventRenderer(props: EventRendererProps) {
     <div
       className="h-25 w-52 border-b-1 border-r-2 border-[#EBEBEB] pointer flex items-center justify-center relative group"
       onClick={() => {
-        handleClick(hourglass)
-        console.log('Hourglass', hourglass.format('HH:mm'))
+        handleClick(date)
       }}
     >
       {(filteredEvents.length < 1 || !endDateIsHere.current) && (
@@ -129,6 +138,8 @@ export function EventRenderer(props: EventRendererProps) {
             staff={staff}
             table={table}
             getPositionOffEvent={getPositionOffEvent}
+            clickedBookingRef={clickedBookingRef}
+            handleChangeIsOpen={handleChangeIsOpen}
           />
         )
       })}

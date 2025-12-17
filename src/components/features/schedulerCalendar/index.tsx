@@ -3,6 +3,8 @@ import CalendarHeader from './calendarHeader/calendarHeader'
 import CalendarView from './calendarViews'
 import Loader from '@/components/shared/loader'
 import type { IRootCalendarResponse } from '@/redux/business/schedulerCalendar/schedulerCalendarAPISlice'
+import type dayjs from 'dayjs'
+import type { TClickedBooking } from '@/pages/business/calendar'
 
 type TProps = {
   calendarEvents: IRootCalendarResponse | null | undefined
@@ -12,6 +14,9 @@ type TProps = {
   page: number
   setPage: React.Dispatch<React.SetStateAction<number>>
   infiniteScrollPageChangeRef: React.RefObject<boolean>
+  handleChangeIsOpen: (isOpenStatus: boolean) => void
+  addBookingDateFromCalendar: React.RefObject<dayjs.Dayjs | null>
+  clickedBookingRef: React.RefObject<TClickedBooking | null>
 }
 
 const SchedulerCalendar = (props: TProps) => {
@@ -23,9 +28,12 @@ const SchedulerCalendar = (props: TProps) => {
     page,
     setPage,
     infiniteScrollPageChangeRef,
+    addBookingDateFromCalendar,
+    handleChangeIsOpen,
+    clickedBookingRef
   } = props
 
-  console.log(calendarEvents)
+  // console.log(calendarEvents)
 
   if (!calendarEvents) {
     return <Loader containerClassname="h-150" />
@@ -45,6 +53,9 @@ const SchedulerCalendar = (props: TProps) => {
         setPage={setPage}
         calendarLoading={calendarLoading}
         infiniteScrollPageChangeRef={infiniteScrollPageChangeRef}
+        handleChangeIsOpen={handleChangeIsOpen}
+        addBookingDateFromCalendar={addBookingDateFromCalendar}
+        clickedBookingRef={clickedBookingRef}
       />
     </Loader>
   )

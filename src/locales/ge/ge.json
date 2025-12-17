@@ -475,6 +475,10 @@
   "business.successMessage.createDishWasSuccessFull": "კერძი წარმატებით დაემატა",
   "common.errorMessage.logoutError":"სესიის ვადა ამოიწურა",
   "common.loading.text":"იტვირთება...",
+  "business.schedulerCalendar.cancelEvent": "უარყოფა",
+  "business.schedulerCalendar.cancelEvent.wasCanceled": "ჯავშანი უარყოფილია",
+  "business.schedulerCalendar.confirmEvent": "დადასტურება",
+  "business.schedulerCalendar.confirmEvent.wasConfirmed": "ჯავშანი დადასტურებულია",
 
   "":""
 

@@ -9,10 +9,11 @@ type TProps = {
   label?: string
   inputContainerClassName?: string
   error?: string
+  disabled?: boolean
 }
 
 const DatePickerInput = (props: TProps) => {
-  const { label, inputContainerClassName, error, date} = props
+  const { label, inputContainerClassName, error, date, disabled} = props
   const { t } = useTranslation()
 
   return (
@@ -37,6 +38,7 @@ const DatePickerInput = (props: TProps) => {
           <Input
             className="date_picker_input-placeholder text-lg pl-10 border-2 rounded-md w-full py-2 flex items-center cursor-pointer"
             placeholder={t("bookings.table.datePick")}
+            disabled={disabled}
             readOnly
             error={error}
             value={typeof date === 'string' ? date?.toString().split('-').reverse().join(".") : date?.format('DD.MM.YYYY')}
