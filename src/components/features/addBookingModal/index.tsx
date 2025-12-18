@@ -72,6 +72,7 @@ const AddBookingModal: FunctionComponent<IAddBookingModalProps> = ({
   const defaultSelectedServiceId = clickedBooking?.event?.services?.length
     ? clickedBooking?.event?.services[0].id
     : undefined
+  const shouldHavePhoneNumber = clickedBooking?.event.isExternal || !clickedBooking?.event
 
   const {
     handleSubmit,
@@ -97,7 +98,6 @@ const AddBookingModal: FunctionComponent<IAddBookingModalProps> = ({
         : null,
     },
   })
-
   const selectedBusinessProfile = useSelector(selectedBusinessProfileSelector)
   const isBarber = selectedBusinessProfile?.businessCategory.id === 2 // 2 === barber && 1 === restaurant
 
@@ -132,7 +132,7 @@ const AddBookingModal: FunctionComponent<IAddBookingModalProps> = ({
   )
 
   const { data: spaces = [] } = useGetTableCategoryQuery(undefined, {
-    skip: isBarber
+    skip: isBarber,
   })
 
   const [
@@ -177,7 +177,7 @@ const AddBookingModal: FunctionComponent<IAddBookingModalProps> = ({
       client: {
         firstName: data.client?.firstName || null,
         lastName: data.client?.firstName || null,
-        phoneNumber: data.client?.phoneNumber
+        phoneNumber: (data.client?.phoneNumber && shouldHavePhoneNumber)
           ? `+995${data.client.phoneNumber}`.trim()
           : null,
         email: null,
@@ -220,18 +220,20 @@ const AddBookingModal: FunctionComponent<IAddBookingModalProps> = ({
             })}
             error={errors.client?.firstName?.message}
           />
-          <PhoneInput
-            label={t('bookings.inputLabel.mobileNumber')}
-            disabled={pendingStatusEvent}
-            placeholder="555 44..."
-            {...register('client.phoneNumber', {
-              pattern: {
-                value: /^(?:\s*\d\s*){9}$/,
-                message: t('bookings.formValidation.mobileNumber'),
-              },
-            })}
-            error={errors.client?.phoneNumber?.message}
-          />
+          {shouldHavePhoneNumber && (
+            <PhoneInput
+              label={t('bookings.inputLabel.mobileNumber')}
+              disabled={pendingStatusEvent}
+              placeholder="555 44..."
+              {...register('client.phoneNumber', {
+                pattern: {
+                  value: /^(?:\s*\d\s*){9}$/,
+                  message: t('bookings.formValidation.mobileNumber'),
+                },
+              })}
+              error={errors.client?.phoneNumber?.message}
+            />
+          )}
           {businessType === 1 ? (
             <>
               <TextInput

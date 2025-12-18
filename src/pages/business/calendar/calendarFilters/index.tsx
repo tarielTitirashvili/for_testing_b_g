@@ -4,12 +4,6 @@ import DropdownSelect, {
 } from '@/components/shared/inputs/dropdownSelect'
 import { Plus, User } from 'lucide-react'
 import PrimaryButton from '@/components/shared/buttons/PrimaryButton'
-import AddBookingModal from '@/components/features/addBookingModal'
-import { selectedBusinessProfileSelector } from '@/redux/auth/authSelectors'
-import { useSelector } from 'react-redux'
-import type React from 'react'
-import type dayjs from 'dayjs'
-import type { TClickedBooking } from '..'
 
 type Props = {
   staffData: TDropdownSelectOption<string>[] | undefined
@@ -20,10 +14,7 @@ type Props = {
   handleSetSelectedStaffId: (id: string) => void
   isBarber: boolean
   handleClickToday: () => void
-  isAddBookingModalOpen: boolean
   handleChangeIsOpen: (isOpenStatus: boolean) => void
-  addBookingDateFromCalendar: React.RefObject<dayjs.Dayjs | null>
-  clickedBookingRef: React.RefObject<TClickedBooking | null>
 }
 
 const CalendarFilters = (props: Props) => {
@@ -35,17 +26,13 @@ const CalendarFilters = (props: Props) => {
     tableCategoryIds,
     handleSetSelectedTableCategoryId,
     handleClickToday,
-    isAddBookingModalOpen,
     handleChangeIsOpen,
-    addBookingDateFromCalendar,
-    clickedBookingRef
   } = props
   const { t } = useTranslation()
 
   const selectedStaffObj = staffData?.find(
     (staff) => staff.id === selectedStaffId
   )
-  const selectedBusinessProfile = useSelector(selectedBusinessProfileSelector)
 
   return (
     <div className="flex py-3 justify-between flex-wrap gap-2">
@@ -91,15 +78,6 @@ const CalendarFilters = (props: Props) => {
             {t('business.buttons.addNewBooking')}
           </PrimaryButton>
         </div>
-        {isAddBookingModalOpen && (
-          <AddBookingModal
-            businessType={selectedBusinessProfile?.businessCategory.id}
-            isOpen={isAddBookingModalOpen}
-            setIsOpen={handleChangeIsOpen}
-            addBookingDateFromCalendar={addBookingDateFromCalendar}
-            clickedBooking={clickedBookingRef.current}
-          />
-        )}
       </span>
     </div>
   )

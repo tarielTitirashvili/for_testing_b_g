@@ -1,6 +1,5 @@
 import { getHours } from '../../constants'
 import dayjs, { Dayjs } from 'dayjs'
-import type { OnDayClick } from '..'
 import { EventRenderer } from './eventRenderer'
 import type { IRootCalendarResponse } from '@/redux/business/schedulerCalendar/schedulerCalendarAPISlice'
 import EmptyResponse from '@/components/shared/emptyResponse'
@@ -8,31 +7,29 @@ import { useTranslation } from 'react-i18next'
 import PinnedHead from './pinnedHead'
 import React, { useEffect, useRef } from 'react'
 import TimeTracker from './timeTracker'
-import type { TClickedBooking } from '@/pages/business/calendar'
+import type { OnDayClick, THandleClickBooking } from '@/pages/business/calendar'
 
 type Props = {
   selectedDate: Dayjs
-  handleClick: OnDayClick
+  handleClickTimeSlot: OnDayClick
   calendarEvents: IRootCalendarResponse
   page: number
   setPage: React.Dispatch<React.SetStateAction<number>>
   calendarLoading: boolean
   infiniteScrollPageChangeRef: React.RefObject<boolean>
-  clickedBookingRef: React.RefObject<TClickedBooking | null>
-  handleChangeIsOpen: (isOpenStatus: boolean) => void
+  handleClickBooking: (params:THandleClickBooking)=>void
 }
 
 const DayView = (props: Props) => {
   const {
     selectedDate,
-    handleClick,
+    handleClickTimeSlot,
     calendarEvents,
     page,
     setPage,
     calendarLoading,
     infiniteScrollPageChangeRef,
-    clickedBookingRef,
-    handleChangeIsOpen
+    handleClickBooking
   } = props
   const { t } = useTranslation()
 
@@ -137,9 +134,8 @@ const DayView = (props: Props) => {
                         events={item.orders}
                         staff={'staff' in item ? item.staff : null}
                         table={'table' in item ? item.table : null}
-                        handleClick={handleClick}
-                        clickedBookingRef={clickedBookingRef}
-                        handleChangeIsOpen={handleChangeIsOpen}
+                        handleClickTimeSlot={handleClickTimeSlot}
+                        handleClickBooking={handleClickBooking}
                         date={selectedDate
                           .hour(hourglass.hour())
                           .minute(hourglass.minute())

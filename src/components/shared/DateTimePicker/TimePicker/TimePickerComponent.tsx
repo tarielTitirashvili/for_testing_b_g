@@ -50,7 +50,7 @@ const TimePickerComponent: FunctionComponent<TimePickerComponentProps> = ({ defa
 
     return (
         <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-            <DialogTrigger className="flex flex-col justify-start items-start">
+            <DialogTrigger disabled={disabled} className="flex flex-col justify-start items-start">
                 <div className="time_pick_inputs flex flex-1 w-full gap-3">
                     <TimePickInput
                         disabled={disabled}

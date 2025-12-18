@@ -479,6 +479,12 @@
   "business.schedulerCalendar.cancelEvent.wasCanceled": "ჯავშანი უარყოფილია",
   "business.schedulerCalendar.confirmEvent": "დადასტურება",
   "business.schedulerCalendar.confirmEvent.wasConfirmed": "ჯავშანი დადასტურებულია",
+  "business.schedulerCalendar.bookings.modalTitle": "ჯავშნები",
+  "business.schedulerCalendar.bookings.dayBeforeYesterday":"გუშინ წინ",
+  "business.schedulerCalendar.bookings.Yesterday":"გუშინ",
+  "business.schedulerCalendar.bookings.Today":"დღეს",
+  "business.schedulerCalendar.bookings.Tomorrow":"ხვალ",
+  "business.schedulerCalendar.bookings.dayAfterTomorrow":"ზეგ",
 
   "":""
 

@@ -3,20 +3,22 @@ import CalendarHeader from './calendarHeader/calendarHeader'
 import CalendarView from './calendarViews'
 import Loader from '@/components/shared/loader'
 import type { IRootCalendarResponse } from '@/redux/business/schedulerCalendar/schedulerCalendarAPISlice'
-import type dayjs from 'dayjs'
-import type { TClickedBooking } from '@/pages/business/calendar'
+import type { OnDayClick, TClickedFilteredBookingsRef, THandleClickBooking } from '@/pages/business/calendar'
+import MoreBookingsModal from './moreBookingsModal'
 
 type TProps = {
   calendarEvents: IRootCalendarResponse | null | undefined
+  handleClickTimeSlot: OnDayClick
   calendarLoading: boolean
   selectedDate: Dayjs
   handleSetSelectedDate: (date: Dayjs) => void
   page: number
   setPage: React.Dispatch<React.SetStateAction<number>>
   infiniteScrollPageChangeRef: React.RefObject<boolean>
-  handleChangeIsOpen: (isOpenStatus: boolean) => void
-  addBookingDateFromCalendar: React.RefObject<dayjs.Dayjs | null>
-  clickedBookingRef: React.RefObject<TClickedBooking | null>
+  clickedFilteredBookingsRef: React.RefObject<TClickedFilteredBookingsRef | null>
+  handleClickBooking: (params: THandleClickBooking) => void
+  isMoreBookingsModalOpen: boolean
+  handleChangeIsMoreBookingsModalOpen: (isOpenStatus: boolean) => void
 }
 
 const SchedulerCalendar = (props: TProps) => {
@@ -28,9 +30,11 @@ const SchedulerCalendar = (props: TProps) => {
     page,
     setPage,
     infiniteScrollPageChangeRef,
-    addBookingDateFromCalendar,
-    handleChangeIsOpen,
-    clickedBookingRef
+    handleClickBooking,
+    handleClickTimeSlot,
+    isMoreBookingsModalOpen,
+    clickedFilteredBookingsRef,
+    handleChangeIsMoreBookingsModalOpen,
   } = props
 
   // console.log(calendarEvents)
@@ -41,6 +45,13 @@ const SchedulerCalendar = (props: TProps) => {
   // console.log(local)
   return (
     <Loader loading={calendarLoading}>
+      {isMoreBookingsModalOpen && (
+        <MoreBookingsModal
+          isOpen={isMoreBookingsModalOpen}
+          clickedFilteredBookingsRef={clickedFilteredBookingsRef}
+          setIsOpen={handleChangeIsMoreBookingsModalOpen}
+        />
+      )}
       <CalendarHeader
         selectedDate={selectedDate}
         calendarLoading={calendarLoading}
@@ -53,9 +64,8 @@ const SchedulerCalendar = (props: TProps) => {
         setPage={setPage}
         calendarLoading={calendarLoading}
         infiniteScrollPageChangeRef={infiniteScrollPageChangeRef}
-        handleChangeIsOpen={handleChangeIsOpen}
-        addBookingDateFromCalendar={addBookingDateFromCalendar}
-        clickedBookingRef={clickedBookingRef}
+        handleClickBooking={handleClickBooking}
+        handleClickTimeSlot={handleClickTimeSlot}
       />
     </Loader>
   )

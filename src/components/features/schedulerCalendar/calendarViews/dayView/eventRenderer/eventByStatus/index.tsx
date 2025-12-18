@@ -8,25 +8,25 @@ import usersForCalendar from '@/../public/assets/images/usersForCalendar.svg'
 import PrimaryButton from '@/components/shared/buttons/PrimaryButton'
 import gegmioLogo from '/assets/images/gegmio.svg'
 import { useTranslation } from 'react-i18next'
-import { STATUS_BOOKING_EVENTS } from '@/components/features/schedulerCalendar/constants'
-import type { TClickedBooking } from '@/pages/business/calendar'
+import { backgroundColorByBookingStatus, lineColorByBookingStatus } from '@/components/features/schedulerCalendar/constants'
+import type { THandleClickBooking } from '@/pages/business/calendar'
 
 type Props = {
   event: IOrder
   staff: IStaff | null
   table?: ITableInfo | null
   getPositionOffEvent(event: IOrder): React.CSSProperties
-  clickedBookingRef: React.RefObject<TClickedBooking | null>
-  handleChangeIsOpen: (isOpenStatus: boolean) => void
+  filteredEvents: IOrder[]
+  handleClickBooking: (params:THandleClickBooking)=>void
 }
 
 const EventByStatus = (props: Props) => {
   const {
     event,
     getPositionOffEvent,
-    clickedBookingRef,
-    handleChangeIsOpen,
     staff,
+    filteredEvents,
+    handleClickBooking
   } = props
 
   const { t } = useTranslation()
@@ -52,66 +52,20 @@ const EventByStatus = (props: Props) => {
     return () => resizeObserver.disconnect()
   }, [])
 
-  const backgroundColor = (id: number) => {
-    switch (id) {
-      case STATUS_BOOKING_EVENTS.pending.id: // pending
-        return '#FBF1D0'
-      case STATUS_BOOKING_EVENTS.confirmed.id: // confirmed
-        return '#E5EFFF'
-      case STATUS_BOOKING_EVENTS.completed.id: //completed
-        return '#E6F9ED'
-      case STATUS_BOOKING_EVENTS.cancelled.id: // cancelled
-        return '#FDE9E9'
-      case STATUS_BOOKING_EVENTS.cancelledBySystem.id: // cancelledBySystem
-        return '#FDE9E9'
-      case STATUS_BOOKING_EVENTS.doNotShowUp.id: // DontShowUp
-        return '#F0E7FD'
-      case STATUS_BOOKING_EVENTS.doNotShowUpBySystem.id: // DontShowUpBySystem
-        return '#F0E7FD'
-      default:
-        return '#D3D3D3'
-    }
-  }
-  const lineColor = (id: number) => {
-    switch (id) {
-      case STATUS_BOOKING_EVENTS.pending.id: // pending
-        return '#EAB305'
-      case STATUS_BOOKING_EVENTS.confirmed.id: // confirmed
-        return '#3B81F6'
-      case STATUS_BOOKING_EVENTS.completed.id: //completed
-        return '#21C55D'
-      case STATUS_BOOKING_EVENTS.cancelled.id: // cancelled
-        return '#E81C1C'
-      case STATUS_BOOKING_EVENTS.cancelledBySystem.id: // cancelledBySystem
-        return '#E81C1C'
-      case STATUS_BOOKING_EVENTS.doNotShowUp.id: // DontShowUp
-        return '#6011D0'
-      case STATUS_BOOKING_EVENTS.doNotShowUpBySystem.id: // DontShowUpBySystem
-        return '#6011D0'
-      default:
-        return '#A9A9A9'
-    }
-  }
-
   const stylesBasedOnStatus = {
-    backgroundColor: backgroundColor(event.status.id),
-    lineColor: lineColor(event.status.id),
+    backgroundColor: backgroundColorByBookingStatus(event.status.id),
+    lineColor: lineColorByBookingStatus(event.status.id),
   }
   return (
     <div
       key={event.id}
       onClick={(e) => {
-        e.stopPropagation()
-        // console.log(event)
-        // console.log(staff)
-        if(event.status.id === STATUS_BOOKING_EVENTS.pending.id){
-          handleChangeIsOpen(true)
-        }
-        clickedBookingRef.current = {
+        handleClickBooking({
           event: event,
-          staff: staff
-        }
-        // openEventSummary(event);
+          staff: staff,
+          shouldStopClickHere: filteredEvents.length < 2,
+          e: e
+        })
       }}
       className={
         'w-[90%] max-h-[90px] cursor-pointer rounded-sm px-1.5 py-2 text-[11px] text-white leading-[13px] flex gap-3 items-center border-l-4 overflow-hidden'

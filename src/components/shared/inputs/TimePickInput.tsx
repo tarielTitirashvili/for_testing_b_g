@@ -12,7 +12,7 @@ interface ITimePickInput {
 const TimePickInput: FunctionComponent<ITimePickInput> = ({ label, time, error, disabled }) => {
     return (
         <div className="date_picker_input-wrapper flex flex-col gap-2 flex-1">
-            <div className={`date_picker_input-label text-left text-sm font-medium ${error && 'text-red-500'}`}>
+            <div className={`date_picker_input-label text-left text-sm font-medium ${error && 'text-red-500'} ${disabled && 'cursor-not-allowed!'}`}>
                 { label }
             </div>
             <div className={`date_picker_input relative w-full h-[48px] flex items-center`}>

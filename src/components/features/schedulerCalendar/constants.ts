@@ -1,4 +1,5 @@
 import dayjs, { Dayjs } from 'dayjs'
+import { t } from 'i18next'
 // import weekOfYear from 'dayjs/plugin/weekOfYear'
 
 export const CALENDAR_VIEW_OPTIONS = [
@@ -126,3 +127,66 @@ export const STATUSES_BOOKING_EVENTS_ARRAY = [
     label: STATUS_BOOKING_EVENTS.doNotShowUpBySystem.label,
   },
 ]
+
+export const backgroundColorByBookingStatus = (id: number) => {
+  switch (id) {
+    case STATUS_BOOKING_EVENTS.pending.id: // pending
+      return '#FBF1D0'
+    case STATUS_BOOKING_EVENTS.confirmed.id: // confirmed
+      return '#E5EFFF'
+    case STATUS_BOOKING_EVENTS.completed.id: //completed
+      return '#E6F9ED'
+    case STATUS_BOOKING_EVENTS.cancelled.id: // cancelled
+      return '#FDE9E9'
+    case STATUS_BOOKING_EVENTS.cancelledBySystem.id: // cancelledBySystem
+      return '#FDE9E9'
+    case STATUS_BOOKING_EVENTS.doNotShowUp.id: // DontShowUp
+      return '#F0E7FD'
+    case STATUS_BOOKING_EVENTS.doNotShowUpBySystem.id: // DontShowUpBySystem
+      return '#F0E7FD'
+    default:
+      return '#D3D3D3'
+  }
+}
+export const lineColorByBookingStatus = (id: number) => {
+  switch (id) {
+    case STATUS_BOOKING_EVENTS.pending.id: // pending
+      return '#EAB305'
+    case STATUS_BOOKING_EVENTS.confirmed.id: // confirmed
+      return '#3B81F6'
+    case STATUS_BOOKING_EVENTS.completed.id: //completed
+      return '#21C55D'
+    case STATUS_BOOKING_EVENTS.cancelled.id: // cancelled
+      return '#E81C1C'
+    case STATUS_BOOKING_EVENTS.cancelledBySystem.id: // cancelledBySystem
+      return '#E81C1C'
+    case STATUS_BOOKING_EVENTS.doNotShowUp.id: // DontShowUp
+      return '#6011D0'
+    case STATUS_BOOKING_EVENTS.doNotShowUpBySystem.id: // DontShowUpBySystem
+      return '#6011D0'
+    default:
+      return '#A9A9A9'
+  }
+}
+
+export function getRelativeDayLabel(date: dayjs.Dayjs) {
+  const today = dayjs().startOf('day')
+  const target = date.startOf('day')
+
+  const diff = target.diff(today, 'day')
+
+  switch (diff) {
+    case -2:
+      return t('business.schedulerCalendar.bookings.dayBeforeYesterday')
+    case -1:
+      return t('business.schedulerCalendar.bookings.Yesterday')
+    case 0:
+      return t('business.schedulerCalendar.bookings.Today')
+    case 1:
+      return t('business.schedulerCalendar.bookings.Tomorrow')
+    case 2:
+      return t('business.schedulerCalendar.bookings.dayAfterTomorrow')
+    default:
+      return target.format('DD MMM YYYY')
+  }
+}

@@ -11,16 +11,15 @@ import type {
 import type { IStaff } from '@/redux/business/booking/bookingAPISlice'
 import EventByStatus from './eventByStatus'
 import AddNewBookingHover from './addNewBookingHover'
-import type { TClickedBooking } from '@/pages/business/calendar'
+import type { OnDayClick, THandleClickBooking } from '@/pages/business/calendar'
 
 type EventRendererProps = {
   date: dayjs.Dayjs
   events: IOrder[]
   staff: IStaff | null
-  handleClick: (hourglass: dayjs.Dayjs) => void
+  handleClickTimeSlot: OnDayClick
   table?: ITableInfo | null
-  clickedBookingRef: React.RefObject<TClickedBooking | null>
-  handleChangeIsOpen: (isOpenStatus: boolean) => void
+  handleClickBooking: (params:THandleClickBooking)=>void
 }
 export function EventRenderer(props: EventRendererProps) {
   const {
@@ -28,9 +27,8 @@ export function EventRenderer(props: EventRendererProps) {
     events,
     staff,
     table,
-    handleClick,
-    clickedBookingRef,
-    handleChangeIsOpen
+    handleClickTimeSlot,
+    handleClickBooking,
   } = props
   const endDateIsHere = useRef<boolean>(false)
   //! for monthView only
@@ -124,7 +122,7 @@ export function EventRenderer(props: EventRendererProps) {
     <div
       className="h-25 w-52 border-b-1 border-r-2 border-[#EBEBEB] pointer flex items-center justify-center relative group"
       onClick={() => {
-        handleClick(date)
+        handleClickTimeSlot(date, filteredEvents, staff)
       }}
     >
       {(filteredEvents.length < 1 || !endDateIsHere.current) && (
@@ -133,13 +131,13 @@ export function EventRenderer(props: EventRendererProps) {
       {filteredEvents?.map((event) => {
         return (
           <EventByStatus
+            filteredEvents={filteredEvents}
             key={event.id}
             event={event}
             staff={staff}
             table={table}
             getPositionOffEvent={getPositionOffEvent}
-            clickedBookingRef={clickedBookingRef}
-            handleChangeIsOpen={handleChangeIsOpen}
+            handleClickBooking={handleClickBooking}
           />
         )
       })}
