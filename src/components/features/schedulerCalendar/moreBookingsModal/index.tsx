@@ -40,7 +40,7 @@ const MoreBookingsModal = (props: Props) => {
           return (
             <div
               key={booking.id}
-              className="border-2 rounded-2xl p-3 flex flex-col gap-2"
+              className="border-1 rounded-2xl p-3 flex flex-col gap-2"
               style={{
                 borderColor: lineColorByBookingStatus(booking.status.id),
               }}
