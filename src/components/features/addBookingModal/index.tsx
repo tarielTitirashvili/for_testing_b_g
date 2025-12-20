@@ -60,6 +60,8 @@ interface IAddBookingModalProps {
   setIsOpen: (isOpenStatus: boolean) => void
   addBookingDateFromCalendar?: React.RefObject<dayjs.Dayjs | null>
   clickedBooking?: TClickedBooking | null
+  isMoreBookingsModalOpen?: boolean
+  handleChangeIsMoreBookingsModalOpen?: (isOpenStatus: boolean) => void
 }
 
 const AddBookingModal: FunctionComponent<IAddBookingModalProps> = ({
@@ -68,6 +70,8 @@ const AddBookingModal: FunctionComponent<IAddBookingModalProps> = ({
   businessType,
   addBookingDateFromCalendar = null,
   clickedBooking,
+  isMoreBookingsModalOpen,
+  handleChangeIsMoreBookingsModalOpen
 }) => {
   const defaultSelectedServiceId = clickedBooking?.event?.services?.length
     ? clickedBooking?.event?.services[0].id
@@ -149,18 +153,26 @@ const AddBookingModal: FunctionComponent<IAddBookingModalProps> = ({
   useEffect(() => {
     setValue('startDate', selectedDate)
   }, [])
+  
   useEffect(() => {
+    const successSharedActions = () => {
+      setIsOpen(false)
+      if(isMoreBookingsModalOpen === true && handleChangeIsMoreBookingsModalOpen){
+        handleChangeIsMoreBookingsModalOpen(false)
+      }
+    }
+
     if (isConfirmationSuccess) {
       createToast.success(
         t('business.schedulerCalendar.confirmEvent.wasConfirmed')
       )
-      setIsOpen(false)
+      successSharedActions()
     }
     if (isCancelBookingSuccess) {
       createToast.success(
         t('business.schedulerCalendar.cancelEvent.wasCanceled')
       )
-      setIsOpen(false)
+      successSharedActions()
     }
   }, [isConfirmationSuccess, isCancelBookingSuccess])
 

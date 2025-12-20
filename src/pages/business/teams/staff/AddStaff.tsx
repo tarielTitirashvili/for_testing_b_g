@@ -55,7 +55,7 @@ const AddStaff: FunctionComponent<IAddStaffProps> = ({ services, roles, staffId,
     const [openModal, setOpenModal] = useState<boolean>(false)
 
     const { data: staffData } = useGetStaffQuery(undefined, { skip: !staffId })
-    const [addStaff] = useCreateStaffMutation()
+    const [addStaff ] = useCreateStaffMutation()
     const [uploadFile] = useUploadFileMutation()
 
     const { register, formState: { errors }, setValue, watch, reset, handleSubmit } = useForm<IAddStaffFormData>({
@@ -99,8 +99,12 @@ const AddStaff: FunctionComponent<IAddStaffProps> = ({ services, roles, staffId,
     const toggleService = (service: string): void => {
         const currentServices = watch('serviceIds') || []
         const services = new Set(currentServices)
-
-        services.has(service) ? services.delete(service) : services.add(service)
+        
+        if(services.has(service)){ 
+            services.delete(service)
+        }else{
+            services.add(service)
+        }
 
         setValue('serviceIds', Array.from(services), { shouldValidate: true })
     }

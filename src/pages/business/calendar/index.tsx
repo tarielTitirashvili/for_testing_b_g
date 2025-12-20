@@ -254,6 +254,8 @@ const Calendar = () => {
           setIsOpen={handleChangeIsOpen}
           addBookingDateFromCalendar={addBookingDateFromCalendar}
           clickedBooking={clickedBookingRef.current}
+          isMoreBookingsModalOpen={isMoreBookingsModalOpen}
+          handleChangeIsMoreBookingsModalOpen={handleChangeIsMoreBookingsModalOpen}
         />
       )}
       {/* modal */}
