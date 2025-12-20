@@ -55,7 +55,7 @@ const AddStaff: FunctionComponent<IAddStaffProps> = ({ services, roles, staffId,
     const [openModal, setOpenModal] = useState<boolean>(false)
 
     const { data: staffData } = useGetStaffQuery(undefined, { skip: !staffId })
-    const [addStaff, { isSuccess: isAddStaffSuccess }] = useCreateStaffMutation()
+    const [addStaff] = useCreateStaffMutation()
     const [uploadFile] = useUploadFileMutation()
 
     const { register, formState: { errors }, setValue, watch, reset, handleSubmit } = useForm<IAddStaffFormData>({
