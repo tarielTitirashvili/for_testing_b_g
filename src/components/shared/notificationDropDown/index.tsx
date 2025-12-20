@@ -17,13 +17,13 @@ const NotificationDropDown: FunctionComponent = () => {
         refetchOnReconnect: false,
     })
     useEffect(() => {
-        const handelOutslideClick = (e: MouseEvent) => {
+        const handelOutsideClick = (e: MouseEvent) => {
             if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) setOpen(false)
         }
 
-        document.addEventListener('mousedown', handelOutslideClick)
+        document.addEventListener('mousedown', handelOutsideClick)
 
-        return () => document.removeEventListener('mousedown', handelOutslideClick)
+        return () => document.removeEventListener('mousedown', handelOutsideClick)
     }, [])
 
     return (

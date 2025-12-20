@@ -18,10 +18,11 @@ type Props = {
   businessType: 1 | 2 | null
   confirmationMutation: (payload: IConfirmBookingPayload) =>void
   cancelBookingMutation: (payload: IConfirmBookingPayload) =>void
+  changeNoShowStatusMutation: (orderId: number) => void
 }
 
 const TableRows = (props: Props) => {
-  const { booking, businessType, confirmationMutation, cancelBookingMutation } = props
+  const { booking, businessType, confirmationMutation, cancelBookingMutation, changeNoShowStatusMutation } = props
   const { t } = useTranslation()
   
   const status: { label: string; variant: BadgeVariant } =
@@ -33,6 +34,8 @@ const TableRows = (props: Props) => {
     .format('DD/MMM/YYYY HH:mm')
     .split(' ')
 
+
+  console.log(booking)
   return (
     <TableRow key={booking.id}>
       <TableCell className="w-[30px]">
@@ -100,7 +103,15 @@ const TableRows = (props: Props) => {
         </div>
       </TableCell>
       <TableCell className="min-w-[90px] h-[75px] font-[400] flex justify-center items-center pl-5">
-        <RowActionButtons variant={status.variant} id={booking.id} onClickConfirm={confirmationMutation} onClickCancel={cancelBookingMutation} />
+        <RowActionButtons
+          booking={booking}
+          businessType={businessType}
+          id={booking.id} 
+          variant={status.variant}
+          onClickConfirm={confirmationMutation}
+          onClickCancel={cancelBookingMutation}
+          changeNoShowStatusMutation={changeNoShowStatusMutation}
+        />
       </TableCell>
     </TableRow>
   )

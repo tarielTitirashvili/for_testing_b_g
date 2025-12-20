@@ -1,16 +1,17 @@
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useCancelBookingMutation, useConfirmBookingMutation, useGetAllOrdersQuery } from '@/redux/business/booking/bookingAPISlice'
+import { useCancelBookingMutation, useChangeNoShowStatusMutation, useConfirmBookingMutation, useGetAllOrdersQuery } from '@/redux/business/booking/bookingAPISlice'
 import { useSelector } from 'react-redux'
 import { selectedBusinessProfileSelector } from '@/redux/auth/authSelectors'
+
+import { Plus } from 'lucide-react'
 
 import BookingFilters from './bookingFilters'
 import BookingsTable from './bookingsTable'
 import SmartBooking from './smartBooking'
 import AddBookingModal from '@/components/features/addBookingModal'
 import PrimaryButton from '@/components/shared/buttons/PrimaryButton'
-import { Plus } from 'lucide-react'
 
 const Bookings = () => {
 
@@ -26,6 +27,7 @@ const Bookings = () => {
 
   const [confirmationMutation, {isLoading: isConfirmationLoading} ] = useConfirmBookingMutation()
   const [cancelBookingMutation, {isLoading: isCancelLoading}] = useCancelBookingMutation()
+  const [changeNoShowStatusMutation] = useChangeNoShowStatusMutation()
 
   const businessType = selectedBusinessProfile?.businessCategory?.id
 
@@ -75,7 +77,7 @@ const Bookings = () => {
             setIsOpen={setIsOpen}
           />
         </div>
-      </div>
+      </div>  
 
       <BookingFilters />
 
@@ -83,7 +85,7 @@ const Bookings = () => {
         {data && data.data.length > 0 && (
           <div>
             <h2 className="text-lg font-semibold">
-              {t('bookings.title.bookings')}&nbsp; ({data.totalItemCount})
+              {t('bookings.title.bookings')} ({data.totalItemCount})
             </h2>
           </div>
         )}
@@ -97,6 +99,7 @@ const Bookings = () => {
           businessType={selectedBusinessProfile?.businessCategory ? selectedBusinessProfile?.businessCategory.id : null} 
           confirmationMutation={confirmationMutation}
           cancelBookingMutation={cancelBookingMutation}
+          changeNoShowStatusMutation={changeNoShowStatusMutation}
         />
       </div>
 

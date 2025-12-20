@@ -104,8 +104,21 @@ export const bookingApiSlice = apiSlice.injectEndpoints({
                 data
             }),
             // invalidatesTags: ['Bookings']
+        }),
+
+        changeNoShowStatus: builder.mutation<void, number | undefined>({
+            query: (orderId) => ({
+                url: `/business/orders/${orderId}/usershowuplate`,
+                method: "POST"
+            })
         })
     })
 })
 
-export const { useGetAllOrdersQuery, useConfirmBookingMutation, useCancelBookingMutation, useCreateExternalBookingMutation } = bookingApiSlice
+export const { 
+    useGetAllOrdersQuery, 
+    useConfirmBookingMutation, 
+    useCancelBookingMutation, 
+    useCreateExternalBookingMutation,
+    useChangeNoShowStatusMutation
+} = bookingApiSlice

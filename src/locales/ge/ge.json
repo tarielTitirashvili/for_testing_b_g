@@ -20,6 +20,8 @@
   "bookings.statusOptions.confirmed":"დადასტურებული",
   "bookings.statusOptions.completed":"შესრულებული",
   "bookings.statusOptions.cancelled":"გაუქმებული",
+  "bookings.statusOptions.canceled":"გაუქმებული",
+  "bookings.statusOptions.noShow":"არ მოვიდა",
 
   "bookings.timeOptions.title":"თარიღით",
   "bookings.timeOptions.all":"ყველა",
@@ -30,6 +32,7 @@
 
   "bookings.teamMembers.title":"გუნდის წევრები",
 
+  "bookings.table.detail":"ჯავშნის დეტალები",
   "bookings.table.date&time":"თარიღი & დრო",
   "bookings.table.date":"თარიღი",
   "bookings.table.datePick":"თარიღის არჩევა",
@@ -293,7 +296,6 @@
   "subscription.subtitle": "არიჩიე შენი ბიზნესის სამართავად საუკეთესო გეგმა",
   "subscription.activePlan": "გააქტიურე პაკეტი",
   
-  
   "subscription.tab.plans": "პაკეტები",
   "subscription.plan.fixed": "ფიქსირებული თანხა - თვე",
   "subscription.plan.fixed.payMethod": "ფიქსირებული თანხა",
@@ -314,6 +316,13 @@
   "subscription.tab.paymentHistory": "გადახდების ისტორია",
   "subscription.paymentHistory": "გადახდების ისტორია",
   
+  "notification.title": "შეტყობინებები",
+  "notification.title.newNotification": "ახალი შეტყობინებები",
+  "notification.orderId": "ჯავშნის ID",
+  "notification.noNotifications": "თქვენ არ გაქვთ ახალი შეტყობინებები",
+  "notification.readAll": "ყველას წაკითხვა",
+  "notification.seeAll": "ყველას ნახვა",
+
   "notification.button.settings": "შეტყობინებების პარამეტრები",
   "notification.button.checkAll": "ყველას მონიშვნა წაკითხულად",
   "notification.button.all": "ყველა",
@@ -331,6 +340,7 @@
   "notification.reminder.reminderTitle": "აირჩიე შეხსენების ფორმა",
   "notification.reminder.appReminder": "აპლიკაციით შეხსენება",
   "notification.reminder.mailReminder": "ელ-ფოსტით შეხსენება",
+  
 
 
   "settings.main.title": "აკონტროლე შენი ანგარიშის პარამეტრები და მისი უფლებები",

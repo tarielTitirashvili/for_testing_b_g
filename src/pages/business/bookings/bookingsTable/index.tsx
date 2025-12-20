@@ -23,27 +23,14 @@ type Props = {
   loadingBookings: boolean
   confirmationMutation: (payload: IConfirmBookingPayload) =>void
   cancelBookingMutation: (payload: IConfirmBookingPayload) =>void
+  changeNoShowStatusMutation: (orderId: number) => void
 }
 
 const BookingsTable = (props: Props) => {
-  const { setDataCount, ordersScrollRef, totalCount, bookings, businessType, bookingsLoadingError, loadingBookings, confirmationMutation, cancelBookingMutation } = props
+  const { setDataCount, ordersScrollRef, totalCount, bookings, businessType, bookingsLoadingError, loadingBookings, confirmationMutation, cancelBookingMutation, changeNoShowStatusMutation } = props
   const { t } = useTranslation()
 
   const loaderRef = useRef<HTMLDivElement | null>(null)
-  
-  const tableHeadRenderer = (children: React.ReactNode) => (
-    <TableHead className="text-[12px] 2xl:text-base text-[#6C6C6C]">{children}</TableHead>
-  )
-
-  if(bookingsLoadingError){
-    return <h6>{t('business.texts.thereWasError')}</h6>
-  }
-
-  if(bookings.length === 0 && !loadingBookings){
-    return <EmptyResponse />
-  }
-
-  console.log(bookings)
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -70,6 +57,18 @@ const BookingsTable = (props: Props) => {
   useEffect(() => {
     ordersScrollRef.current = false
   }, [bookings])
+
+  const tableHeadRenderer = (children: React.ReactNode) => (
+    <TableHead className="text-[12px] 2xl:text-base text-[#6C6C6C]">{children}</TableHead>
+  )
+
+  if(bookingsLoadingError){
+    return <h6>{t('business.texts.thereWasError')}</h6>
+  }
+
+  if(bookings.length === 0 && !loadingBookings){
+    return <EmptyResponse />
+  }
 
   return (
     <Loader loading={loadingBookings} >
@@ -126,6 +125,7 @@ const BookingsTable = (props: Props) => {
               businessType={businessType}
               confirmationMutation={confirmationMutation}
               cancelBookingMutation={cancelBookingMutation}
+              changeNoShowStatusMutation={changeNoShowStatusMutation}
             />
           })}
           
