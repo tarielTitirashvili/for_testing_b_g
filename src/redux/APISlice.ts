@@ -21,6 +21,7 @@ export const apiSlice = createApi({
     'Language',
     'Bookings',
     'calendarBookings',
+    "Staff"
   ], // optional, for cache invalidation
   endpoints: () => ({}), // empty for now
   keepUnusedDataFor: 0, // 💡 don't keep cache after unsubscribing

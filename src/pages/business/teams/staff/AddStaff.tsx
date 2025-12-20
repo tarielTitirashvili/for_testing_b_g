@@ -13,6 +13,9 @@ import SelectDropDown from '@/components/shared/inputs/SelectDropDown'
 import TextInput from '@/components/shared/inputs/TextInput'
 import { Pencil } from 'lucide-react'
 import { useCreateStaffMutation, useGetStaffQuery } from '@/redux/business/staff/staffAPISlice'
+import { useUploadFileMutation } from '@/redux/business/businessProfile/businessProfileAPISlice'
+import { isValidImageFile } from '@/utils/fileValidationCheckers'
+import createToast from '@/lib/createToast'
 
 interface IService {
     id: number
@@ -32,6 +35,7 @@ export interface IAddStaffFormData {
     phoneNumber: string
     roleId: string
     serviceIds: string[]
+    fileId: number | null
 }
 
 interface IAddStaffProps {
@@ -46,10 +50,13 @@ interface IAddStaffProps {
 const AddStaff: FunctionComponent<IAddStaffProps> = ({ services, roles, staffId, arrayIndex, triggerText='', triggerClassName='' }) => {
 
     const [staffImage, setStaffImage] = useState<string | null>(null)
+    const [imageError, setImageError] = useState<string | null>(null)
+
+    const [openModal, setOpenModal] = useState<boolean>(false)
 
     const { data: staffData } = useGetStaffQuery(undefined, { skip: !staffId })
-    const [addStaff] = useCreateStaffMutation()
-
+    const [addStaff, { isSuccess: isAddStaffSuccess }] = useCreateStaffMutation()
+    const [uploadFile] = useUploadFileMutation()
 
     const { register, formState: { errors }, setValue, watch, reset, handleSubmit } = useForm<IAddStaffFormData>({
         defaultValues: {
@@ -57,13 +64,33 @@ const AddStaff: FunctionComponent<IAddStaffProps> = ({ services, roles, staffId,
         }
     })
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        const img = e.target.files?.[0]
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        if (!file) return
 
-        if (img) {
-            const imgUrl = URL.createObjectURL(img)
-            setStaffImage(imgUrl)
-            // setValue('imgUrl', imgUrl)
+        if (!isValidImageFile(file)) {
+            setImageError("Only JPG and PNG formats are allowed")
+            return
+        }
+
+        if (file.size > 20 * 1024 * 1024) {
+            setImageError(`File size can't be more than 20MB`)
+            return
+        }
+
+        try {
+            const res = await uploadFile({ files: [file] }).unwrap()
+            const uploadedFileId = res?.[0]
+
+            if (uploadedFileId) {
+                setValue("fileId", uploadedFileId)
+            }
+
+            const imageUrl = URL.createObjectURL(file)
+            setStaffImage(imageUrl)
+        } catch (err) {
+            setImageError(`File upload failed: ${err}`)
+            console.log(err)
         }
     }
 
@@ -87,9 +114,18 @@ const AddStaff: FunctionComponent<IAddStaffProps> = ({ services, roles, staffId,
             phoneNumber: data.phoneNumber,
             roleId: data.roleId,
             serviceIds: [...data.serviceIds],
+            fileId: data.fileId
         }
 
-        addStaff(payload)
+        // console.log(JSON.stringify(payload, null, 2))
+        
+        try {
+            addStaff(payload)
+            setOpenModal(false)
+            createToast.success('გუნდის წევრი წარმატებით დაემატა')
+        } catch {
+            return
+        }
     }
 
     const handleStaff = (data: IAddStaffFormData) => {
@@ -111,6 +147,7 @@ const AddStaff: FunctionComponent<IAddStaffProps> = ({ services, roles, staffId,
                 phoneNumber: staff.phoneNumber,
                 roleId: staff.role?.id?.toString() ?? '',
                 serviceIds: staff.services?.map((s: IService) => s.id.toString()) ?? [],
+                fileId: staff.file ? staff.file.id : 1
             }
 
             reset(formattedData)
@@ -118,7 +155,7 @@ const AddStaff: FunctionComponent<IAddStaffProps> = ({ services, roles, staffId,
     }, [staffData, reset])
 
     return (
-        <Dialog >
+        <Dialog open={openModal} onOpenChange={setOpenModal}>
             <DialogTrigger asChild>
                 { !staffId ? (
                     <span 
@@ -141,23 +178,26 @@ const AddStaff: FunctionComponent<IAddStaffProps> = ({ services, roles, staffId,
                     <DialogDescription className='hidden' />
                 </DialogHeader>
 
-                <form onSubmit={handleSubmit(handleStaff)}>
+                <form onSubmit={handleSubmit(handleStaff)} className='flex flex-col gap-3'>
 
                     <div className="profile_pic flex flex-col gap-2">
                         <div className="profile_pic-title font-normal text-sm text-[#242424]">
                             { t("team.staff.ProfilePic") }
                         </div>
                         <div className="profile_pic-params flex items-center justify-between">
-                            <div className="profile_pic-group flex items-center gap-3">
-                                <Avatar className='h-[80px] w-[80px]'>
-                                    <AvatarImage src={staffImage ? staffImage : ''} alt='Staff' />
-                                    <AvatarFallback></AvatarFallback>
-                                </Avatar>
-                                <UploadButton
-                                    handleChange={handleImageChange}
-                                >
-                                    { t("team.addStaff.uploadPic") }
-                                </UploadButton>
+                            <div className="profile_pic-group">
+                                <div className='flex items-center gap-3'>
+                                    <Avatar className='h-[80px] w-[80px]'>
+                                        <AvatarImage src={staffImage ? staffImage : ''} alt='Staff' />
+                                        <AvatarFallback></AvatarFallback>
+                                    </Avatar>
+                                    <UploadButton
+                                        handleChange={handleFileChange}
+                                    >
+                                        { t("team.addStaff.uploadPic") }
+                                    </UploadButton>
+                                </div>
+                                {imageError && <span className='text-red-500 text-sm'>{imageError}</span>}
                             </div>
                         </div>
                     </div>
@@ -210,7 +250,7 @@ const AddStaff: FunctionComponent<IAddStaffProps> = ({ services, roles, staffId,
                             { t("team.staff.services") }
                         </div>
                         <div className="staff_services-list-block">
-                            <div className="staff_services-list  flex flex-wrap gap-3 h-34 overflow-auto">
+                            <div className="staff_services-list  flex flex-wrap gap-3 overflow-auto">
                                 {services.map(service => (
                                     <ServiceButton
                                         key={service.id}

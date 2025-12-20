@@ -15,7 +15,7 @@ import { useForm } from "react-hook-form"
 
 interface IBookingDetailsProps {
     open: boolean,
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setOpen: (isOpenStatus: boolean) => void
     bookingId: number
     booking: BookingType
     variant: BadgeVariant
@@ -178,9 +178,9 @@ const BookingDetails: FunctionComponent<IBookingDetailsProps> = ({ open, setOpen
                         </div>
                         <DialogFooter>
                             <DialogClose asChild>
-                                <SecondaryButton>Close</SecondaryButton>
+                                <SecondaryButton>{t("bookings.button.close")}</SecondaryButton>
                             </DialogClose>
-                            <PrimaryButton type="submit">Save</PrimaryButton>
+                            <PrimaryButton type="submit">{t("bookings.button.save")}</PrimaryButton>
                         </DialogFooter>
                     </form>
                 </div>

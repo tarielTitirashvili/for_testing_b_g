@@ -10,7 +10,8 @@ export const staffApiSlice = apiSlice.injectEndpoints({
             query: () => ({
                 url: "/business/business-staff",
                 method: "GET"
-            })
+            }),
+            providesTags: ['Staff']
         }),
 
         getBusinessRoles: builder.query<IRole[], void>({
@@ -25,7 +26,8 @@ export const staffApiSlice = apiSlice.injectEndpoints({
                 url: "/business/register-staff",
                 method: "POST",
                 data: data
-            })
+            }),
+            invalidatesTags: ['Staff']
         })
     })
 })

@@ -48,9 +48,6 @@ const RowActionButtons = (props: Props) => {
                   <BookingDetails open={modalOpen} setOpen={setModalOpen} changeNoShowStatusMutation={changeNoShowStatusMutation} bookingId={id} booking={booking} variant={variant} businessType={businessType} />
                 </>
               </DropdownMenuItem>
-              {/* <DropdownMenuItem asChild>
-                <EditBooking statusId={booking.status} />
-              </DropdownMenuItem> */}
             </DropdownMenuGroup>
           </CustomDropdown>
         )}

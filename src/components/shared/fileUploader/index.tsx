@@ -43,11 +43,13 @@ export default function FileUploader(props: IFileUploaderProps) {
 
   const { t } = useTranslation()
 
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files ?? [])
 
     if (!files) return
     const oldFiles = getValues('files') || []
+
     
     if(oldFiles.length + files.length > MAX_FILE_COUNT){
       return setFileUploaderErrors(`you can upload maximum ${MAX_FILE_COUNT} files`)

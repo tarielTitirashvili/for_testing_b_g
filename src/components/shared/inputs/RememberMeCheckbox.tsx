@@ -7,12 +7,12 @@ const RememberMeCheckbox: FunctionComponent = () => {
     const { t } = useTranslation()
 
     return (
-        <div className="form_terms flex items-center gap-1">
-            <Checkbox />
+        <label htmlFor="checkbox" className="form_terms flex items-center gap-1">
+            <Checkbox id="checkbox" />
             <p className="text-base font-medium">
                 { t('bookings.inputLabel.rememberMe') }
             </p>
-        </div>
+        </label>
     )
 }
 

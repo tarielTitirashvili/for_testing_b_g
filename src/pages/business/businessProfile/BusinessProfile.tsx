@@ -117,7 +117,6 @@ const BusinessProfile: FunctionComponent = () => {
 
   useEffect(() => {
     if (isSuccess && data) {
-      console.log(data)
       const formattedData = {
         ...data,
         preOrder: data.preOrder,

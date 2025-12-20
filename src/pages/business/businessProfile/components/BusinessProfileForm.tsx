@@ -37,11 +37,13 @@ const BusinessProfileForm: FunctionComponent<IBusinessProfileFormProps> = ({ reg
     
     const forceUpdate = useState<number>(0)
 
-
+    
     const { data: regions } = useGetRegionsQuery()
     const { data: district, isLoading, isSuccess: districtIdSuccess } = useGetDistrictQuery(regionId, {
         skip: regionId === null,
     })
+
+    console.log(data)
 
     useEffect(()=>{
         if(districtIdSuccess && data?.district.id){

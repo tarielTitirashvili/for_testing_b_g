@@ -21,6 +21,7 @@ export interface IService {
 
 export interface IEditService extends IBeseService {
     serviceId: number | undefined,
+    categoryId: number
 }
 
 export interface ICreateService extends IBeseService {

@@ -9,7 +9,6 @@ import { Plus } from 'lucide-react'
 
 import BookingFilters from './bookingFilters'
 import BookingsTable from './bookingsTable'
-import SmartBooking from './smartBooking'
 import AddBookingModal from '@/components/features/addBookingModal'
 import PrimaryButton from '@/components/shared/buttons/PrimaryButton'
 
@@ -65,8 +64,8 @@ const Bookings = () => {
 
     <div className="rounded-md flex flex-col gap-6 max-w-full">
 
-      <div className="p-5 flex w-full justify-between items-center h-full">
-        <SmartBooking />
+      <div className="py-5 flex w-full justify-end items-center h-full">
+        {/* <SmartBooking /> */}
         <div>
           <div onClick={() => setIsOpen(true)}>
             <PrimaryButton><Plus className='w-3.5' />{t('business.buttons.addNewBooking')}</PrimaryButton>

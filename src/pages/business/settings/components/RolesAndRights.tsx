@@ -4,7 +4,7 @@ import { TabsContent } from "@/components/ui/tabs"
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
-import { Plus, Trash2 } from "lucide-react"
+import { Plus, Trash2, User } from "lucide-react"
 
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
 
@@ -16,6 +16,7 @@ import AddStaff from "@/pages/business/teams/staff/AddStaff"
 import CustomDropdown from "@/components/shared/buttons/CustomDropdown"
 import PrimaryPressable from "@/components/shared/buttons/PrimaryPressable"
 import { t } from "i18next"
+import EmptyResponse from "@/components/shared/emptyResponse"
 
 export interface IRole {
     id: string
@@ -72,9 +73,20 @@ const RolesAndRights: FunctionComponent = () => {
                             <TableBody>
                                 {staffData.map((member, index) => (
                                     <TableRow key={member.id} className="border-none">
-                                        <TableCell className="border-t-1 px-4 py-3">{member.firstName} {member.lastName}</TableCell>
-                                        <TableCell className="border-t-1 px-4 py-3">{/* member.email */}</TableCell>
-                                        <TableCell className="border-t-1 px-4 py-3">{/* member.phone */}</TableCell>
+                                        <TableCell className="border-t-1 px-4 py-3 flex items-center gap-1">
+                                            <div className="w-[44px] h-[44px] rounded-full flex items-center justify-center overflow-hidden">
+                                                {member.file ? (
+                                                    <img className="w-full h-full" src={member.file.url} alt={member.file.url} />
+                                                ) : (
+                                                        <User size={40} />
+                                                )}
+                                            </div>
+                                            <div>
+                                                {member.firstName} {member.lastName}
+                                            </div>
+                                        </TableCell>
+                                        <TableCell className="border-t-1 px-4 py-3">{member.email}</TableCell>
+                                        <TableCell className="border-t-1 px-4 py-3">{member.phoneNumber}</TableCell>
                                         <TableCell className="border-t-1 px-4 py-3"><span className="border-2 py-1 px-3 rounded-full">{member.role.name}</span></TableCell>
                                         <TableCell className="border-t-1 px-4 py-3">
                                             <div className="action_btns flex gap-3 cursor-pointer">
@@ -88,7 +100,7 @@ const RolesAndRights: FunctionComponent = () => {
                             
                         </Table>
                     ) : (
-                        <p>No team</p>
+                        <EmptyResponse />
                     )}
                 </div>
             </div>

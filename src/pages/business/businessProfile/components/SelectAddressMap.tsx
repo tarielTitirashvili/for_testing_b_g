@@ -9,6 +9,7 @@ import SecondaryButton from "@/components/shared/buttons/SecondaryButton"
 import TextInput from "@/components/shared/inputs/TextInput"
 
 import axios from "axios";
+import { t } from "i18next";
 
 interface IBusinessAddress {
     name?: string
@@ -85,7 +86,7 @@ const SelectAddressMap: FunctionComponent<ISelectAddressMapProps> = ({ onSelect,
                     error && "border-red-500"
                 }`}
             >
-                Open Map
+                {t("businessProfile.required.openMap")}
             </DialogTrigger>
 
             {error && <span className="text-xs text-red-500 font-medium">{error}</span>}
@@ -121,11 +122,13 @@ const SelectAddressMap: FunctionComponent<ISelectAddressMapProps> = ({ onSelect,
 
                     <DialogFooter>
                         <DialogClose asChild>
-                            <SecondaryButton>Close</SecondaryButton>
+                            <SecondaryButton>
+                                {t("bookings.button.close")}
+                            </SecondaryButton>
                         </DialogClose>
 
                         <PrimaryButton handleClick={handleSave}>
-                            Save
+                            {t("bookings.button.save")}
                         </PrimaryButton>
                     </DialogFooter>
                 </div>

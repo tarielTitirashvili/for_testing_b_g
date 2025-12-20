@@ -1,7 +1,7 @@
 import { useEffect, useState, type FunctionComponent } from "react"
 
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { useForm, type FieldErrors } from "react-hook-form"
+import { useForm } from "react-hook-form"
 
 import { spaceApiSlice, useCreateSpaceMutation, useEditSpaceMutation, useGetSpaceByIdQuery, type ISpaceResponse } from "@/redux/business/space/spaceAPISlice"
 
@@ -17,7 +17,7 @@ import { useDispatch } from 'react-redux'
 import createToast from '@/lib/createToast'
 
 export interface IAddSpaceFormData {
-    tableCategoryId: number,
+    categoryId: number
     tableNumber: string,
     minCapacity: number,
     maxCapacity: number,
@@ -42,6 +42,7 @@ export interface IEditSpaceFormData {
         languageId: number,
         description: string
     }[]
+    categoryId: number
 }
 
 
@@ -85,6 +86,7 @@ const AddSpace: FunctionComponent<IAddSpaceProps> = ({ categories, triggerText, 
 
     const handleSpaceServiceEdit = (data: IEditSpaceFormData) => {
         const payload: IEditSpaceFormData = {
+            categoryId: data.categoryId,
             serviceId: spaceId!,
             tableNumber: data.tableNumber,
             minCapacity: data.minCapacity,
@@ -99,13 +101,15 @@ const AddSpace: FunctionComponent<IAddSpaceProps> = ({ categories, triggerText, 
 
         }
 
+        console.log(JSON.stringify(payload, null, 2))
+
         editSpaceService(payload)
     }
 
     const handleSpaceServiceCreate = (data: IAddSpaceFormData) => {
 
         const payload: IAddSpaceFormData = {
-            tableCategoryId: +data.tableCategoryId,
+            categoryId: data.categoryId,
             tableNumber: data.tableNumber || data.minCapacity.toString(),
             minCapacity: data.minCapacity,
             maxCapacity: data.maxCapacity,
@@ -175,7 +179,7 @@ const AddSpace: FunctionComponent<IAddSpaceProps> = ({ categories, triggerText, 
                         error={errors.locales?.[0]?.name?.message}
                     />
                     <TextInput
-                        label={t('space.addSpace.description')}
+                        label={t("businessProfile.businessInfo.description")}
                         {...register('locales.0.description', { required: t('space.addSpace.required.name') })}
                         error={errors.locales?.[0]?.description?.message}
                     />
@@ -196,8 +200,11 @@ const AddSpace: FunctionComponent<IAddSpaceProps> = ({ categories, triggerText, 
                         label={t('bookings.button.category')}
                         sentId
                         options={categories ?? []}
-                        {...register('tableCategoryId', { required: t('bookings.button.required.category') })}
-                        error={(errors as FieldErrors & { tableCategoryId?: any }).tableCategoryId?.message}
+                        {...register('categoryId', {
+                            required: t('bookings.button.required.category'),
+                            setValueAs: v => +v
+                        })}
+                        error={errors.categoryId?.message}
                     />
                     <DialogFooter className="flex">
                         <DialogClose asChild className="flex-1">

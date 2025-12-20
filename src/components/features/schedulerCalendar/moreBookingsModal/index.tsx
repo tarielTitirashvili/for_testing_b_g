@@ -6,21 +6,27 @@ import {
   lineColorByBookingStatus,
   transformToLocalDate,
 } from '../constants'
-import type { TClickedFilteredBookingsRef } from '@/pages/business/calendar'
+import type {
+  TClickedFilteredBookingsRef,
+  THandleClickBooking,
+} from '@/pages/business/calendar'
 import { Clock, User } from 'lucide-react'
 import tableOutside from '@/../public/assets/images/tableOutside.svg'
 import tableInside from '@/../public/assets/images/tableInside.svg'
-import StatusBadge, { type BadgeVariant } from '@/components/shared/buttons/BookingStatusBadges'
+import StatusBadge, {
+  type BadgeVariant,
+} from '@/components/shared/buttons/BookingStatusBadges'
 import { BOOKING_STATUS_LABELS_BY_ID } from '@/pages/business/bookings/constants'
 
 type Props = {
   isOpen: boolean
   clickedFilteredBookingsRef: React.RefObject<TClickedFilteredBookingsRef | null>
   setIsOpen: (status: boolean) => void
+  handleClickBooking: (params: THandleClickBooking) => void
 }
 
 const MoreBookingsModal = (props: Props) => {
-  const { isOpen, clickedFilteredBookingsRef, setIsOpen } = props
+  const { isOpen, clickedFilteredBookingsRef, setIsOpen, handleClickBooking } = props
   const { t } = useTranslation()
   const staff = clickedFilteredBookingsRef.current?.staff
   const table = clickedFilteredBookingsRef.current?.table
@@ -40,7 +46,16 @@ const MoreBookingsModal = (props: Props) => {
           return (
             <div
               key={booking.id}
-              className="border-1 rounded-2xl p-3 flex flex-col gap-2"
+              className="border-1 rounded-2xl p-3 flex flex-col gap-2 cursor-pointer"
+              onClick={(e) =>
+                handleClickBooking({
+                  event: booking,
+                  staff: staff || null,
+                  shouldStopClickHere: true,
+                  e: e,
+                  table: table || null,
+                })
+              }
               style={{
                 borderColor: lineColorByBookingStatus(booking.status.id),
               }}

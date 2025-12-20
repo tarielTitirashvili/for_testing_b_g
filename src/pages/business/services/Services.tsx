@@ -19,6 +19,10 @@ export interface IServiceBase {
     durationInMinutes: number,
     hasAssignedStaff: boolean,
     name: string
+    category: {
+        id: number,
+        name: string
+    }
 }
 
 interface IServiceWithFile extends IServiceBase {

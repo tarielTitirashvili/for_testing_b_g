@@ -226,6 +226,7 @@
   "businessProfile.required.description": "ბიზნესის აღწერა აუცილებელია",
   "businessProfile.required.region": "რეგიონი აუცილებელია",
   "businessProfile.required.district": "უბანი აუცილებელია",
+  "businessProfile.required.openMap": "რუკის გახსნა",
   "businessProfile.required.fullAddress": "ბიზნესის მისამართი აუცილებელია",
 
   "service.header.categories": "კატეგორიები",

@@ -25,6 +25,7 @@ const EventByStatus = (props: Props) => {
     event,
     getPositionOffEvent,
     staff,
+    table,
     filteredEvents,
     handleClickBooking
   } = props
@@ -64,7 +65,8 @@ const EventByStatus = (props: Props) => {
           event: event,
           staff: staff,
           shouldStopClickHere: filteredEvents.length < 2,
-          e: e
+          e: e,
+          table: table || null
         })
       }}
       className={

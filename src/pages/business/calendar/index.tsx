@@ -26,6 +26,7 @@ export interface ITableCategory {
 export type TClickedBooking = {
   event: IOrder
   staff: IStaff | null
+  table: ITableInfo | null
 }
 export type TClickedFilteredBookingsRef = {
   events: IOrder[]
@@ -35,6 +36,7 @@ export type TClickedFilteredBookingsRef = {
 export type THandleClickBooking = {
   event: IOrder
   staff: IStaff | null
+  table: ITableInfo | null
   shouldStopClickHere: boolean
   e?: React.MouseEvent<HTMLDivElement>
 }
@@ -71,6 +73,7 @@ const Calendar = () => {
   >(null)
 
   const [isAddBookingModalOpen, setIsAddBookingModalOpen] = useState(false)
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState<boolean>(false)
   const [isMoreBookingsModalOpen, setIsMoreBookingsModalOpen] = useState(false)
 
   const selectedBusinessProfile = useSelector(selectedBusinessProfileSelector)
@@ -199,6 +202,13 @@ const Calendar = () => {
     }
     setIsMoreBookingsModalOpen(isOpenStatus)
   }
+  
+  const handleClickBookingDetails = (isOpenStatus: boolean) =>{
+    if(isOpenStatus === false){
+      clickedBookingRef.current = null
+    }
+    setIsDetailsModalOpen(isOpenStatus)
+  }
 
   const handleClickBooking = (params: THandleClickBooking) => {
     if (params.shouldStopClickHere) {
@@ -208,10 +218,13 @@ const Calendar = () => {
     }
     if (params?.event.status.id === STATUS_BOOKING_EVENTS.pending.id) {
       handleChangeIsOpen(true)
+    }else{
+      handleClickBookingDetails(true)
     }
     clickedBookingRef.current = {
       event: params.event,
       staff: params.staff,
+      table: params.table
     }
   }
 
@@ -269,6 +282,9 @@ const Calendar = () => {
           clickedFilteredBookingsRef={clickedFilteredBookingsRef}
           isMoreBookingsModalOpen={isMoreBookingsModalOpen}
           handleChangeIsMoreBookingsModalOpen={handleChangeIsMoreBookingsModalOpen}
+          isDetailsModalOpen={isDetailsModalOpen}
+          handleClickBookingDetails={handleClickBookingDetails}
+          clickedBookingRef={clickedBookingRef}
         />
       </div>
     </div>

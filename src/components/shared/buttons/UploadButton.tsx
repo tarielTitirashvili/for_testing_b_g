@@ -11,7 +11,7 @@ interface IUploadButtonProps {
 
 const UploadButton: FunctionComponent<IUploadButtonProps> = ({ children, handleChange }) => {
     return (
-        <Label className="bg-white text-black border-2 shadow-none hover:bg-white cursor-pointer py-2 px-3 rounded-md text-base font-medium">
+        <Label className="bg-white h-[45px] text-black border-2 shadow-none hover:bg-white cursor-pointer py-2 px-3 rounded-md text-base font-medium">
             <Upload size={18} />
             {children}
             <Input

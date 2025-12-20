@@ -74,7 +74,7 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
 
   const [modalOpen, setModalOpen] = useState<boolean>(false)
 
-  const { data, isSuccess: serviceByIdSuccess } = useGetServicesByIdQuery(
+  const { data: serviceData, isSuccess: serviceByIdSuccess } = useGetServicesByIdQuery(
     serviceId ? serviceId : undefined, { skip: serviceId === undefined }
   )
 
@@ -101,6 +101,7 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
   }
 
   const handleEdit = (data: IAddSalonServiceFormData) => {
+
     const payload: IEditService = {
       serviceId: serviceId,
       businessStaffIds: data.businessStaffIds || [],
@@ -109,6 +110,7 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
       // fileIds: data.files?.id ? [data.files?.id!] : data?.fileIds!,
       fileIds: data.fileIds || [],
       locales: data.locales,
+      categoryId: data.categoryId
     }
 
     editService(payload)
@@ -132,16 +134,17 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
 
 
   useEffect(() => {
-    if (serviceByIdSuccess && data) {
-      if ('files' in data && Array.isArray(data.files)) {
+    if (serviceByIdSuccess && serviceData) {
+      if ('files' in serviceData && Array.isArray(serviceData.files)) {
         reset({
-          ...data,
-          price: data.price.toString(),
-          durationInMinutes: data.durationInMinutes.toString(),
-          fileIds: data.files.length ? [data.files[0].id] : [],
-          files: data.files.length ? data.files[0] : undefined,
+          ...serviceData,
+          price: serviceData.price.toString(),
+          durationInMinutes: serviceData.durationInMinutes.toString(),
+          fileIds: serviceData.files.length ? [serviceData.files[0].id] : [],
+          files: serviceData.files.length ? serviceData.files[0] : undefined,
+          categoryId: serviceData.category.id
         })
-        setImage(data.files?.[0]?.url || null)
+        setImage(serviceData.files?.[0]?.url || null)
       }
     }
   }, [serviceByIdSuccess])

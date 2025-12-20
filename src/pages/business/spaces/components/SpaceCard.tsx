@@ -46,6 +46,7 @@ const SpaceCard: FunctionComponent<ISpaceCardProps> = ({ space, handleRemove, ca
             maxCapacity: space.maxCapacity,
             isAvailable: !space.isAvailable,
             isActive: !space.isActive,
+            categoryId: +categoryId!,
             locales: [
                 {
                     name: space.name,
@@ -58,6 +59,8 @@ const SpaceCard: FunctionComponent<ISpaceCardProps> = ({ space, handleRemove, ca
         switchSpaceStatus(payload)
     }
     // -----------
+
+    console.log(space)
 
     return (
         <Card className={`max-w-[360px] p-3 rounded-sm flex flex-col gap-3 shadow-none transition-colors ${space.isActive || space.isAvailable ? "" : "bg-[#FDE9E9]"}`}>
