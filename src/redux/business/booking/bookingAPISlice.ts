@@ -103,7 +103,7 @@ export const bookingApiSlice = apiSlice.injectEndpoints({
                 method: "POST",
                 data
             }),
-            // invalidatesTags: ['Bookings']
+            invalidatesTags: ['Bookings', 'calendarBookings']
         }),
 
         changeNoShowStatus: builder.mutation<void, number | undefined>({

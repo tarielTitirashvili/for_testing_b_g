@@ -71,12 +71,13 @@ const AddBookingModal: FunctionComponent<IAddBookingModalProps> = ({
   addBookingDateFromCalendar = null,
   clickedBooking,
   isMoreBookingsModalOpen,
-  handleChangeIsMoreBookingsModalOpen
+  handleChangeIsMoreBookingsModalOpen,
 }) => {
   const defaultSelectedServiceId = clickedBooking?.event?.services?.length
     ? clickedBooking?.event?.services[0].id
     : undefined
-  const shouldHavePhoneNumber = clickedBooking?.event.isExternal || !clickedBooking?.event
+  const shouldHavePhoneNumber =
+    clickedBooking?.event.isExternal || !clickedBooking?.event
 
   const {
     handleSubmit,
@@ -153,11 +154,14 @@ const AddBookingModal: FunctionComponent<IAddBookingModalProps> = ({
   useEffect(() => {
     setValue('startDate', selectedDate)
   }, [])
-  
+
   useEffect(() => {
     const successSharedActions = () => {
       setIsOpen(false)
-      if(isMoreBookingsModalOpen === true && handleChangeIsMoreBookingsModalOpen){
+      if (
+        isMoreBookingsModalOpen === true &&
+        handleChangeIsMoreBookingsModalOpen
+      ) {
         handleChangeIsMoreBookingsModalOpen(false)
       }
     }
@@ -189,9 +193,10 @@ const AddBookingModal: FunctionComponent<IAddBookingModalProps> = ({
       client: {
         firstName: data.client?.firstName || null,
         lastName: data.client?.firstName || null,
-        phoneNumber: (data.client?.phoneNumber && shouldHavePhoneNumber)
-          ? `+995${data.client.phoneNumber}`.trim()
-          : null,
+        phoneNumber:
+          data.client?.phoneNumber && shouldHavePhoneNumber
+            ? `+995${data.client.phoneNumber}`.trim()
+            : null,
         email: null,
       },
     }
@@ -324,8 +329,19 @@ const AddBookingModal: FunctionComponent<IAddBookingModalProps> = ({
                   date={selectedDate}
                   disabled={pendingStatusEvent}
                   onChange={(date) => {
-                    setSelectedDate(date)
-                    field.onChange(date)
+                    if (!date || !selectedDate) {
+                      setSelectedDate(date)
+                      field.onChange(date)
+                      return
+                    }else{
+                      const updatedDate = date
+                      .hour(selectedDate.hour())
+                      .minute(selectedDate.minute())
+                      .second(0)
+                      
+                      setSelectedDate(updatedDate)
+                      field.onChange(updatedDate)
+                    }
                   }}
                   error={
                     fieldState.error?.message ? fieldState.error?.message : ''
