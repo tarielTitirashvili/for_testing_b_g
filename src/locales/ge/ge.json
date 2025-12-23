@@ -497,6 +497,10 @@
   "business.schedulerCalendar.bookings.Tomorrow":"ხვალ",
   "business.schedulerCalendar.bookings.dayAfterTomorrow":"ზეგ",
 
+  "invitation.message.success": "ბიზნესი წარმატებით დაემატა",
+  "invitation.message.error": "მოწვევის მიღება ვერ მოხერხდა",
+  "invitation.message.process": "მომწვევის დამუშავება...",
+
   "":""
 
 }

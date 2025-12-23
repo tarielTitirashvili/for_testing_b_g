@@ -5,6 +5,12 @@ import { apiSlice } from '@/redux/APISlice'
 import type { TLoginResponse } from '@/redux/auth/authAPISlice'
 import { login } from '@/redux/auth/authSlice'
 
+export interface IAcceptInvitationParams {
+  code: string | null
+  businessId: string | null
+  // roleId: string | null
+}
+
 export const userProfiles = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getUserProfiles: builder.query<IBusiness[], void>({
@@ -30,7 +36,19 @@ export const userProfiles = apiSlice.injectEndpoints({
         }
       },
     }),
+
+    acceptInvitation: builder.mutation<void, IAcceptInvitationParams>({
+      query: (params) => ({
+        url: `/business/accept-invitation`,
+        method: "GET",
+        params
+      })
+    })
+
   }),
 })
-export const { useGetUserProfilesQuery, useSwitchProfileMutation } =
-  userProfiles
+export const { 
+  useGetUserProfilesQuery,
+  useSwitchProfileMutation,
+  useAcceptInvitationMutation
+} = userProfiles

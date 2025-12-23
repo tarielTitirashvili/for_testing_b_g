@@ -38,6 +38,7 @@ const Bookings = lazy(() => import('../pages/business/bookings/index'))
 const Notifications = lazy(
   () => import('../pages/business/notifications/Notifications')
 )
+const AcceptInvitation = lazy(() => import('../pages/business/acceptInvitation/AcceptInvitation'))
 const Settings = lazy(() => import('../pages/business/settings/Settings'))
 const NotFound = lazy(() => import('../pages/business/NotFound'))
 
@@ -156,8 +157,13 @@ const privateRoutes = (
           path: '*',
           element: <NotFound />,
         },
+
       ],
     },
+    {
+      path: '/accept-invitation',
+      element: <AcceptInvitation />
+    }
   ]
 }
 

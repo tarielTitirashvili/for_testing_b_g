@@ -10,6 +10,7 @@ const ResetPassword = lazy(
 const ConfirmResetPassword = lazy(
   () => import('../pages/auth/resetPassword/ResetPasswordStep2')
 )
+const AcceptInvitation = lazy(() => import('../pages/business/acceptInvitation/AcceptInvitation'))
 // const NotFound = lazy(() => import('../pages/NotFound'))
 
 const publicRoutes = (isOtp: boolean): AppRouteObject[] => {
@@ -25,6 +26,10 @@ const publicRoutes = (isOtp: boolean): AppRouteObject[] => {
     {
       path: '/confirm-reset-password',
       element: <ConfirmResetPassword />,
+    },
+    {
+      path: '/accept-invitation',
+      element: <AcceptInvitation />
     },
     {
       path: '*',
