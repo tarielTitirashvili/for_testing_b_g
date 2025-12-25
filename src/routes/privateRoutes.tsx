@@ -41,6 +41,7 @@ const Notifications = lazy(
 const AcceptInvitation = lazy(() => import('../pages/business/acceptInvitation/AcceptInvitation'))
 const Settings = lazy(() => import('../pages/business/settings/Settings'))
 const NotFound = lazy(() => import('../pages/business/NotFound'))
+const AddBusiness = lazy(() => import('../pages/business/addBusinessBranch'))
 
 const privateRoutes = (
   t: TFunction,
@@ -64,15 +65,15 @@ const privateRoutes = (
           },
           {
             path: '/spaces',
-            title: t("sidebar.link.spaces"),
+            title: t('sidebar.link.spaces'),
             icon: <Armchair />,
             element: <Spaces />,
             children: [
               {
                 path: ':id',
-                element: <Spaces />
-              }
-            ]
+                element: <Spaces />,
+              },
+            ],
           },
         ]
       case 2:
@@ -163,7 +164,12 @@ const privateRoutes = (
     {
       path: '/accept-invitation',
       element: <AcceptInvitation />
-    }
+    },
+    {
+      path: '/add-business-branch',
+      element: <AddBusiness />,
+      title: t('business.addBusinessBranch.title'),
+    },
   ]
 }
 

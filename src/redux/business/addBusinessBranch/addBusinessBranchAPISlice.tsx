@@ -1,9 +1,11 @@
+import type { INewBusinessBranchStep1Data } from '@/pages/business/addBusinessBranch/step1'
 import { apiSlice } from '@/redux/APISlice'
 
 export type TBusinessPossibleCategories = {
   id: number
   name: string
 }
+
 
 export const addBusinessBranchAPISlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -16,19 +18,35 @@ export const addBusinessBranchAPISlice = apiSlice.injectEndpoints({
         method: 'GET',
       }),
     }),
-    getEmailConfirmationReady: builder.query<
-      TBusinessPossibleCategories[],
-      void
-    >({
+    getInitiateEmailConfirmation: builder.query<void, void>({
       query: () => ({
-        url: '/account/email-confirmation',
+        url: '/account/send-confirmation',
         method: 'GET',
+      }),
+    }),
+    getForSendingConfirmationCode: builder.query<
+      void,
+      { confirmationCode: string }
+    >({
+      query: (params) => ({
+        url: '/account/confirm-email',
+        method: 'GET',
+        params,
+      }),
+    }),
+    useRegisterBusinessByOwner: builder.mutation<void, INewBusinessBranchStep1Data>({
+      query: (tableCategoryData) => ({
+        url: '/business/register-business',
+        method: 'POST',
+        data: tableCategoryData,
       }),
     }),
   }),
 })
-// https://bookitcrm.runasp.net/api/v1/account/confirm-email?confirmationCode=
+
 export const {
   useGetBusinessPossibleCategoriesQuery,
-  useGetEmailConfirmationReadyQuery,
+  useGetInitiateEmailConfirmationQuery,
+  useLazyGetForSendingConfirmationCodeQuery,
+  useUseRegisterBusinessByOwnerMutation
 } = addBusinessBranchAPISlice

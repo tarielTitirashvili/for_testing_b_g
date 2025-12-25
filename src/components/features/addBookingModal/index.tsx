@@ -257,7 +257,7 @@ const AddBookingModal: FunctionComponent<IAddBookingModalProps> = ({
                 className="h-12!"
                 disabled={pendingStatusEvent}
                 label={t('bookings.inputLabel.customerCount')}
-                placeholder="შეიყვანეთ მომხმარებლის რაოდენობა"
+                placeholder={t('bookings.addBookingModal.enterCustomerCount')}
                 {...register('guestCount', {
                   required: `${t(
                     'bookings.formValidation.required.customerCount'
@@ -289,6 +289,7 @@ const AddBookingModal: FunctionComponent<IAddBookingModalProps> = ({
                 label={t('bookings.table.service')}
                 options={services}
                 disabled={pendingStatusEvent}
+                placeholder={t('bookings.addBookingModal.selectService')}
                 value={getValues('serviceIds')}
                 sentId
                 {...register('serviceIds', {
@@ -310,7 +311,7 @@ const AddBookingModal: FunctionComponent<IAddBookingModalProps> = ({
                 options={formattedStaff ?? []}
                 value={getValues('staffId')}
                 defaultIcon={<User />}
-                placeholder={t('calendar.text.choseSpace')}
+                placeholder={t('bookings.addBookingModal.selectStaffMember')}
                 onChange={(id: string) => {
                   setValue('staffId', id)
                 }}

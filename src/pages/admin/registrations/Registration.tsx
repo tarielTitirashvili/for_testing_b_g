@@ -1,4 +1,4 @@
-import type { FunctionComponent } from 'react'
+import { useEffect, type FunctionComponent } from 'react'
 
 import { useForm, type SubmitHandler } from 'react-hook-form'
 
@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next'
 import { useRegisterBusinessAndOwnerMutation } from '@/redux/auth/authAPISlice'
 import { useGetBusinessCategoriesQuery } from '@/redux/business/staticAPISlice/staticAPISlice'
 import Loader from '@/components/shared/loader'
+import createToast from '@/lib/createToast'
 
 interface IRegistrationFormData {
   businessName: string
@@ -41,7 +42,7 @@ const Registration: FunctionComponent = () => {
     //   ownerUserId: '',
     // },
   })
-  const [createRegistrationMutation, {isLoading}] =
+  const [createRegistrationMutation, {isLoading, isSuccess: isCreatingSuccess}] =
     useRegisterBusinessAndOwnerMutation()
 
 // "4b9bbf2e-0692-4ed6-cbfc-08de05b7b4bc"
@@ -62,6 +63,11 @@ const Registration: FunctionComponent = () => {
     }
     createRegistrationMutation(payload)
   }
+  useEffect(()=>{
+    if(isCreatingSuccess){
+      createToast.success(t('admin.businessRegistration.registrationWasSuccessFull.message'))
+    }
+  },[isCreatingSuccess])
 
   if (isLoadingBusinessCategories || isFetchingBusinessCategories) {
     return <Loader />
@@ -123,10 +129,10 @@ const Registration: FunctionComponent = () => {
           />
 
           <TextInput
-            label={t('bookings.inputLabel.ownerFullName')}
+            label={t('bookings.inputLabel.ownerFullLastName')}
             autoComplete="name"
             {...register('lastName', {
-              required: t('bookings.formValidation.required.ownerFullName'),
+              required: t('bookings.formValidation.required.ownerFullLastName'),
             })}
             error={errors.lastName?.message}
           />

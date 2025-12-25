@@ -20,7 +20,7 @@ const SchedulerCalendarHeaderLeftSide = (props: Props) => {
     if (!calendarLoading) {
       switch (period) {
         case 'month': // month
-          selectedDate.subtract(1, 'month')
+          handleSetSelectedDate(selectedDate.subtract(1, 'month'))
           break
         case 'week': // week
           selectedDate.subtract(1, 'week')

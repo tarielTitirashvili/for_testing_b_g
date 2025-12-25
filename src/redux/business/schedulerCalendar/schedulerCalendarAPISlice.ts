@@ -86,9 +86,19 @@ export const schedulerCalendarAPISlice = apiSlice.injectEndpoints({
       }),
       providesTags: ['calendarBookings']
     }),
+    getStaffAndTableCategories: builder.query<
+      IRootCalendarResponse,
+      void
+    >({
+      query: () => ({
+        url: '/business/staff-or-tables',
+        method: 'GET',
+      }),
+    }),
   }),
 })
 
 export const {
   useGetCalendarBookingsQuery,
+  useGetStaffAndTableCategoriesQuery
 } = schedulerCalendarAPISlice

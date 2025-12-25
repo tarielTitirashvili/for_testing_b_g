@@ -28,6 +28,7 @@ export interface IBusiness {
   role: IRole
   file?: TFile | null | undefined
   id: string
+  isActive: boolean
   name: string
   businessCategory: ICategory
 }

@@ -1,6 +1,7 @@
 import SchedulerCalendar from '@/components/features/schedulerCalendar'
 import {
   useGetCalendarBookingsQuery,
+  // useGetStaffAndTableCategoriesQuery,
   type IOrder,
   type IRootCalendarResponse,
   type ITableInfo,
@@ -104,7 +105,8 @@ const Calendar = () => {
       }
     },
   })
-
+  // const {data} = useGetStaffAndTableCategoriesQuery()
+  // console.log('tariel',data)
   const {
     data: calendarEventsFromApi,
     isFetching: isEventsFetching,
@@ -130,7 +132,7 @@ const Calendar = () => {
     page: page,
     offset: 8,
   })
-
+  
   useEffect(() => {
     if (infiniteScrollPageChangeRef.current) {
       infiniteScrollPageChangeRef.current = false

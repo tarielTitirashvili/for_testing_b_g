@@ -80,7 +80,8 @@
   "bookings.title.resetPassword": "დაგავიწყდა პაროლი?",
   "bookings.subtitle.resetPassword": "შეიყვანე შენი ელ-ფოსტა და გამოგიგზავნით ლინკს პაროლის აღსადგენად",
 
-  "bookings.inputLabel.ownerFullName": "მფლობელის სრული სახელი",
+  "bookings.inputLabel.ownerFullName": "მფლობელის სახელი",
+  "bookings.inputLabel.ownerFullLastName": "მფლობელის გვარი",
   "bookings.inputLabel.staffFullName": "სახელი და გვარი",
   "bookings.inputLabel.firstName": "სახელი",
   "bookings.inputLabel.lastName": "გვარი",
@@ -104,6 +105,7 @@
   "bookings.inputLabel.customerName": "მომხმარებლის სახელი",
   "bookings.inputLabel.customerCount": "მომხმარებლის რაოდენობა",
   "bookings.inputLabel.specialist": "სპეციალისტი",
+  "admin.businessRegistration.registrationWasSuccessFull.message":"ბიზნესი წარმატებით დაემატა",
 
   "bookings.formValidation.required.email" : "ელ-ფოსტა აუცილებელია",
   "bookings.formValidation.email" : "არასწორი ელ-ფოსტა",
@@ -116,7 +118,8 @@
   "bookings.formValidation.passwordsNotMatch" : "პაროლები არ ემთხვევა",
   "bookings.formValidation.required.mobileNumber" : "მობილური ნომერუ აუცილებელია",
   "bookings.formValidation.mobileNumber" : "მობულური ნომერი არა ვალიდურია",
-  "bookings.formValidation.required.ownerFullName" : "მფლობელის სრული სახელი აუცილებელია",
+  "bookings.formValidation.required.ownerFullName" : "მფლობელის სახელი აუცილებელია",
+  "bookings.formValidation.required.ownerFullLastName": "მფლობელის გვარი აუცილებელია",
   "bookings.formValidation.required.staffFullName" : "სახელი და გვარი აუცილებელია",
   "bookings.formValidation.required.firstName" : "სახელი აუცილებელია",
   "bookings.formValidation.required.lastName" : "გვარი აუცილებელია",
@@ -217,6 +220,7 @@
   "businessProfile.businessInfo.description": "აღწერა",
   "businessProfile.bookingTime.title": "ჯავშნის დრო",
   "businessProfile.uploadPictures.title": "ფოტოები",
+  "businessProfile.switchProfile.notVerifiedUser":"ბიზნესი არაა დადასტურებული",
   
   "businessProfile.socialMedia.webSite": "ბიზნესის ვებ-გვერდი აუცილებელია",
   "businessProfile.socialMedia.tikTok": "ბიზნესის Tik-Tok აუცილებელია",
@@ -497,10 +501,26 @@
   "business.schedulerCalendar.bookings.Tomorrow":"ხვალ",
   "business.schedulerCalendar.bookings.dayAfterTomorrow":"ზეგ",
 
+  "business.addBusinessBranch.title":"დაამატე ბიზნესი",
+  "business.addBusinessBranch.subTitle":"დაიწყე და გაიმარტივე ბიზნესი GegmioCRM-ით",
+  "bookings.formValidation.nameRequired":"ბიზნესის სახელი სავალდებულოა",
+  "bookings.formValidation.minLength":"ნაკლებია 3 სიმბოლზე",
+  "bookings.formValidation.incorrectCode":"ვერიფიკაციის კოდი არასწორია",
+  "bookings.formValidation.maxLength":"მეტია 25 სიმბოლზე",
+  "bookings.formValidation.businessCategoryRequired":"ბიზნესის კატეგორია სავალდებულოა",
+  "bookings.addBusinessBranch.backToMainPage":"მთავარ გვერდზე გადასვლა",
   "invitation.message.success": "ბიზნესი წარმატებით დაემატა",
   "invitation.message.error": "მოწვევის მიღება ვერ მოხერხდა",
   "invitation.message.process": "მომწვევის დამუშავება...",
+  "bookings.addBusinessBranch.verification":"ვერიფიკაცია",
+  "bookings.addBusinessBranch.verifyEmail.title":"ელ-ფოსტის ვერიფიკაცია",
+  "bookings.addBusinessBranch.confirmEmailByCode.title":"დადასტურე ელ-ფოსტაზე მოსული კოდით",
+  "business.addBusinessBranch.newBranchWasAdded":"ახალი ობიექტი წარმატებით დაემატა",
+  "business.addBusinessBranch.errorOnNewBranchWasAdding":"მოხდა შეცდომა, ვერ დაემატა ობიექტი",
+
+  "bookings.addBookingModal.selectService":"აირჩიეთ სერვისი",
+  "bookings.addBookingModal.selectStaffMember":"აირჩიეთ გუნდის წევრი",
+  "bookings.addBookingModal.enterCustomerCount":"შეიყვანეთ მომხმარებელთა რაოდენობა",
 
   "":""
-
 }

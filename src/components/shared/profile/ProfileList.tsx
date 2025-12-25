@@ -3,14 +3,14 @@ import { useState, type FunctionComponent } from 'react'
 // import { Link } from 'react-router-dom'
 
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
-import { Search } from 'lucide-react'
+import { Plus, Search } from 'lucide-react'
 
 import TextInput from '@/components/shared/inputs/TextInput'
 // import PrimaryButton from '../buttons/PrimaryButton'
 import SecondaryButton from '../buttons/SecondaryButton'
 import ProfileListItem from './ProfileListItem'
 import { useDispatch, useSelector } from 'react-redux'
-import { logout } from '@/redux/auth/authSlice'
+import { logout, USER_ROLES } from '@/redux/auth/authSlice'
 import type { IBusiness } from './Profile'
 import { currentBusinessSelector } from '@/redux/auth/authSelectors'
 import { useSwitchProfileMutation } from '@/redux/business/userProfiles/userProfilesAPISlice'
@@ -18,6 +18,9 @@ import Loader from '../loader'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { apiSlice } from '@/redux/APISlice'
+import PrimaryButton from '../buttons/PrimaryButton'
+import createToast from '@/lib/createToast'
+import type { RootState } from '@/redux/store'
 
 interface IProfileListProps {
   businesses: IBusiness[] | []
@@ -35,10 +38,8 @@ const ProfileList: FunctionComponent<IProfileListProps> = ({ businesses }) => {
 
   const [search, setSearch] = useState<string>('')
 
-  const [
-    switchProfileMutation,
-    { isLoading },
-  ] = useSwitchProfileMutation()
+  const [switchProfileMutation, { isLoading }] = useSwitchProfileMutation()
+  const role = useSelector((state: RootState) => state.auth.role)
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
@@ -49,7 +50,7 @@ const ProfileList: FunctionComponent<IProfileListProps> = ({ businesses }) => {
     dispatch(apiSlice.util.resetApiState())
   }
   //! using unwrap is only way to catch Success because we resetApiState after switching business profile
-  const switchProfile = async (profileData:TSwitchProfileData) => {
+  const switchProfile = async (profileData: TSwitchProfileData) => {
     try {
       await switchProfileMutation({
         businessId: profileData.businessId,
@@ -57,9 +58,9 @@ const ProfileList: FunctionComponent<IProfileListProps> = ({ businesses }) => {
       }).unwrap()
       navigate('/')
     } catch (err) {
-      console.error('Login failed:', err);
+      console.error('Login failed:', err)
     }
-  };
+  }
 
   return (
     <Card className="w-full left-0 h-auto rounded-md shadow-none pt-3 pb-1 border-2 gap-3 relative flex flex-col bg-white z-[1]">
@@ -84,16 +85,23 @@ const ProfileList: FunctionComponent<IProfileListProps> = ({ businesses }) => {
         <CardContent className="px-3 pt-4 border-t-2 flex-1 flex flex-col gap-2 overflow-auto scrollbar">
           {businesses.map((business) => {
             const handleSwitchProfile = () => {
-              switchProfile({
-                businessId: business.id,
-                roleId: business.role.id,
-              })
+              if (business.isActive) {
+                switchProfile({
+                  businessId: business.id,
+                  roleId: business.role.id,
+                })
+              } else {
+                createToast.error(
+                  t('businessProfile.switchProfile.notVerifiedUser')
+                )
+              }
             }
             const renderBusiness = (
               <ProfileListItem
                 profilePictureUrl={business.file?.url}
                 key={business.id}
                 handleSwitchProfile={handleSwitchProfile}
+                isActive={business.isActive}
                 businessName={business.name}
                 status={business.role.name}
                 accValue={business.id}
@@ -117,6 +125,15 @@ const ProfileList: FunctionComponent<IProfileListProps> = ({ businesses }) => {
         >
           {t('titles.logout')}
         </SecondaryButton>
+        {role === USER_ROLES.BUSINESS_OWNER && (
+          <PrimaryButton
+            className="w-[50%]"
+            handleClick={() => navigate('/add-business-branch')}
+          >
+            <Plus />
+            {t('bookings.button.add')}
+          </PrimaryButton>
+        )}
       </CardFooter>
     </Card>
   )
