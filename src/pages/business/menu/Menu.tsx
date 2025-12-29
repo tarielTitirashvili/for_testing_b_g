@@ -12,6 +12,7 @@ import AddCategory from "@/pages/business/services/components/AddCategory";
 import AddService from "@/pages/business/services/components/AddService";
 import Loader from '@/components/shared/loader'
 import createToast from '@/lib/createToast'
+
 import { useTranslation } from 'react-i18next'
 
 const Menu: FunctionComponent = () => {
@@ -72,6 +73,7 @@ const Menu: FunctionComponent = () => {
                         isError={isCategoryError}
                         isLoading={isCategoryLoading}
                         isDeleteProgress={isDeleteCategoryProgress}
+                        canDelete
                     />
                     
                     <BusinessServiceBody

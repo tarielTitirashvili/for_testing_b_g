@@ -84,6 +84,8 @@ const AddSpace: FunctionComponent<IAddSpaceProps> = ({ categories, triggerText, 
     const [editSpaceService, {isSuccess: isSpaceEditSuccess, isLoading: isSpaceEditLoading}] = useEditSpaceMutation()
     const [createdSpaceService, {isSuccess: isSpaceCreationSuccess, isLoading: isSpaceCreationLoading}] = useCreateSpaceMutation()
 
+    const filteredCategories = categories.slice(1)
+    
     const handleSpaceServiceEdit = (data: IEditSpaceFormData) => {
         const payload: IEditSpaceFormData = {
             categoryId: data.categoryId,
@@ -199,7 +201,7 @@ const AddSpace: FunctionComponent<IAddSpaceProps> = ({ categories, triggerText, 
                     <SelectDropDown
                         label={t('bookings.button.category')}
                         sentId
-                        options={categories ?? []}
+                        options={filteredCategories ?? []}
                         {...register('categoryId', {
                             required: t('bookings.button.required.category'),
                             setValueAs: v => +v

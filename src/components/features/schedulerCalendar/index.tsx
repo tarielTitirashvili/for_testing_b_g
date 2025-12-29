@@ -17,6 +17,7 @@ import { BOOKING_STATUS_LABELS_BY_ID } from '@/pages/business/bookings/constants
 import type { BadgeVariant } from '@/components/shared/buttons/BookingStatusBadges'
 import { selectedBusinessProfileSelector } from '@/redux/auth/authSelectors'
 import { useSelector } from 'react-redux'
+import EmptyResponse from '@/components/shared/emptyResponse'
 
 type TProps = {
   calendarEvents: IRootCalendarResponse | null | undefined
@@ -58,6 +59,9 @@ const SchedulerCalendar = (props: TProps) => {
   // console.log(calendarEvents)
   const selectedBusinessProfile = useSelector(selectedBusinessProfileSelector)
 
+  if(!calendarEvents?.staff?.data.length && !calendarEvents?.tables?.data.length && !calendarLoading){
+    return<EmptyResponse />
+  }
   if (!calendarEvents) {
     return <Loader containerClassname="h-150" />
   }

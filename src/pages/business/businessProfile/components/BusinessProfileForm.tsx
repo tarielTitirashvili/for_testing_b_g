@@ -17,7 +17,6 @@ import SelectDropDown from "@/components/shared/inputs/SelectDropDown"
 
 import SelectAddressMap from "./SelectAddressMap"
 import Loader from '@/components/shared/loader'
-import ReminderModal from "./ReminderModal"
 
 interface IBusinessProfileFormProps {
     data: IBusinessFormData | undefined
@@ -43,12 +42,10 @@ const BusinessProfileForm: FunctionComponent<IBusinessProfileFormProps> = ({ reg
         skip: regionId === null,
     })
 
-    console.log(data)
-
     useEffect(()=>{
         if(districtIdSuccess && data?.district.id){
-            setValue('regionId', data.district.id)
-            setValue('region', data.district)
+            setValue('regionId', data.region.id)
+            setValue('region', data.region)
             forceUpdate[1](prev => prev+1)
         }
     },[districtIdSuccess])
@@ -115,7 +112,7 @@ const BusinessProfileForm: FunctionComponent<IBusinessProfileFormProps> = ({ reg
 
                     
                 </div>
-                <div className="reminders flex w-full flex-1 justify-between gap-4">
+                {/* <div className="reminders flex w-full flex-1 justify-between gap-4">
                     <Controller
                         name="preOrder"
                         control={control}
@@ -139,7 +136,7 @@ const BusinessProfileForm: FunctionComponent<IBusinessProfileFormProps> = ({ reg
                             />
                         )}
                     />
-                </div>
+                </div> */}
             </div>
             <div className="business_profile_form-address flex flex-col gap-3 p-2 border-2 rounded-sm border-[#EBEBEB]">
                 <Controller

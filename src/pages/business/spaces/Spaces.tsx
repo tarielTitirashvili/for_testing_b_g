@@ -9,7 +9,7 @@ import { useDeleteSpaceMutation, useGetSpacesQuery } from "@/redux/business/spac
 import BusinessHeader from "@/components/shared/serviceAndCategory/BusinessHeader";
 import BusinessSpaceBody from "@/components/shared/serviceAndCategory/BusinessSpaceBody";
 
-import AddSpaceCategory from "./components/AddSpaceCategory";
+// import AddSpaceCategory from "./components/AddSpaceCategory";
 import AddSpace from "./components/AddSpace";
 import Loader from '@/components/shared/loader'
 import createToast from '@/lib/createToast'
@@ -83,14 +83,15 @@ const Spaces: FunctionComponent = () => {
                         <BusinessHeader
                             serviceCategories={categoryList ?? []}
                             removeCategory={deleteTableCategory}
-                            AddCategoryComponent={AddSpaceCategory}
+                            // AddCategoryComponent={AddSpaceCategory}
                             // EditComponent={AddSpaceCategory}
                             isDeleteProgress={isDeleteProgress}
                             AddItemComponent={AddSpace}
                             isSuccess={isCategoryListSuccess}
                             isLoading={isCategoryLoading}
                             isError={isCategoryError}
-                            />
+                            canDelete={false}
+                        />
                         
                         <BusinessSpaceBody
                             categories={categoryList}

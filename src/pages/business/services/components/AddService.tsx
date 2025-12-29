@@ -88,6 +88,8 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
 
   const [uploadFile] = useUploadFileMutation()
 
+  const filteredCategories = categories.slice(1)
+
   const handleCreate = (data: IAddSalonServiceFormData) => {
     const payload = {
       categoryId: data.categoryId,
@@ -215,7 +217,7 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
 
           <SelectDropDown
             label={t('bookings.button.category')}
-            options={categories}
+            options={filteredCategories}
             sentId={true}
             {...register('categoryId', {
               required: t('bookings.button.required.category'),

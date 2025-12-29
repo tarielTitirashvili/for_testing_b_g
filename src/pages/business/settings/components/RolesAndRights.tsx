@@ -11,11 +11,12 @@ import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import { useGetBusinessRolesQuery, useGetStaffQuery } from "@/redux/business/staff/staffAPISlice"
 import { useGetAllServiceNamesQuery } from "@/redux/business/service/serviceAPISlice"
 
+import { t } from "i18next"
+
 import EntityList from "@/components/shared/modals/EntityList"
 import AddStaff from "@/pages/business/teams/staff/AddStaff"
 import CustomDropdown from "@/components/shared/buttons/CustomDropdown"
 import PrimaryPressable from "@/components/shared/buttons/PrimaryPressable"
-import { t } from "i18next"
 import EmptyResponse from "@/components/shared/emptyResponse"
 
 export interface IRole {
@@ -46,6 +47,7 @@ const RolesAndRights: FunctionComponent = () => {
                             description={ t('settings.rolesAndRights.rolesSettings.description') }
                             label={ t('settings.rolesAndRights.rolesSettings') }
                             entities={roles}
+                            canDelete={false}
                             // primaryButtonText="Add Role"
                             // EditComponent={(props) => <StaffRoles {...props} roles={roles} />}
                             // primaryButtonClick={() => <StaffRoles />}

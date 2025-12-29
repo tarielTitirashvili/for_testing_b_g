@@ -30,9 +30,10 @@ interface IEntityListProps {
     removeItem?: (id: number) => void
     EditComponent?: React.ComponentType<EditComponentProps>
     isDeleteProgress?: boolean
+    canDelete: boolean
 }
 
-const EntityList: FunctionComponent<IEntityListProps> = ({ entities, title, description, label, /*primaryButtonText, primaryButtonClick, */ removeItem, EditComponent, isDeleteProgress }) => {
+const EntityList: FunctionComponent<IEntityListProps> = ({ entities, title, description, label, /*primaryButtonText, primaryButtonClick, */ removeItem, EditComponent, isDeleteProgress, canDelete }) => {
     
     return (
         <Dialog>
@@ -47,22 +48,24 @@ const EntityList: FunctionComponent<IEntityListProps> = ({ entities, title, desc
                 <div className="dialog_body flex flex-col gap-2">
                     {label && <p className="font-semibold">{ label }</p>}
                     <div className="entity_list flex flex-col gap-4">
-                        {entities.map((entity) => !entity.isSystem && (
+                        {entities.map((entity) => (
                             <div key={entity.id} className="flex justify-between items-center border-2 px-2 py-3 rounded-md">
                                 <div className="entity_name">
                                     { entity.name }
                                 </div>
                                 <div className="action_btns flex items-center gap-2">
                                     {EditComponent && <EditComponent icon categoryId={String(entity.id)} />}
-                                    <DeleteConfirmationModal
-                                        itemId={+entity.id}
-                                        handleDeleteItem={removeItem!}
-                                        modalTitle={t("categories.deleteModalt.title")}
-                                        modalDescription={t("categories.deleteModalt.description", {
-                                            category: entity.name
-                                        })}
-                                        isDeleteProgress={isDeleteProgress}
-                                    />
+                                    {canDelete && (
+                                        <DeleteConfirmationModal
+                                            itemId={+entity.id}
+                                            handleDeleteItem={removeItem!}
+                                            modalTitle={t("categories.deleteModalt.title")}
+                                            modalDescription={t("categories.deleteModalt.description", {
+                                                category: entity.name
+                                            })}
+                                            isDeleteProgress={isDeleteProgress}
+                                        />
+                                    )}
                                 </div>
                             </div>
                         ))}

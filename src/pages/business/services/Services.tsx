@@ -114,6 +114,7 @@ const Services: FunctionComponent = () => {
                         isSuccess={isCategoryListSuccess}
                         isLoading={isCategoryLoading}
                         isError={isCategoryError}
+                        canDelete
                     />
 
                     <BusinessServiceBody

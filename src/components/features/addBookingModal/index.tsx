@@ -139,6 +139,7 @@ const AddBookingModal: FunctionComponent<IAddBookingModalProps> = ({
   const { data: spaces = [] } = useGetTableCategoryQuery(undefined, {
     skip: isBarber,
   })
+  const filteredSpaces = spaces.slice(1)
 
   const [
     confirmationMutation,
@@ -150,6 +151,7 @@ const AddBookingModal: FunctionComponent<IAddBookingModalProps> = ({
   ] = useCancelBookingMutation()
 
   const [createBooking] = useCreateExternalBookingMutation()
+
 
   useEffect(() => {
     setValue('startDate', selectedDate)
@@ -272,10 +274,10 @@ const AddBookingModal: FunctionComponent<IAddBookingModalProps> = ({
                 label={t('sidebar.link.spaces')}
                 disabled={pendingStatusEvent}
                 sentId
-                options={spaces}
+                options={filteredSpaces}
                 {...register('tableCategoryId', {
                   required: `${t(
-                    'bookings.formValidation.required.spaceCateogry'
+                    'bookings.formValidation.required.spaceCategory'
                   )}`,
                   setValueAs: (v) => +v,
                 })}

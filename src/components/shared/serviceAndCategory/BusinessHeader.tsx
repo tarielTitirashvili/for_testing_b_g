@@ -39,10 +39,11 @@ interface IBusinessHeader {
     isLoading: boolean
     isError: boolean
     isDeleteProgress?: boolean
+    canDelete: boolean
 }
 
 
-const BusinessHeader: FunctionComponent<IBusinessHeader> = ({ serviceCategories, removeCategory, AddItemComponent, AddCategoryComponent, EditComponent, isError, isLoading, isSuccess, isDeleteProgress }) => {
+const BusinessHeader: FunctionComponent<IBusinessHeader> = ({ serviceCategories, removeCategory, AddItemComponent, AddCategoryComponent, EditComponent, isError, isLoading, isSuccess, isDeleteProgress, canDelete }) => {
     
     if (isLoading) {
         return (
@@ -59,6 +60,8 @@ const BusinessHeader: FunctionComponent<IBusinessHeader> = ({ serviceCategories,
             <div className="text-red-500">{t('business.texts.thereWasError')}</div>
         )
     }
+
+    const filteredCategories = serviceCategories.slice(1)
 
     return (
         <div className="flex justify-between flex-col lg:flex-row gap-3 lg:gap-0">
@@ -80,13 +83,14 @@ const BusinessHeader: FunctionComponent<IBusinessHeader> = ({ serviceCategories,
                 </p>
                 <EntityList
                     label={t('service.header.categories')}
-                    entities={serviceCategories}
+                    entities={filteredCategories}
                     primaryButtonText="Save"
                     title={t('service.header.category.header')}
                     description={t('service.header.category.description')}
                     removeItem={removeCategory}
                     EditComponent={EditComponent}
                     isDeleteProgress={isDeleteProgress}
+                    canDelete={canDelete}
                 />
                 <CustomDropdown
                     trigger={<PrimaryPressable> <Plus /> {t("bookings.button.add")}</PrimaryPressable>}
