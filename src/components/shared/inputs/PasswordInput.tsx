@@ -1,6 +1,6 @@
 import { useState, type InputHTMLAttributes } from "react"
 import { cn } from "@/lib/utils"
-import { Input } from "@/components/ui/input"
+import TextInput from "./TextInput"
 
 interface IPasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
     label: string
@@ -22,18 +22,18 @@ const PasswordInput: React.FunctionComponent<IPasswordInputProps> = ({ label, er
                 {label}
             </span>
             <div className="input-body-wrapper">
-                <div className="relative w-full">
-                    <Input
+                <div className="relative w-full p-0 flex items-center">
+                    <TextInput
                         type={showPass ? 'text' : 'password'}
                         className={cn(
-                            "border-2 rounded-sm border-[#EBEBEB] w-full text-base p-1.5 text-[#6C6C6C]",
+                            "border-2 rounded-sm border-[#EBEBEB] w-full h-12 text-base p-1.5 pr-20 text-[#6C6C6C]",
                             error && "border-red-500 focus:border-red-500"
                         )}
                         autoComplete="current-password"
                         {...inputProps}
                     />
                     <span
-                        className="absolute right-2 top-1/2 -translate-y-1/2 text-[#AEAEAE] cursor-pointer"
+                        className="absolute right-2 top-3/5 -translate-y-3/5 text-[#AEAEAE] cursor-pointer"
                         onClick={toggleShowPass}
                     >
                         {showPass ? (

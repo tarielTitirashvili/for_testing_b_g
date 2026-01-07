@@ -188,7 +188,7 @@ const BusinessProfile: FunctionComponent = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 flex-1">
         <div
-          className={`business_profile_form bg-white p-6 rounded-sm overflow-hidden transition-all duration-300 h-[70px] sm:h-auto ${
+          className={`business_profile_form bg-white p-6 rounded-sm overflow-hidden transition-all duration-300 sm:h-auto ${
             isExpand === 'businessProfileForm' ? 'auto_height' : 'h-[70px]'
           }`}
         >

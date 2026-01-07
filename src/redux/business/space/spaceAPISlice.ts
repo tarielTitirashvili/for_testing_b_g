@@ -3,7 +3,10 @@ import type { ISpace } from "@/pages/business/spaces/Spaces";
 import { apiSlice } from "@/redux/APISlice";
 
 export interface ISpaceResponse {
-  categoryId: number
+  category: {
+    id: number,
+    name: string
+  }
   categoryLocales: { name: string; languageId: number }[]
   tableNumber?: string
   minCapacity: number,

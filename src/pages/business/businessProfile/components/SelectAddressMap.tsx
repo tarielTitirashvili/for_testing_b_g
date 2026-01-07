@@ -82,11 +82,12 @@ const SelectAddressMap: FunctionComponent<ISelectAddressMapProps> = ({ onSelect,
     return (
         <Dialog open={openModal} onOpenChange={setOpenModal}>
             <DialogTrigger
-                className={`border-2 rounded-sm border-[#EBEBEB] w-full text-base p-2 text-[#6C6C6C] h-10 text-left cursor-pointer ${
+                className={`border-2 rounded-md border-[#EBEBEB] flex items-center justify-between w-full h-12 text-base p-2 text-[#6C6C6C] text-left cursor-pointer ${
                     error && "border-red-500"
                 }`}
             >
                 {t("businessProfile.required.openMap")}
+                <img className="-rotate-90" src="/public/assets/images/arrow_down.svg" alt="arrow" />
             </DialogTrigger>
 
             {error && <span className="text-xs text-red-500 font-medium">{error}</span>}

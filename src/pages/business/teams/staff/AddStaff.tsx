@@ -6,16 +6,21 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 import { t } from 'i18next'
 
+import { useCreateStaffMutation, useGetStaffQuery } from '@/redux/business/staff/staffAPISlice'
+import { useUploadFileMutation } from '@/redux/business/businessProfile/businessProfileAPISlice'
+
+import { isValidImageFile } from '@/utils/fileValidationCheckers'
+
+import { Pencil } from 'lucide-react'
+
 import UploadButton from '@/components/shared/buttons/UploadButton'
 import ServiceButton from '@/components/shared/buttons/ServiceButton'
 import PrimaryButton from '@/components/shared/buttons/PrimaryButton'
 import SelectDropDown from '@/components/shared/inputs/SelectDropDown'
 import TextInput from '@/components/shared/inputs/TextInput'
-import { Pencil } from 'lucide-react'
-import { useCreateStaffMutation, useGetStaffQuery } from '@/redux/business/staff/staffAPISlice'
-import { useUploadFileMutation } from '@/redux/business/businessProfile/businessProfileAPISlice'
-import { isValidImageFile } from '@/utils/fileValidationCheckers'
+
 import createToast from '@/lib/createToast'
+import PhoneInput from '@/components/shared/inputs/PhoneInput'
 
 interface IService {
     id: number
@@ -234,10 +239,17 @@ const AddStaff: FunctionComponent<IAddStaffProps> = ({ services, roles, staffId,
                     </div>
 
                     <div className="staff_info">
-                        <TextInput
+                        <PhoneInput
                             label={t("bookings.inputLabel.mobileNumber")}
-                            type='text'
-                            {...register('phoneNumber', { required: t("bookings.formValidation.required.mobileNumber")})}
+                            placeholder='555 44...'
+                            type='number'
+                            {...register('phoneNumber', {
+                                required: t("bookings.formValidation.required.mobileNumber"),
+                                pattern: {
+                                    value: /^(?:\s*\d\s*){9}$/,
+                                    message: t('bookings.formValidation.mobileNumber'),
+                                },
+                            })}
                             error={errors.phoneNumber?.message}
                         />
                     </div>
@@ -271,7 +283,6 @@ const AddStaff: FunctionComponent<IAddStaffProps> = ({ services, roles, staffId,
                             />
                         </div>
                     </div>
-
 
                     <DialogFooter>
                         <DialogClose className='w-full border-[#BEBEBE] border-2 rounded-md py-2 cursor-pointer'>

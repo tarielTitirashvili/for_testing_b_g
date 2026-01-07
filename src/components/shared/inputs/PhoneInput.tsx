@@ -17,7 +17,7 @@ interface IPhoneInputProps extends InputHTMLAttributes<HTMLInputElement> {
 const PhoneInput: React.FunctionComponent<IPhoneInputProps> = ({ label, error, className, InputIcon, ...inputProps }) => {
     
     return (
-        <div className="flex flex-col gap-1.5">
+        <label className="flex flex-col gap-1.5">
             <span
                 className={`flex items-center gap-1 text-sm font-medium text-[#242424] ${error && "text-red-500 font-medium"}`}
             >
@@ -28,11 +28,11 @@ const PhoneInput: React.FunctionComponent<IPhoneInputProps> = ({ label, error, c
                     +995
                 </span>
                 <Input
-                    type="tel"
+                    type="number"
                     autoComplete="tel"
                     inputMode="numeric"
                     className={cn(
-                        "border-2 rounded-sm border-[#EBEBEB] w-full text-base ps-12 py-1.5 text-[#4F4F53]",
+                        "input_appearance_none h-12 border-2 rounded-sm border-[#EBEBEB] w-full text-base ps-12.5 py-1.5 text-[#4F4F53]",
                         error && "border-red-500",
                         inputProps.disabled && 'cursor-not-allowed',
                         className
@@ -45,7 +45,7 @@ const PhoneInput: React.FunctionComponent<IPhoneInputProps> = ({ label, error, c
                     {error}
                 </span>
             )}
-        </div>
+        </label>
     );
 };
 

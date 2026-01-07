@@ -73,7 +73,7 @@ const SpaceCard: FunctionComponent<ISpaceCardProps> = ({ space, handleRemove, ca
                     >
                         <DropdownMenuRadioGroup className="flex flex-col p-1 gap-1">
                             <DropdownMenuItem asChild>
-                                <AddSpace icon triggerText={t('bookings.button.edit')} categoryId={categoryId} categories={categories ?? []} space={space} spaceId={space.id} />
+                                <AddSpace icon triggerText={t('bookings.button.edit')} categories={categories ?? []} space={space} spaceId={space.id} />
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild onClick={() => handleRemove?.(space.id)}>
                                 <DeleteConfirmationModal

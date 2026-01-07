@@ -118,9 +118,25 @@
     @apply bg-background text-foreground;
   }
 }
+
 ::selection {
     background: #EF7800;
     color: #fff;
+}
+
+.textField {
+  @apply rounded-md h-12 appearance-none bg-[url('/assets/images/arrow_down.svg')] bg-no-repeat bg-position-[calc(100%-8px)];
+}
+
+.input_appearance_none::-webkit-outer-spin-button,
+.input_appearance_none::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input_appearance_none[type=number] {
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 body {

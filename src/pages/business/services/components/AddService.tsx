@@ -201,7 +201,11 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
               type="number"
               label={t('services.addService.price')}
               {...register('price', { 
-                required: t('services.addService.required.price')
+                required: t('services.addService.required.price'),
+                min: {
+                  value: 1,
+                  message: "Min value can't be 0 or less"
+                }
               })}
               error={errors.price?.message}
             />
@@ -210,6 +214,10 @@ const AddService: FunctionComponent<IAddService> = ({ serviceId, categories, ico
               label={t('services.addService.time')}
               {...register('durationInMinutes', {
                 required: t('services.addService.required.time'),
+                min: {
+                  value: 1,
+                  message: "Min value can't be 0 or less"
+                }
               })}
               error={errors.durationInMinutes?.message}
             />

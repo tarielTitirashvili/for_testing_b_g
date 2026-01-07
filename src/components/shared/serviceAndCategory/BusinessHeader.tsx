@@ -95,7 +95,7 @@ const BusinessHeader: FunctionComponent<IBusinessHeader> = ({ serviceCategories,
                 <CustomDropdown
                     trigger={<PrimaryPressable> <Plus /> {t("bookings.button.add")}</PrimaryPressable>}
                 >
-                    <DropdownMenuGroup className="flex flex-col gap-2 p-2">
+                    <DropdownMenuGroup className="flex flex-col gap-2 p-0.5">
                         <DropdownMenuItem asChild>
                             {AddItemComponent && <AddItemComponent triggerText={t('business.business.place.text')} categories={serviceCategories} />}
                         </DropdownMenuItem>

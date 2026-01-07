@@ -22,7 +22,7 @@ const TextInput: React.FunctionComponent<ITextInputProps> = ({ label, className,
             <div className="w-full">
                 <Input
                     className={cn(
-                        "border-2 rounded-sm border-[#EBEBEB] w-full text-base p-1.5 text-[#6C6C6C]",
+                        "input_appearance_none border-2 rounded-sm border-[#EBEBEB] w-full h-12 p-2 text-base text-[#6C6C6C] appearance-none",
                         error && "border-red-500 focus:border-red-500",
                         inputProps.disabled && 'cursor-not-allowed',
                         className

@@ -13,7 +13,7 @@ interface ISelectDropDownProps extends SelectHTMLAttributes<HTMLSelectElement> {
 
 const SelectDropDown: FunctionComponent<ISelectDropDownProps> = ({ options, sentId, error, label, className, placeholder=t('bookings.button.pickCategory'), ...props }) => {
     return (
-        <div className="flex flex-col gap-1.5">
+        <label className="flex flex-col gap-1.5">
             <span
                 className={`text-sm font-medium text-[#242424] ${error && 'text-red-500 font-medium'}`}
             >
@@ -22,7 +22,7 @@ const SelectDropDown: FunctionComponent<ISelectDropDownProps> = ({ options, sent
             <div className="w-full">
                 <select
                     className={cn(
-                        "border-2 rounded-sm border-[#EBEBEB] w-full text-base p-2 text-[#6C6C6C] focus:outline-none focus:border-[#EF7800]",
+                        "textField border-2 rounded-sm border-[#EBEBEB] w-full h-12 text-base p-2 text-[#6C6C6C] focus:outline-none focus:border-[#EF7800]",
                         error && "border-red-500 focus:border-red-500",
                         props.disabled && "cursor-not-allowed",
                         className
@@ -44,7 +44,7 @@ const SelectDropDown: FunctionComponent<ISelectDropDownProps> = ({ options, sent
                 </select>
                 { error && <span className="text-xs text-red-500 font-medium">{ error }</span>}
             </div>
-        </div>
+        </label>
     )
 }
 

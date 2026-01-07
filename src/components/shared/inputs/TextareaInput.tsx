@@ -10,7 +10,7 @@ interface ITextareaInputProps extends TextareaHTMLAttributes<HTMLTextAreaElement
 
 const TextareaInput: React.FunctionComponent<ITextareaInputProps> = ({ label, className, error, ...inputProps }) => {
     return (
-        <div className="flex flex-col gap-1.5">
+        <label className="flex flex-col gap-1.5">
             <span
                 className={`text-sm font-medium text-[#242424] ${error && 'text-red-500 font-medium'}`}
             >
@@ -19,7 +19,7 @@ const TextareaInput: React.FunctionComponent<ITextareaInputProps> = ({ label, cl
             <div className="w-full">
                 <Textarea
                     className={cn(
-                        "border-2 rounded-sm border-[#EBEBEB] w-full text-base p-1.5 text-[#6C6C6C] resize-none",
+                        "border-2 rounded-sm border-[#EBEBEB] w-full text-base p-2 text-[#6C6C6C] resize-none",
                         error && "border-red-500 focus:border-red-500",
                         className
                     )}
@@ -27,7 +27,7 @@ const TextareaInput: React.FunctionComponent<ITextareaInputProps> = ({ label, cl
                 />
                 { error && <span className="text-xs text-red-500 font-medium">{ error }</span>}
             </div>
-        </div>
+        </label>
     )
 }
 

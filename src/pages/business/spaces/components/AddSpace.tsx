@@ -3,7 +3,7 @@ import { useEffect, useState, type FunctionComponent } from "react"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { useForm } from "react-hook-form"
 
-import { spaceApiSlice, useCreateSpaceMutation, useEditSpaceMutation, useGetSpaceByIdQuery, type ISpaceResponse } from "@/redux/business/space/spaceAPISlice"
+import { spaceApiSlice, useCreateSpaceMutation, useEditSpaceMutation, useGetSpaceByIdQuery } from "@/redux/business/space/spaceAPISlice"
 
 import type { ISpace } from "../Spaces"
 
@@ -56,12 +56,12 @@ interface IAddSpaceProps {
     categories: ICategory[]
     space?: ISpace
     triggerText?: string
-    categoryId?: string
+    // categoryId?: string
     icon?: boolean
     spaceId?: number
 }
 
-const AddSpace: FunctionComponent<IAddSpaceProps> = ({ categories, triggerText, categoryId, spaceId, icon }) => {
+const AddSpace: FunctionComponent<IAddSpaceProps> = ({ categories, triggerText, spaceId, icon }) => {
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm<IAddSpaceFormData | IEditSpaceFormData>({
         defaultValues: {
@@ -139,10 +139,12 @@ const AddSpace: FunctionComponent<IAddSpaceProps> = ({ categories, triggerText, 
     }
 
     useEffect(() => {
+
+
         if (spaceByIdSuccess && spaceDataById) {
-            const formatted: ISpaceResponse = {
+            const formatted = {
                 ...spaceDataById,
-                categoryId: +categoryId!
+                categoryId: spaceDataById.category?.id
             }
 
             reset(formatted)
@@ -188,14 +190,28 @@ const AddSpace: FunctionComponent<IAddSpaceProps> = ({ categories, triggerText, 
                     <TextInput
                         type="number"
                         label={t('space.addSpace.minGuestCount')}
-                        {...register('minCapacity', { required: t('space.addSpace.required.minGuestCount'), valueAsNumber: true })}
+                        {...register('minCapacity', { 
+                            required: t('space.addSpace.required.minGuestCount'),
+                            min: {
+                                value: 0,
+                                message: "Can't be 0 or less"
+                            },
+                            valueAsNumber: true,
+                        })}
                         error={errors.minCapacity?.message}
                     />
 
                     <TextInput
                         type="number"
                         label={t('space.addSpace.maxGuestCount')}
-                        {...register('maxCapacity', { required: t('space.addSpace.required.maxGuestCount'), valueAsNumber: true })}
+                        {...register('maxCapacity', { 
+                            required: t('space.addSpace.required.maxGuestCount'),
+                            min: {
+                                value: 0,
+                                message: "Can't be 0 or less"
+                            },
+                            valueAsNumber: true
+                        })}
                         error={errors.maxCapacity?.message}
                     />
                     <SelectDropDown

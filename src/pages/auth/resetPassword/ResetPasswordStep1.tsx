@@ -36,11 +36,6 @@ const ResetPassword: FunctionComponent = () => {
                 onSubmit={handleSubmit(onSubmit)}
                 className="flex flex-col gap-4 max-w-[500px] w-full bg-white p-6 rounded-md"
             >
-
-                <div className="form_logo flex items-center justify-center">
-                    <img src="/assets/images/bookItLogo.svg" alt="BookIt" className="max-w-[34px] max-h-[37px] w-full h-full" />
-                </div>
-
                 <div className="form_title text-center">
                     <p className="text-xl font-bold">{ t('bookings.title.resetPassword') }</p>
                     <p className="text-base font-normal text-[#6C6C6C]">{ t('bookings.subtitle.resetPassword') }</p>
