@@ -55,7 +55,7 @@ function DropdownSelect<T extends string | number = string>({
       onValueChange={(val) => onChange?.(val as T)}
       disabled={disabled}
     >
-      <SelectTrigger className={`w-full min-w-[180px] ${className}`}>
+      <SelectTrigger className={`w-full min-w-[180px] min-h-12 ${className}`}>
         <SelectValue className={valueClassName ? valueClassName : ''} placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>

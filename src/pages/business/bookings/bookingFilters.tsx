@@ -14,22 +14,22 @@ const BookingFilters = () => {
         {t('bookings.title.filter')}
       </div>
       <div className="flex gap-4 w-full items-center flex-wrap">
-        <label className="text-[14px] flex-grow-1 min-w-[180px]">
+        <label className="text-[14px] flex flex-col gap-2 grow">
           <p className='font-medium'>
             {t('bookings.button.search')}
           </p>
-          <div className="reviews_header-search relative text-[#6C6C6C]">
+          <div className="reviews_header-search relative text-[#6C6C6C] w-full">
             <Search
-              className="absolute top-[55%] -translate-y-1/2 left-[10px]"
+              className="absolute top-[55%] -translate-y-1/2 left-2.5"
               size={15}
             />
             <TextInput
               placeholder={t('bookings.button.search')}
-              className="pl-[30px] max-w-[300px] w-full border-[#EBEBEB]"
+              className="pl-7.5 w-full border-[#EBEBEB]"
             />
           </div>
         </label>
-        <label className="text-[14px] flex-grow-1">
+        <label className="text-[14px] flex flex-col gap-2 grow">
           <p className='font-medium'>
             {t('bookings.statusOptions.title')}
           </p>
@@ -39,7 +39,7 @@ const BookingFilters = () => {
             value={2}
           />
         </label>
-        <label className="text-[14px] flex-grow-1">
+        <label className="text-[14px] flex flex-col gap-2 grow">
           <p className='font-medium'>
             {t('bookings.timeOptions.title')}
           </p>
@@ -49,7 +49,7 @@ const BookingFilters = () => {
             value={2}
           />
         </label>
-        <label className="text-[14px] flex-grow-1">
+        <label className="text-[14px] flex flex-col gap-2 grow">
           <p className='font-medium'>
             {t('bookings.teamMembers.title')}
           </p>

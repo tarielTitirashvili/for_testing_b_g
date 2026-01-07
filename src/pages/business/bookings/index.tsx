@@ -101,7 +101,6 @@ const Bookings = () => {
           changeNoShowStatusMutation={changeNoShowStatusMutation}
         />
       </div>
-
     </div>
   )
 }

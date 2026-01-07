@@ -30,7 +30,7 @@ const SelectDropDown: FunctionComponent<ISelectDropDownProps> = ({ options, sent
                     {...props}
                     onBlur={props.onBlur}
                 >
-                    <option value="">
+                    <option disabled className='hidden' value="">
                         {placeholder ? placeholder :  t('bookings.button.pickCategory')}
                     </option>
                     {options && options.map((option) => (
