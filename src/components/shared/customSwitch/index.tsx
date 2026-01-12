@@ -15,7 +15,7 @@ const CustomSwitch = (props: Props) => {
       <Switch
         id="airplane-mode"
         className={cn(
-          "data-[state=checked]:bg-[#EF7800] bg-[#EFF0F1] [&>span]:h-[0.8rem] [&>span]:w-[0.8rem] [&>span]:translate-x-[2px] data-[state=checked]:[&>span]:translate-x-[1rem]",
+          "data-[state=checked]:bg-button-color bg-[#EFF0F1] [&>span]:h-[0.8rem] [&>span]:w-[0.8rem] [&>span]:translate-x-[2px] data-[state=checked]:[&>span]:translate-x-[1rem]",
           className
         )}
       />

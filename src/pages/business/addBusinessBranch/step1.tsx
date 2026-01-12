@@ -94,7 +94,7 @@ const Step1 = (props: TProps) => {
           <RememberMeCheckbox />
           <Link
             to="/reset-password"
-            className="form_params-forget_pass font-medium text-[#EF7800] cursor-pointer"
+            className="form_params-forget_pass font-medium text-button-color cursor-pointer"
           >
             {t('bookings.link.forgotPassword')}
           </Link>

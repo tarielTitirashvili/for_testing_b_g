@@ -12,7 +12,7 @@ const PrimaryPressable: FunctionComponent<IPrimaryPressable> = ({ onClick, class
         <div
             onClick={onClick}
             className={cn(
-                'flex items-center justify-center gap-1 bg-[#EF7800] font-medium cursor-pointer text-white w-full rounded-md px-2 py-2',
+                'flex items-center justify-center gap-1 bg-button-color font-medium cursor-pointer text-white w-full rounded-md px-2 py-2',
                 className
             )
         }>

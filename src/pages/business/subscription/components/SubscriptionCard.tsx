@@ -48,7 +48,7 @@ const SubscriptionCard: FunctionComponent = () => {
                         <span className="text-base font-normal text-[#6C6C6C]">/{card.priceOption}</span>
                         </div>
                     <CardTitle className="text-base font-normal text-[#6C6C6C]">{card.description}</CardTitle>
-                    <div className="check border-2 border-[#EF7800] p-3 text-center font-medium rounded-md cursor-pointer w-full">{ t("subscription.activePlan") }</div>
+                    <div className="check border-2 border-button-color p-3 text-center font-medium rounded-md cursor-pointer w-full">{ t("subscription.activePlan") }</div>
                 </CardHeader>
                 <CardContent>
                     <ul className="flex flex-col gap-3">

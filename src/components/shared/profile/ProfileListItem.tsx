@@ -34,8 +34,8 @@ const ProfileListItem: FunctionComponent<IProfileListItemProps> = ({
     >
       <div className="avatar-info flex items-center gap-2">
         <Avatar
-          className={`h-[45px] w-[45px] flex items-center justify-center ${
-            checked ? 'bg-[#EF8700]' : 'bg-[#3B81F6]'
+          className={`h-11.25 w-11.25 flex items-center justify-center ${
+            checked ? 'bg-button-color' : 'bg-[#3B81F6]'
           }`}
         >
           <AvatarImage
@@ -45,7 +45,7 @@ const ProfileListItem: FunctionComponent<IProfileListItemProps> = ({
                 : '/assets/images/avatar.svg'
             }`}
             className={`${
-              profilePictureUrl ? 'h-full w-full object-cover' : 'h-[15px]'
+              profilePictureUrl ? 'h-full w-full object-cover' : 'h-3.75'
             }`}
           />
         </Avatar>
@@ -60,9 +60,9 @@ const ProfileListItem: FunctionComponent<IProfileListItemProps> = ({
           <RadioGroupItem
             value={accValue}
             checked={checked}
-            className={`border-3 h-[26px] w-[26px] ${
+            className={`border-3 h-6.5 w-6.5 ${
               checked
-                ? 'border-[#EF7800] text-transparent border-3 h-[26px] w-[26px]'
+                ? 'border-button-color text-transparent border-3 h-6.5 w-6.5'
                 : 'border-[#AEAEAE] text-transparent'
             }`}
           />

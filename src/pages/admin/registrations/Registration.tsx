@@ -183,7 +183,7 @@ const Registration: FunctionComponent = () => {
             className="form_sign-in-link border-t-3 w-full flex justify-center items-center gap-2.5 py-2"
           >
             <span>{t('bookings.link.loginQuestion')}</span>
-            <span className="text-base font-medium text-[#EF7800] cursor-pointer">
+            <span className="text-base font-medium text-button-color cursor-pointer">
               {t('bookings.link.login')}
             </span>
           </Link>

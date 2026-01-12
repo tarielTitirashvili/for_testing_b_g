@@ -15,7 +15,7 @@ interface ILatestBookItemProps {
 }
 
 const randomBgs = () => {
-    const bgs = ['#EAB305', '#3B81F6', '#171717', '#21C55D', '#EF7800']
+    const bgs = ['#EAB305', '#3B81F6', '#171717', '#21C55D', '#F94B00']
     const randomBg = Math.floor(Math.random() * bgs.length)
     return bgs[randomBg]
 }

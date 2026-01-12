@@ -49,7 +49,7 @@ const SchedulerCalendarHeaderLeftSide = (props: Props) => {
   }
 
   const buttonClassName =
-    'h-8.5 rounded-full p-1 flex justify-center align-middle border-1 border-[#F4F5F5] cursor-pointer hover:bg-[#EF7800] hover:text-[#fff]'
+    'h-8.5 rounded-full p-1 flex justify-center align-middle border-1 border-[#F4F5F5] cursor-pointer hover:bg-button-color hover:text-white'
   return (
     <div className="flex items-center w-full">
       <div className="flex pr-2">

@@ -14,8 +14,8 @@ const ServiceButton: FunctionComponent<IServiceButtonProps> = ({ service, isSele
             pressed={isSelected}
             onPressedChange={onToggle}
             className="rounded-full font-medium border-2 py-2 px-4
-                data-[state=on]:bg-[#EF7800]
-                data-[state=on]:border-[#EF7800]
+                data-[state=on]:bg-button-color
+                data-[state=on]:border-button-color
                 data-[state=on]:text-white
                 cursor-pointer"
         >

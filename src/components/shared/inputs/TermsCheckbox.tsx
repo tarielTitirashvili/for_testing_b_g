@@ -10,16 +10,16 @@ const TermsCheckbox: FunctionComponent<ITermsCheckbox> = ({ error, ...inputProps
             <div className="form_terms-checkbox flex items-center gap-1">
                 <input
                     type="checkbox"
-                    className="h-5 w-5 accent-[#EF7800]"
+                    className="h-5 w-5 accent-button-color"
                     {...inputProps}
                 />
                 <p className="text-base font-medium">
                     I accept the{" "}
-                    <span className="text-[#EF7800] cursor-pointer">
+                    <span className="text-button-color cursor-pointer">
                         Terms & Conditions
                     </span>{" "}
                     and{" "}
-                    <span className="text-[#EF7800] cursor-pointer">
+                    <span className="text-button-color cursor-pointer">
                         Privacy Policy
                     </span>
                 </p>

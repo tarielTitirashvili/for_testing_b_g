@@ -53,7 +53,7 @@ const Aside: FunctionComponent<IAsideProps> = ({basePathName}) => {
                                 if(!item.icon || !item.title || !item.path) return <Fragment key={item.path || item.title}></Fragment>
                                 return(
                                     <SidebarMenuItem key={item.path} className='text-[#AEAEAE]'>
-                                        <SidebarMenuButton isActive={basePathName === item.path} className='h-[48px]'>
+                                        <SidebarMenuButton isActive={basePathName === item.path} className='h-[48px] data-[active=true]:bg-button-color hover:bg-button-color'>
                                             <NavLink to={item.path} className={({isActive}) => isActive ? 'flex items-center gap-2 px-3 py-3 ' : 'flex items-center gap-2 px-3 py-3 w-[200px]'}>
                                                 <span>{item.icon}</span>
                                                 <span>{item.title}</span>
@@ -70,7 +70,7 @@ const Aside: FunctionComponent<IAsideProps> = ({basePathName}) => {
                     <SidebarGroupContent className=''>
                         <SidebarMenu className='flex flex-col gap-3'>
                             <SidebarMenuItem className='text-[#AEAEAE]'>
-                                <SidebarMenuButton asChild isActive={basePathName === '/settings'} className='h-[48px]'>
+                                <SidebarMenuButton asChild isActive={basePathName === '/settings'} className='h-[48px] data-[active=true]:bg-button-color hover:bg-button-color'>
                                     <NavLink to={'/settings'} className={({isActive}) => isActive ? 'flex items-center gap-2 px-5 py-3 ' : 'flex items-center gap-2 px-5 py-3 w-[200px]'}>
                                         <span><Settings /></span>
                                         <span>{ t('sidebar.link.settings') }</span>
@@ -78,7 +78,7 @@ const Aside: FunctionComponent<IAsideProps> = ({basePathName}) => {
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem className='text-[#AEAEAE]'>
-                                <SidebarMenuButton onClick={handleLogout} asChild className='h-[48px] w-[230px] cursor-pointer'>
+                                <SidebarMenuButton onClick={handleLogout} asChild className='h-[48px] w-[230px] data-[active=true]:bg-button-color hover:bg-button-color'>
                                     <NavLink to='/' className='flex gap-2 px-5 py-3 w-full'>
                                         <span><LogOut /></span>
                                         <span>{t('sidebar.link.logout') }</span>

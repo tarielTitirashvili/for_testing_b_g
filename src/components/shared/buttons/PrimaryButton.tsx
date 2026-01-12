@@ -23,7 +23,7 @@ const PrimaryButton: FunctionComponent<IPrimaryButtonProps> = ({ children, class
             type={type || 'submit'}
             style={style}
             className={cn(
-                `flex items-center justify-center gap-1 bg-[#EF7800] font-medium text-white w-full rounded-md px-2 py-2 cursor-pointer ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`,
+                `flex items-center justify-center gap-1 bg-button-color font-medium text-white w-full rounded-md px-2 py-2 cursor-pointer ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`,
                 className
             )}>
                 {

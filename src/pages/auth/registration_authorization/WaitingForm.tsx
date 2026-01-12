@@ -9,11 +9,11 @@ const WaitingForm: FunctionComponent = () => {
     return (
         <div className="waiting_form min-h-screen flex flex-col items-center justify-center flex-1 h-full bg-[#EFF0F1] py-2">
             
-            <div className="waiting_form-wrapper flex flex-col gap-6 bg-white max-w-[500px] w-full p-6 rounded-md">
+            <div className="waiting_form-wrapper flex flex-col gap-6 bg-white max-w-125 w-full p-6 rounded-md">
                 
                 <div className="waiting_form-header flex flex-col gap-3">
                     <div 
-                        className="waiting_form-icon bg-[#EF7800] text-white rounded-full h-[110px] w-[110px] flex flex-col items-center justify-center mx-auto"
+                        className="waiting_form-icon bg-button-color text-white rounded-full h-27.5 w-27.5 flex flex-col items-center justify-center mx-auto"
                     >
                         <Hourglass
                             className="wait-rotate-animation"
@@ -39,7 +39,7 @@ const WaitingForm: FunctionComponent = () => {
                     </Link>
 
                     <Link to='/registration' className="registration_link text-center border-t-2 pt-2">
-                        Don't Have An Account? <span className="cursor-pointer text-[#EF7800] font-medium">Create An Account</span>
+                        Don't Have An Account? <span className="cursor-pointer text-button-color font-medium">Create An Account</span>
                     </Link>
                 </div>
             </div>

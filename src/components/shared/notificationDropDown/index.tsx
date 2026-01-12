@@ -64,7 +64,7 @@ const NotificationDropDown: FunctionComponent = () => {
                         </div>
                         <Separator className="border" />
                         <CardFooter className="flex gap-2">
-                            <button className="flex-1 text-xs font-medium text-[#EF7800] cursor-pointer">{t('sidebar.link.newNotification.allRead')}</button>
+                            <button className="flex-1 text-xs font-medium text-button-color cursor-pointer">{t('sidebar.link.newNotification.allRead')}</button>
                             <PrimaryButton className="flex-1 cursor-pointer">{t('dashboard.latestBooks.seeAll')}</PrimaryButton>
                         </CardFooter>
                     </Card>

@@ -55,7 +55,7 @@ const DatePickComponent: FunctionComponent<IDatePickComponentProps> = ({ value, 
                         className="date_pick-input flex items-center w-full border-2 border-[#EBEBEB] p-2 rounded-md"
                         onClick={() => handleDateInputExpand('startTime')}
                     >
-                        <div className={`date_pick-input_text flex-1 text-sm font-medium ${dateInputExpand === 'startTime' && 'text-[#EF7800]' }`}>
+                        <div className={`date_pick-input_text flex-1 text-sm font-medium ${dateInputExpand === 'startTime' && 'text-button-color' }`}>
                             Start Time
                         </div>
                         <div className={`date_pick-input_arrow transition-transform duration-300 ${dateInputExpand === 'startTime' ? 'rotate-180' : 'rotate-0'}`}>

@@ -29,7 +29,7 @@ export function TimePickerDropdown<T extends string | number >(props: Props<T>) 
       <DropdownMenuTrigger asChild>
         <Button
           className={`focus-visible:ring-0 focus-visible:ring-offset-0 border-2 w-26 ${
-            open ? 'bg-[#FEF2E6] border-[#EF7800]' : 'border-[#EBEBEB]'
+            open ? 'bg-[#FEF2E6] border-button-color' : 'border-[#EBEBEB]'
           }`}
           variant="outline"
         >

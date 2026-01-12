@@ -17,7 +17,7 @@ const CustomCheckbox = (props: Props) => {
         id={id}
         checked={checked}
         onCheckedChange={clickChecked}  
-        className="w-4.5 h-4.5 data-[state=checked]:bg-[#EF7800] data-[state=checked]:border-[#EF7800] border-[#AEAEAE] border-[2px] transition-all delay-10"
+        className="w-4.5 h-4.5 data-[state=checked]:bg-button-color data-[state=checked]:border-button-color border-[#AEAEAE] border-[2px] transition-all delay-10"
       />
       { label && (
         <Label className="font-normal text-sm" htmlFor={id}>

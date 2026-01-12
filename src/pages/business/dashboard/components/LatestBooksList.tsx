@@ -65,7 +65,7 @@ const LatestBooksList: FunctionComponent = () => {
                     { t("dashboard.latestBooks.title") }
                 </div>
                 <div className="latest_books-header-link">
-                    <Link to={'/books'} className="p-3 text-[#EF7800] font-medium text-sm">
+                    <Link to={'/books'} className="p-3 text-button-color font-medium text-sm">
                         { t("dashboard.latestBooks.seeAll") }
                     </Link>
                 </div>

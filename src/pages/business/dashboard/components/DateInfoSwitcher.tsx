@@ -42,7 +42,7 @@ const DateInfoSwitcher: FunctionComponent = () => {
                 {periods.map(period => (
                     <TabsTrigger 
                         key={+period.days}
-                        className="data-[state=active]:bg-[#EF7800] data-[state=active]:text-[white] data-[state=active]:font-medium text-[#6C6C6C] py-2 px-4 text-xs sm:text-sm font-normal capitalize"
+                        className="data-[state=active]:bg-button-color data-[state=active]:text-[white] data-[state=active]:font-medium text-[#6C6C6C] py-2 px-4 text-xs sm:text-sm font-normal capitalize"
                         value={period.value}
                     >
                         1 {period.period}

@@ -79,7 +79,7 @@ const Authorization: FunctionComponent = () => {
 
                 <div className="form_params flex items-center justify-between">
                     <RememberMeCheckbox />
-                    <Link to='/reset-password' className="form_params-forget_pass font-medium text-[#EF7800] cursor-pointer">
+                    <Link to='/reset-password' className="form_params-forget_pass font-medium text-button-color cursor-pointer">
                         {t('bookings.link.forgotPassword')}
                     </Link>
                 </div>
@@ -90,7 +90,7 @@ const Authorization: FunctionComponent = () => {
 
                 <Link to='/registration' className="form_sign-up-link border-t-3 w-full flex justify-center items-center gap-2.5 py-2">
                     <span>{ t('bookings.link.createAccQuestion') }</span>
-                    <span className="text-base text-[#EF7800] font-medium cursor-pointer">{ t('bookings.link.createAcc') }</span>
+                    <span className="text-base text-button-color font-medium cursor-pointer">{ t('bookings.link.createAcc') }</span>
                 </Link>
 
 

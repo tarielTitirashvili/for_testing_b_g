@@ -74,12 +74,12 @@ const TimePickerComponent: FunctionComponent<TimePickerComponentProps> = ({ defa
                     <DialogDescription className="hidden"></DialogDescription>
                 </DialogHeader>
                 <div className="time_pick-container bg-white max-w-[320px] w-full flex flex-col gap-3 rounded-md">
-                    <div className={`time_pick-block flex flex-col items-center gap-2.5 overflow-hidden cursor-pointer ${dateInputExpand === 'startTime' ? 'time_pick-block-expanded' : 'h-[45px]'}`}>
+                    <div className={`time_pick-block flex flex-col items-center gap-2.5 overflow-hidden cursor-pointer ${dateInputExpand === 'startTime' ? 'time_pick-block-expanded' : 'h-11.25'}`}>
                         <div
                             className="time_pick-input flex items-center w-full border-2 border-[#EBEBEB] p-2 rounded-md"
                             onClick={() => handleDateInputExpand('startTime')}
                         >
-                            <div className={`time_pick-input_text flex-1 text-sm font-semibold ${dateInputExpand === 'startTime' && 'text-[#EF7800]' }`}>
+                            <div className={`time_pick-input_text flex-1 text-sm font-semibold ${dateInputExpand === 'startTime' && 'text-button-color' }`}>
                                 {t("bookings.inputLabel.startTime")}
                             </div>
                             <div className={`time_pick-input_arrow transition-transform duration-300 ${dateInputExpand === 'startTime' ? 'rotate-180' : 'rotate-0'}`}>

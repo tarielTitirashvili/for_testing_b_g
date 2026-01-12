@@ -116,7 +116,7 @@ const MainSettings: FunctionComponent = () => {
                         />
                     
                     <div className="pause_business flex items-center gap-2 p-2 cursor-pointer">
-                        <ClockAlert color="#EF7800" />
+                        <ClockAlert className='text-button-color' />
                         <span onClick={()=>{toggleBusinessActiveStatusMutation({isActive: false})}} >{ t('settings.mainSettings.profile.pauseBusiness') }</span>
                         <PrimaryButton className='bg-[#21C55D]' loading={isToggleLoading} handleClick={()=>toggleBusinessActiveStatusMutation({isActive: true})}>
                             {t('business.texts.activateUser')} <CircleCheck />

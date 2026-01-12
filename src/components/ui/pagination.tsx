@@ -60,8 +60,8 @@ function PaginationLink({
           size,
         }),
         isActive
-        ? "bg-[#f18110] text-white hover:bg-[#EF7800] border-transparent hover:text-white cursor-pointer"
-        : "text-black hover:bg-[#EF7800] hover:text-white cursor-pointer",
+        ? "bg-button-color text-white hover:bg-button-hover-color border-transparent hover:text-white cursor-pointer"
+        : "text-black hover:bg-button-hover-color hover:text-white cursor-pointer",
         className
       )}
       {...props}

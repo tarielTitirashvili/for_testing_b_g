@@ -27,7 +27,7 @@ const BookingHoursRow = (props: Props) => {
   return (
     <div
       className={`!select-none border-1 min-h-13.5 gap-2 border-#EBEBEB rounded-sm py-2 px-3 flex flex-wrap w-full justify-between align-middle  transition-all ${
-        checkedStatus ? 'border-[#EF7800]' : ''
+        checkedStatus ? 'border-button-color' : ''
       }`}
     >
       <Controller

@@ -45,7 +45,7 @@ const Loader = (props: Props) => {
           >
             <span className="flex items-center justify-center">
               <LoaderCircle
-                className={`animate-spin text-[#ef7800] ${className ?? ''}`}
+                className={`animate-spin text-button-color ${className ?? ''}`}
                 size={32}
                 strokeWidth={2}
               />
@@ -70,7 +70,7 @@ const Loader = (props: Props) => {
     >
       {t('common.loading.text')}
       <LoaderCircle
-        className={`animate-spin text-[#ef7800] ${className ?? ''}`}
+        className={`animate-spin text-button-color ${className ?? ''}`}
         size={32}
         strokeWidth={2}
       />

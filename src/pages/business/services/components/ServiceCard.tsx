@@ -50,7 +50,7 @@ const ServiceCard: FunctionComponent<IServiceCardProps> = ({ serviceId, service,
                         <CardDescription className="text-sm text-[#6C6C6C]">{ service.name }</CardDescription>
                     </div>
                     <div className="service_price-time flex items-center  gap-2">
-                        <span className="text-[#EF7800] flex items-center text-lg font-semibold">
+                        <span className="text-button-color flex items-center text-lg font-semibold">
                             <DollarSign size={20} strokeWidth={3} />{ service.price }
                         </span>
                         <span className="text-[#6C6C6C] flex items-center text-sm font-medium gap-1">

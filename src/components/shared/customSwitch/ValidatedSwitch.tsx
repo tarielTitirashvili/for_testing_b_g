@@ -22,7 +22,7 @@ function ValidatedSwitch<TFieldValues extends FieldValues>(
         >
             <Switch
                 className={cn(
-                    "data-[state=checked]:bg-[#EF7800] bg-[#EFF0F1] [&>span]:h-[0.8rem] [&>span]:w-[0.8rem] data-[state=unchecked]:[&>span]:translate-x-[0.1rem] data-[state=checked]:[&>span]:translate-x-[1rem]",
+                    "data-[state=checked]:bg-button-color bg-[#EFF0F1] [&>span]:h-[0.8rem] [&>span]:w-[0.8rem] data-[state=unchecked]:[&>span]:translate-x-[0.1rem] data-[state=checked]:[&>span]:translate-x-[1rem]",
                     props.className
                 )}
                 checked={field.value}
