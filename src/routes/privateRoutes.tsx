@@ -38,7 +38,9 @@ const Bookings = lazy(() => import('../pages/business/bookings/index'))
 const Notifications = lazy(
   () => import('../pages/business/notifications/Notifications')
 )
-const AcceptInvitation = lazy(() => import('../pages/business/acceptInvitation/AcceptInvitation'))
+const AcceptInvitation = lazy(
+  () => import('../pages/business/acceptInvitation/AcceptInvitation')
+)
 const Settings = lazy(() => import('../pages/business/settings/Settings'))
 const NotFound = lazy(() => import('../pages/business/NotFound'))
 const AddBusiness = lazy(() => import('../pages/business/addBusinessBranch'))
@@ -96,6 +98,18 @@ const privateRoutes = (
     }
   }
 
+  const teamRouteBasedOnBusinessCategory: AppRouteObject[] =
+    categoryId === 1
+      ? []
+      : [
+          {
+            path: '/team',
+            element: <Team />,
+            title: t('sidebar.link.team'),
+            icon: <Users />,
+          },
+        ]
+
   return [
     {
       path: '/',
@@ -126,12 +140,7 @@ const privateRoutes = (
           title: t('sidebar.link.calendar'),
           icon: <CalendarDays />,
         },
-        {
-          path: '/team',
-          element: <Team />,
-          title: t('sidebar.link.team'),
-          icon: <Users />,
-        },
+        ...teamRouteBasedOnBusinessCategory,
         {
           path: '/reviews',
           element: <Reviews />,
@@ -158,12 +167,11 @@ const privateRoutes = (
           path: '*',
           element: <NotFound />,
         },
-
       ],
     },
     {
       path: '/accept-invitation',
-      element: <AcceptInvitation />
+      element: <AcceptInvitation />,
     },
     {
       path: '/add-business-branch',
