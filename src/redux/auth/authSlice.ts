@@ -4,7 +4,7 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 import type { IBusiness } from '@/components/shared/profile/Profile'
 
 
-export type TRoleType = 'Administrator' | 'STAFF' | 'Manager' | 'Owner' | null
+export type TRoleType = 'Administrator' | 'Staff' | 'Manager' | 'Owner' | null
 
 export const USER_ROLES = {
   ADMINISTRATOR: 'Administrator',
