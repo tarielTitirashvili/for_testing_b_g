@@ -8,7 +8,7 @@ export type TRoleType = 'Administrator' | 'STAFF' | 'Manager' | 'Owner' | null
 
 export const USER_ROLES = {
   ADMINISTRATOR: 'Administrator',
-  STAFF: 'STAFF',
+  STAFF: 'Staff',
   MANAGER: 'Manager',
   BUSINESS_OWNER: 'Owner',
   UNIDENTIFIED: null
